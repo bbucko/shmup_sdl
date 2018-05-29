@@ -1,13 +1,14 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "game.h"
+#include "Game.h"
 
 void Game::render() {
     std::cout << "Frame #" << m_iFrames << std::endl;
     SDL_RenderClear(m_pRenderer);
 
-    SDL_RenderCopy(m_pRenderer, pTexture, &m_sourceRectangle, &m_destinationRectangle);
+    m_pTextureManager->draw("plane1", 0, 0, 65, 65, m_pRenderer);
+    m_pTextureManager->drawFrame("plane", 65, 0, 65, 65, 1, (m_iFrames / 100) % 3, m_pRenderer);
 
     SDL_RenderPresent(m_pRenderer);
 }
@@ -39,35 +40,29 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-    m_iFrames++;
+    std::cout << "Ticks: " << SDL_GetTicks() << std::endl;
 
+    m_iFrames++;
 }
 
-Game::Game() {
+void Game::init() {
     if (SDL_Init(SDL_INIT_VIDEO) == 0) {
         std::cout << "SDL init success" << std::endl;
 
         if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0) {
             std::cout << "SDL image success" << std::endl;
 
-            m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE | SDL_WINDOW_INPUT_FOCUS);
+            m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE);
             if (m_pWindow != nullptr) {
                 m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
-                std::cout << "SDL renderer success" << std::endl;
+
                 if (m_pRenderer != nullptr) {
+                    std::cout << "SDL renderer success" << std::endl;
                     SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
-                    SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND);
 
-                    SDL_Surface *pSurface = IMG_Load("res/shooter/1945.png");
-                    pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pSurface);
-                    SDL_FreeSurface(pSurface);
-
-                    SDL_QueryTexture(pTexture, nullptr, nullptr, &m_sourceRectangle.w, &m_sourceRectangle.h);
-
-                    m_destinationRectangle.x = m_sourceRectangle.x = 0;
-                    m_destinationRectangle.y = m_sourceRectangle.y = 0;
-                    m_destinationRectangle.w = m_sourceRectangle.w;
-                    m_destinationRectangle.h = m_sourceRectangle.h;
+                    m_pTextureManager = new TextureManager();
+                    m_pTextureManager->load("res/plane1.png", "plane1", m_pRenderer);
+                    m_pTextureManager->load("res/plane.png", "plane", m_pRenderer);
 
                     m_bRunning = true;
                     std::cout << "Main loop running" << std::endl;
@@ -78,4 +73,8 @@ Game::Game() {
     }
 
     std::cout << "Error occurred: " << SDL_GetError() << std::endl;
+}
+
+Game::Game() {
+
 }

@@ -1,18 +1,16 @@
-#include "game.h"
+#include "Game.h"
 
-Game *game = nullptr;
-
+static Game game;
 
 int main() {
-    game = new Game();
 
-    while (game->running()) {
-        game->handleEvents();
+    game.init();
 
-        game->update();
-
-        game->render();
+    while (game.running()) {
+        game.handleEvents();
+        game.update();
+        game.render();
     }
 
-    game->terminate();
+    game.terminate();
 }

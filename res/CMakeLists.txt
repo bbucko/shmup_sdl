@@ -1,12 +1,15 @@
- set(resources shooter/1945.png)
+file(GLOB resources "*.png")
 
- foreach (item IN LISTS resources)
-     message(STATUS "Adding ${CMAKE_CURRENT_BINARY_DIR}/${item}")
-     add_custom_command(
-             OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${item}"
-             COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${item}" "${CMAKE_CURRENT_BINARY_DIR}/${item}"
-             DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${item}"
-     )
- endforeach ()
+foreach (resource IN LISTS resources)
+    get_filename_component(FILE_NAME ${resource} NAME)
+    message(STATUS "Copying ${resource} to ${CMAKE_CURRENT_BINARY_DIR}/${FILE_NAME}")
 
- add_custom_target(resources ALL DEPENDS "${resources}")
+    add_custom_command(
+            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${resource}"
+            COMMAND ${CMAKE_COMMAND} -E copy "${resource}" "${CMAKE_CURRENT_BINARY_DIR}"
+            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${FILE_NAME}"
+    )
+    set(resources_dep ${resources_dep} ${FILE_NAME})
+endforeach ()
+
+add_custom_target(resources ALL DEPENDS "${resources_dep}")

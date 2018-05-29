@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL_system.h>
+#include "TextureManager.h"
 
 #ifndef MOLTENVKCPP_GAME_H
 #define MOLTENVKCPP_GAME_H
@@ -9,10 +10,7 @@ private:
     SDL_Window *m_pWindow;
     SDL_Renderer *m_pRenderer;
 
-    SDL_Texture *pTexture;
-
-    SDL_Rect m_sourceRectangle;
-    SDL_Rect m_destinationRectangle;
+    TextureManager *m_pTextureManager;
 
     bool m_bRunning;
     int m_iFrames = 0;
@@ -29,6 +27,8 @@ public:
     void terminate();
 
     bool running();
+
+    void init();
 };
 
 
