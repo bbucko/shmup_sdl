@@ -22,6 +22,10 @@ void Game::terminate() {
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
 
+    for (auto object : objects) {
+        object->clean();
+    }
+
     IMG_Quit();
 
     SDL_Quit();
