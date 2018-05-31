@@ -1,14 +1,16 @@
 
-#include <SDL.h>
-#include <SDL_image.h>
+
 #include "Game.h"
+#include "Player.h"
+#include "Enemy.h"
 
 void Game::render() {
     std::cout << "Frame #" << m_iFrames << std::endl;
     SDL_RenderClear(m_pRenderer);
 
-    m_pTextureManager->draw("plane1", 0, 0, 65, 65, m_pRenderer);
-    m_pTextureManager->drawFrame("plane", 65, 0, 65, 65, 1, (m_iFrames / 100) % 3, m_pRenderer);
+    for (auto object : objects) {
+        object->draw(m_pRenderer);
+    }
 
     SDL_RenderPresent(m_pRenderer);
 }
@@ -43,6 +45,10 @@ void Game::update() {
     std::cout << "Ticks: " << SDL_GetTicks() << std::endl;
 
     m_iFrames++;
+
+    for (auto object : objects) {
+        object->update();
+    }
 }
 
 void Game::init() {
@@ -60,9 +66,16 @@ void Game::init() {
                     std::cout << "SDL renderer success" << std::endl;
                     SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 
-                    m_pTextureManager = new TextureManager();
-                    m_pTextureManager->load("res/plane1.png", "plane1", m_pRenderer);
-                    m_pTextureManager->load("res/plane.png", "plane", m_pRenderer);
+                    TextureManager::Instance()->load("res/plane.png", "plane", m_pRenderer);
+                    TextureManager::Instance()->load("res/plane1.png", "plane1", m_pRenderer);
+
+                    GameObject *go = new Enemy();
+                    go->load(130, 130, 65, 65, "plane1");
+                    objects.push_back(go);
+
+                    GameObject *player = new Player();
+                    player->load(0, 0, 65, 65, "plane");
+                    objects.push_back(player);
 
                     m_bRunning = true;
                     std::cout << "Main loop running" << std::endl;

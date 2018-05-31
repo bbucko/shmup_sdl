@@ -10,6 +10,7 @@ class TextureManager {
 private:
     std::map<std::string, SDL_Texture *> m_textureMap;
 
+    TextureManager() = default;
 
 public:
     bool load(std::string fileName, std::string id, SDL_Renderer *pRenderer);
@@ -19,7 +20,8 @@ public:
 
     void drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame,
                    SDL_Renderer *pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
-};
 
+    static TextureManager *Instance();
+};
 
 #endif //SHMUP_TEXTUREMANAGER_H
