@@ -27,7 +27,17 @@ void SDLGameObject::draw() {
 
 void SDLGameObject::update() {
     m_velocity += m_acceleration;
-    m_position += m_velocity;
+
+    Vector2D updatedPosition = m_position + m_velocity;
+
+    if (updatedPosition.x >= 0 && updatedPosition.x + m_width <= 640) {
+        m_position.x = updatedPosition.x;
+    }
+
+    if (updatedPosition.y >= 0 && updatedPosition.y + m_height <= 480) {
+        m_position.y = updatedPosition.y;
+    }
+
 }
 
 void SDLGameObject::clean() {

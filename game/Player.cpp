@@ -4,8 +4,6 @@
 #include <base/InputHandler.h>
 
 void Player::update() {
-    SDLGameObject::update();
-
     m_currentFrame = int(((SDL_GetTicks() / 100) % 3));
 
     m_velocity.x = 0;
@@ -28,5 +26,5 @@ void Player::update() {
         m_velocity.y = 2;
     }
 
-
+    SDLGameObject::update();
 }
