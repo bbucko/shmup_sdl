@@ -3,10 +3,12 @@
 
 #include "base/GameObject.h"
 
+#include <glm/vec2.hpp>
+
+
 class SDLGameObject : public GameObject {
 protected:
-    int m_x;
-    int m_y;
+    glm::vec2 m_position;
 
     int m_width;
     int m_height;

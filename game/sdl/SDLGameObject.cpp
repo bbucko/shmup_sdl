@@ -5,10 +5,7 @@
 #include "Game.h"
 
 SDLGameObject::SDLGameObject(const LoaderParams *pParams) : GameObject(pParams) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-
-    m_x = pParams->getX();
-    m_y = pParams->getY();
+    m_position = glm::vec2(pParams->getX(), pParams->getY());
     m_width = pParams->getWidth();
     m_height = pParams->getHeight();
     m_textureID = pParams->getTextureID();
@@ -18,10 +15,11 @@ SDLGameObject::SDLGameObject(const LoaderParams *pParams) : GameObject(pParams) 
 }
 
 void SDLGameObject::draw() {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-
+    int x = static_cast<int>(m_position.x);
+    int y = static_cast<int>(m_position.y);
     SDL_Renderer *renderer = Game::Instance()->getRenderer();
-    TextureManager::Instance()->drawFrame(m_textureID, m_x, m_y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
+
+    TextureManager::Instance()->drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
 }
 
 void SDLGameObject::update() {
