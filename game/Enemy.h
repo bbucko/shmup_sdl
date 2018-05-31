@@ -1,12 +1,12 @@
-#include "GameObject.h"
-
 #ifndef SHMUP_ENEMY_H
 #define SHMUP_ENEMY_H
 
-class Enemy : public GameObject {
-public:
-    void update() override;
+#include "sdl/SDLGameObject.h"
 
+class Enemy : public SDLGameObject {
+
+public:
+    explicit Enemy(const LoaderParams *pParams) : SDLGameObject(pParams) {};
 };
 
 

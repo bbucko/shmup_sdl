@@ -1,6 +1,9 @@
-
-
 #include "Game.h"
+
+#include <SDL_image.h>
+#include <array>
+
+#include "TextureManager.h"
 #include "Player.h"
 #include "Enemy.h"
 
@@ -9,7 +12,7 @@ void Game::render() {
     SDL_RenderClear(m_pRenderer);
 
     for (auto object : objects) {
-        object->draw(m_pRenderer);
+        object->draw();
     }
 
     SDL_RenderPresent(m_pRenderer);
@@ -18,7 +21,9 @@ void Game::render() {
 void Game::terminate() {
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
+
     IMG_Quit();
+
     SDL_Quit();
     std::cout << "Frames rendered: " << m_iFrames << std::endl;
 }
@@ -69,13 +74,8 @@ void Game::init() {
                     TextureManager::Instance()->load("res/plane.png", "plane", m_pRenderer);
                     TextureManager::Instance()->load("res/plane1.png", "plane1", m_pRenderer);
 
-                    GameObject *go = new Enemy();
-                    go->load(130, 130, 65, 65, "plane1");
-                    objects.push_back(go);
-
-                    GameObject *player = new Player();
-                    player->load(0, 0, 65, 65, "plane");
-                    objects.push_back(player);
+                    objects.push_back(new Player(new LoaderParams(0, 0, 65, 65, "plane")));
+                    objects.push_back(new Enemy(new LoaderParams(130, 130, 65, 65, "plane1")));
 
                     m_bRunning = true;
                     std::cout << "Main loop running" << std::endl;
@@ -88,6 +88,17 @@ void Game::init() {
     std::cout << "Error occurred: " << SDL_GetError() << std::endl;
 }
 
-Game::Game() {
+SDL_Renderer *Game::getRenderer() {
+    return m_pRenderer;
+}
 
+static Game *s_pInstance = nullptr;
+
+Game *Game::Instance() {
+    if (s_pInstance == nullptr) {
+        s_pInstance = new Game();
+        return s_pInstance;
+    }
+
+    return s_pInstance;
 }

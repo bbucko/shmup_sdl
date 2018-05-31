@@ -1,12 +1,12 @@
-#include <SDL.h>
-#include "GameObject.h"
-
 #ifndef SHMUP_PLAYER_H
 #define SHMUP_PLAYER_H
 
+#include "sdl/SDLGameObject.h"
 
-class Player : public GameObject {
+class Player : public SDLGameObject {
 public:
+    explicit Player(const LoaderParams *pParams) : SDLGameObject(pParams) {};
+
     void update() override;
 };
 

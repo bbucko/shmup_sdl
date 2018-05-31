@@ -1,8 +1,7 @@
-
-#include <string>
-#include <SDL_system.h>
-#include <iostream>
 #include "TextureManager.h"
+
+#include <iostream>
+#include <SDL_image.h>
 
 
 bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer *pRenderer) {
@@ -42,7 +41,7 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 
     destRect.x = x;
     destRect.y = y;
-    \
+
     SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
 }
 
@@ -56,7 +55,7 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
     SDL_Rect destRect;
 
     srcRect.x = currentFrame * width;
-    srcRect.y = (currentRow - 1) * height;
+    srcRect.y = (currentRow) * height;
     srcRect.w = destRect.w = width;
     srcRect.h = destRect.h = height;
 

@@ -1,16 +1,14 @@
 #include "Game.h"
 
-static Game game;
-
 int main() {
+    Game *pGame = Game::Instance();
 
-    game.init();
-
-    while (game.running()) {
-        game.handleEvents();
-        game.update();
-        game.render();
+    pGame->init();
+    while (pGame->running()) {
+        pGame->handleEvents();
+        pGame->update();
+        pGame->render();
     }
 
-    game.terminate();
+    pGame->terminate();
 }

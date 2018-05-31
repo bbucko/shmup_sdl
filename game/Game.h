@@ -1,14 +1,9 @@
-#include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <array>
+#ifndef SHMUP_GAME_H
+#define SHMUP_GAME_H
+
 #include <vector>
-
-#include "TextureManager.h"
-#include "GameObject.h"
-
-#ifndef MOLTENVKCPP_GAME_H
-#define MOLTENVKCPP_GAME_H
+#include <SDL.h>
+#include "base/GameObject.h"
 
 class Game {
 private:
@@ -19,9 +14,10 @@ private:
 
     bool m_bRunning;
     int m_iFrames = 0;
-public:
 
-    Game();
+    Game() = default;
+
+public:
 
     void update();
 
@@ -34,7 +30,11 @@ public:
     bool running();
 
     void init();
+
+    SDL_Renderer *getRenderer();
+
+    static Game *Instance();
 };
 
 
-#endif //MOLTENVKCPP_GAME_H
+#endif //SHMUP_GAME_H
