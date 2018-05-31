@@ -5,4 +5,3 @@ cd $BUILD_DIR
 cmake -DCMAKE_BUILD_TYPE=$1 ..
 echo "Starting build"
 make
-echo "Build done"
