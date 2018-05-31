@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <thread>
+#include <base/InputHandler.h>
 
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -9,18 +10,17 @@ const duration<double, std::milli> DELAY_TIME = milliseconds(1000 / FPS);
 
 int main() {
     auto frameStart = system_clock::now();
-
-    Game *pGame = Game::Instance();
-
     duration<double> frameDuration = milliseconds::zero();
 
-    pGame->init();
-    while (pGame->running()) {
+    Game::Instance().init();
+    while (Game::Instance().running()) {
         frameStart = system_clock::now();
 
-        pGame->handleEvents();
-        pGame->update();
-        pGame->render();
+        InputHandler::Instance().update();
+
+        Game::Instance().update();
+
+        Game::Instance().render();
 
         frameDuration = frameStart - system_clock::now();
         if (frameDuration < DELAY_TIME) {
@@ -30,5 +30,5 @@ int main() {
         }
     }
 
-    pGame->terminate();
+    Game::Instance().terminate();
 }

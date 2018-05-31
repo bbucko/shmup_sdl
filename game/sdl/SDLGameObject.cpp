@@ -20,9 +20,9 @@ SDLGameObject::SDLGameObject(const LoaderParams *pParams) : GameObject(pParams) 
 void SDLGameObject::draw() {
     auto x = static_cast<int>(m_position.x);
     auto y = static_cast<int>(m_position.y);
-    SDL_Renderer *renderer = Game::Instance()->getRenderer();
+    SDL_Renderer *renderer = Game::Instance().getRenderer();
 
-    TextureManager::Instance()->drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
+    TextureManager::Instance().drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
 }
 
 void SDLGameObject::update() {

@@ -5,9 +5,7 @@
 
 class Player : public SDLGameObject {
 public:
-    explicit Player(const LoaderParams *pParams) : SDLGameObject(pParams) {
-        m_velocity = Vector2D(1, 0);
-    };
+    explicit Player(const LoaderParams *pParams) : SDLGameObject(pParams) {};
 
     void update() override;
 };

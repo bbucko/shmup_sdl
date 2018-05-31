@@ -36,18 +36,8 @@ bool Game::running() {
     return m_bRunning;
 }
 
-void Game::handleEvents() {
-    SDL_Event event;
-    if (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                m_bRunning = false;
-                break;
-
-            default:
-                break;
-        }
-    }
+void Game::quit() {
+    m_bRunning = false;
 }
 
 void Game::update() {
@@ -75,8 +65,8 @@ void Game::init() {
                     std::cout << "SDL renderer success" << std::endl;
                     SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 
-                    TextureManager::Instance()->load("res/plane.png", "plane", m_pRenderer);
-                    TextureManager::Instance()->load("res/plane1.png", "plane1", m_pRenderer);
+                    TextureManager::Instance().load("res/plane.png", "plane", m_pRenderer);
+                    TextureManager::Instance().load("res/plane1.png", "plane1", m_pRenderer);
 
                     objects.push_back(new Player(new LoaderParams(0, 0, 65, 65, "plane")));
                     objects.push_back(new Enemy(new LoaderParams(130, 130, 65, 65, "plane1")));
@@ -90,19 +80,4 @@ void Game::init() {
     }
 
     std::cout << "Error occurred: " << SDL_GetError() << std::endl;
-}
-
-SDL_Renderer *Game::getRenderer() {
-    return m_pRenderer;
-}
-
-static Game *s_pInstance = nullptr;
-
-Game *Game::Instance() {
-    if (s_pInstance == nullptr) {
-        s_pInstance = new Game();
-        return s_pInstance;
-    }
-
-    return s_pInstance;
 }

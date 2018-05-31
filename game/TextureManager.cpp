@@ -66,13 +66,3 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 
 }
 
-static TextureManager *s_pInstance = nullptr;
-
-TextureManager *TextureManager::Instance() {
-    if (s_pInstance == nullptr) {
-        s_pInstance = new TextureManager();
-        return s_pInstance;
-    }
-
-    return s_pInstance;
-}
