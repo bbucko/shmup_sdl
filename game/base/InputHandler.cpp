@@ -7,10 +7,10 @@ void InputHandler::onKeyDown() {
 }
 
 void InputHandler::onKeyUp() {
-//    m_keystates = nullptr;
+
 }
 
-bool InputHandler::isKeyDown(SDL_Scancode key) {
+bool InputHandler::isKeyDown(SDL_Scancode key) const {
     if (m_keystates != nullptr) {
         return m_keystates[key] == 1;
     }

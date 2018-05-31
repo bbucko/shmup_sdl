@@ -9,6 +9,8 @@ private:
 
     ~ InputHandler() = default;
 
+    const Uint8 *m_keystates;
+
 public:
 
     void update();
@@ -17,15 +19,12 @@ public:
 
     void onKeyUp();
 
+    bool isKeyDown(SDL_Scancode key) const;
+
     static InputHandler &Instance() {
         static InputHandler instance;
         return instance;
     }
-
-    bool isKeyDown(SDL_Scancode key);
-
-    Uint8 *m_keystate;
-    const Uint8 *m_keystates;
 };
 
 

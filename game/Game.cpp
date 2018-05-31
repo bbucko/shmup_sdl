@@ -5,8 +5,9 @@
 
 #include "TextureManager.h"
 #include "Player.h"
+#include "Enemy.h"
 
-void Game::render() {
+void Game::render() const {
     std::cout << "Frame #" << m_iFrames << std::endl;
     SDL_RenderClear(m_pRenderer);
 
@@ -31,7 +32,7 @@ void Game::terminate() {
     std::cout << "Frames rendered: " << m_iFrames << std::endl;
 }
 
-bool Game::running() {
+bool Game::running() const {
     return m_bRunning;
 }
 
@@ -52,6 +53,7 @@ void Game::update() {
 void Game::init() {
     if (initSDL()) {
         loadTextures();
+        initObjects();
         initPlayer();
 
         m_bRunning = true;
@@ -62,13 +64,17 @@ void Game::init() {
     std::cout << "Error occurred: " << SDL_GetError() << std::endl;
 }
 
+void Game::initObjects() {
+    objects.push_back(new Enemy(new LoaderParams(320, 0, 65, 65, "whitePlane")));
+}
+
 void Game::initPlayer() {
-    objects.push_back(new Player(new LoaderParams(0, 0, 65, 65, "plane")));
+    objects.push_back(new Player(new LoaderParams(320, 400, 65, 65, "plane")));
 }
 
 void Game::loadTextures() {
     TextureManager::Instance().load("res/plane.png", "plane", m_pRenderer);
-    TextureManager::Instance().load("res/plane1.png", "plane1", m_pRenderer);
+    TextureManager::Instance().load("res/whitePlane.png", "whitePlane", m_pRenderer);
 }
 
 bool Game::initSDL() {

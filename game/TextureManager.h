@@ -9,9 +9,9 @@ class TextureManager {
 private:
     std::map<std::string, SDL_Texture *> m_textureMap;
 
-    TextureManager() = default;;
+    TextureManager() = default;
 
-    ~TextureManager() = default;;
+    ~TextureManager() = default;
 
 public:
     bool load(std::string fileName, std::string id, SDL_Renderer *pRenderer);

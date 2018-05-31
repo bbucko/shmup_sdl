@@ -12,15 +12,15 @@ public:
 
     void update();
 
-    void render();
+    void render() const;
 
-    bool running();
+    bool running() const;
 
     void terminate();
 
     void quit();
 
-    SDL_Renderer *getRenderer() {
+    SDL_Renderer *getRenderer() const {
         return m_pRenderer;
     }
 
@@ -28,12 +28,14 @@ public:
         static Game instance;
         return instance;
     };
+
 private:
     SDL_Window *m_pWindow;
 
     SDL_Renderer *m_pRenderer;
 
     std::vector<GameObject *> objects;
+
     bool m_bRunning;
 
     int m_iFrames = 0;
@@ -47,6 +49,8 @@ private:
     void initPlayer();
 
     bool initSDL();
+
+    void initObjects();
 };
 
 

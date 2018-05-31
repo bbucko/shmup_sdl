@@ -5,19 +5,21 @@
 
 #include <glm/vec2.hpp>
 
-typedef glm::vec2 Vector2D;
+typedef glm::vec2 vec2;
 
 class SDLGameObject : public GameObject {
 protected:
-    Vector2D m_position;
-    Vector2D m_velocity;
-    Vector2D m_acceleration;
+    vec2 m_position;
+    vec2 m_velocity;
+    vec2 m_acceleration;
 
     int m_width;
     int m_height;
 
     int m_currentRow;
     int m_currentFrame;
+
+    int m_maxFrames = 1;
 
     std::string m_textureID;
 public:

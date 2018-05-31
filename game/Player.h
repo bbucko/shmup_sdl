@@ -5,7 +5,9 @@
 
 class Player : public SDLGameObject {
 public:
-    explicit Player(const LoaderParams *pParams) : SDLGameObject(pParams) {};
+    explicit Player(const LoaderParams *pParams) : SDLGameObject(pParams) {
+        m_maxFrames = 3;
+    };
 
     void update() override;
 };
