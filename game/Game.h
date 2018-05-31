@@ -41,6 +41,12 @@ private:
     Game() = default;
 
     ~Game() = default;
+
+    void loadTextures();
+
+    void initPlayer();
+
+    bool initSDL();
 };
 
 

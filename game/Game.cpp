@@ -5,7 +5,6 @@
 
 #include "TextureManager.h"
 #include "Player.h"
-#include "Enemy.h"
 
 void Game::render() {
     std::cout << "Frame #" << m_iFrames << std::endl;
@@ -51,6 +50,28 @@ void Game::update() {
 }
 
 void Game::init() {
+    if (initSDL()) {
+        loadTextures();
+        initPlayer();
+
+        m_bRunning = true;
+        std::cout << "Main loop running" << std::endl;
+        return;
+    }
+
+    std::cout << "Error occurred: " << SDL_GetError() << std::endl;
+}
+
+void Game::initPlayer() {
+    objects.push_back(new Player(new LoaderParams(0, 0, 65, 65, "plane")));
+}
+
+void Game::loadTextures() {
+    TextureManager::Instance().load("res/plane.png", "plane", m_pRenderer);
+    TextureManager::Instance().load("res/plane1.png", "plane1", m_pRenderer);
+}
+
+bool Game::initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) == 0) {
         std::cout << "SDL init success" << std::endl;
 
@@ -63,21 +84,11 @@ void Game::init() {
 
                 if (m_pRenderer != nullptr) {
                     std::cout << "SDL renderer success" << std::endl;
-                    SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
-
-                    TextureManager::Instance().load("res/plane.png", "plane", m_pRenderer);
-                    TextureManager::Instance().load("res/plane1.png", "plane1", m_pRenderer);
-
-                    objects.push_back(new Player(new LoaderParams(0, 0, 65, 65, "plane")));
-                    objects.push_back(new Enemy(new LoaderParams(130, 130, 65, 65, "plane1")));
-
-                    m_bRunning = true;
-                    std::cout << "Main loop running" << std::endl;
-                    return;
+                    SDL_SetRenderDrawColor(m_pRenderer, 0, 67, 170, 255);
+                    return true;
                 }
             }
         }
     }
-
-    std::cout << "Error occurred: " << SDL_GetError() << std::endl;
+    return false;
 }
