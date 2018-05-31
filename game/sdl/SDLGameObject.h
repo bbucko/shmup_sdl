@@ -5,10 +5,13 @@
 
 #include <glm/vec2.hpp>
 
+typedef glm::vec2 Vector2D;
 
 class SDLGameObject : public GameObject {
 protected:
-    glm::vec2 m_position;
+    Vector2D m_position;
+    Vector2D m_velocity;
+    Vector2D m_acceleration;
 
     int m_width;
     int m_height;
@@ -18,6 +21,7 @@ protected:
 
     std::string m_textureID;
 public:
+
     explicit SDLGameObject(const LoaderParams *pParams);
 
     void draw() override;

@@ -12,7 +12,7 @@ int main() {
 
     Game *pGame = Game::Instance();
 
-    duration<double, std::milli> frameDuration = milliseconds::zero();
+    duration<double> frameDuration = milliseconds::zero();
 
     pGame->init();
     while (pGame->running()) {
@@ -26,6 +26,7 @@ int main() {
         if (frameDuration < DELAY_TIME) {
             auto sleep_time = DELAY_TIME - frameDuration;
             sleep_for(sleep_time);
+            std::cout << "Sleeping for: " << sleep_time.count() << std::endl;
         }
     }
 

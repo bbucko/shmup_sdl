@@ -6,7 +6,9 @@
 class Enemy : public SDLGameObject {
 
 public:
-    explicit Enemy(const LoaderParams *pParams) : SDLGameObject(pParams) {};
+    explicit Enemy(const LoaderParams *pParams) : SDLGameObject(pParams) {
+        m_velocity = Vector2D(0, 1);
+    };
 };
 
 

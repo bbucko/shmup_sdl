@@ -18,7 +18,6 @@ public:
 
     GameObject() = default;
 
-
 protected:
     explicit GameObject(const LoaderParams *pParams) : m_pParams(pParams) {};
 
