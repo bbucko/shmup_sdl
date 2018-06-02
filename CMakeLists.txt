@@ -8,9 +8,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(glm REQUIRED)
+find_package(tinyxml2 REQUIRED)
 
 include_directories(game)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIR})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIR} glm tinyxml2)
 
 add_subdirectory(game)
 add_subdirectory(assets)
@@ -18,7 +19,7 @@ add_subdirectory(assets)
 #Game binary
 add_executable(shmup main.cpp)
 
-add_dependencies(shmup resources)
+add_dependencies(shmup assets)
 
 target_link_libraries(shmup game)
 

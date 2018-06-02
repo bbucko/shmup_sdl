@@ -2,10 +2,9 @@
 
 #include <SDL_image.h>
 #include <array>
-#include <base/MenuState.h>
-#include <base/InputHandler.h>
-#include <base/PlayState.h>
-
+#include "base/MenuState.h"
+#include "base/InputHandler.h"
+#include "base/PlayState.h"
 #include "TextureManager.h"
 
 void Game::update() {

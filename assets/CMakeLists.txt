@@ -12,4 +12,4 @@ foreach (resource IN LISTS resources)
     set(resources_dep ${resources_dep} ${FILE_NAME})
 endforeach ()
 
-add_custom_target(resources ALL DEPENDS "${resources_dep}")
+add_custom_target(assets ALL DEPENDS "${resources_dep}")
