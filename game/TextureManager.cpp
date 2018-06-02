@@ -7,7 +7,7 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer *pR
     SDL_Surface *pTempSurface = IMG_Load(fileName.c_str());
 
     if (pTempSurface == nullptr) {
-        std::cerr << "Missing image: " << fileName << std::endl;
+        LOG_ERROR("Missing image: " << fileName);
         return false;
     }
 
@@ -16,7 +16,7 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer *pR
     SDL_FreeSurface(pTempSurface);
 
     if (pTexture != nullptr) {
-        LOG("Saving image under id: ");
+        LOG_INFO("Saving image under id: " << id);
         m_textureMap[id] = pTexture;
         return true;
     }
@@ -29,9 +29,8 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 }
 
 void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *pRenderer, SDL_RendererFlip flip) {
-
     if (m_textureMap[id] == nullptr) {
-        std::cerr << "No such texture: " << id << std::endl;
+        LOG_ERROR("No such texture: " << id);
     }
 
     SDL_Rect srcRect;
@@ -46,4 +45,8 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
     destRect.y = y;
 
     SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
+}
+
+void TextureManager::clear(std::string id) {
+    m_textureMap.erase(id);
 }

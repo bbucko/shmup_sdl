@@ -20,7 +20,7 @@ void PlayState::render() {
 }
 
 bool PlayState::onEnter() {
-    LOG("entering PlayState");
+    LOG_INFO("entering PlayState");
 
     SDL_Renderer *m_pRenderer = Game::Instance().getRenderer();
 
@@ -34,11 +34,14 @@ bool PlayState::onEnter() {
 }
 
 bool PlayState::onExit() {
-    LOG("exiting PlayState");
+    LOG_INFO("exiting PlayState");
 
     for (auto object : objects) {
         object->clean();
     }
+
+    TextureManager::Instance().clear("plane");
+    TextureManager::Instance().clear("whitePlane");
 
     return true;
 }

@@ -1,5 +1,3 @@
-
-
 #include "GameStateMachine.h"
 
 void GameStateMachine::pushState(GameState *pState) {
@@ -10,7 +8,7 @@ void GameStateMachine::pushState(GameState *pState) {
 void GameStateMachine::changeState(GameState *pState) {
     if (!m_gameStates.empty()) {
         if (m_gameStates.back()->getStateID() == pState->getStateID()) {
-            return; // do nothing
+            return;
         }
 
         if (m_gameStates.back()->onExit()) {
@@ -19,10 +17,7 @@ void GameStateMachine::changeState(GameState *pState) {
         }
     }
 
-    // push back our new state
     m_gameStates.push_back(pState);
-
-    // initialise it
     m_gameStates.back()->onEnter();
 }
 

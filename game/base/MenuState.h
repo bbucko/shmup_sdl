@@ -1,6 +1,7 @@
 #ifndef SHMUP_MENUSTATE_H
 #define SHMUP_MENUSTATE_H
 
+#include <MenuButton.h>
 #include "GameState.h"
 
 class MenuState : public GameState {
@@ -17,6 +18,9 @@ public:
     std::string getStateID() const override { return s_menuID; }
 
 private:
+
+    MenuButton *m_playBtn;
+    MenuButton *m_exitBtn;
 
     static const std::string s_menuID;
 };

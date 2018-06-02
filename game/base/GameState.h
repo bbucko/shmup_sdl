@@ -14,6 +14,8 @@ public:
     virtual bool onExit() = 0;
 
     virtual std::string getStateID() const = 0;
+
+    virtual ~GameState() = default;
 };
 
 #endif //SHMUP_GAMESTATE_H

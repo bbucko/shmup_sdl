@@ -9,8 +9,10 @@ public:
 
     void draw() override;
 
+    void update() override;
+
     explicit Enemy(const LoaderParams *pParams) : SDLGameObject(pParams) {
-        m_velocity = vec2(0, 1);
+        m_velocity = vec2(1, 0);
     };
 };
 

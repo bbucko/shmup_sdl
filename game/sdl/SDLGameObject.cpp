@@ -41,5 +41,5 @@ void SDLGameObject::update() {
 }
 
 void SDLGameObject::clean() {
-    LOG("Cleanup");
+    LOG_INFO("Cleanup");
 }

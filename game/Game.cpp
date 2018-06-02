@@ -36,7 +36,7 @@ void Game::quit() {
 
 void Game::init() {
     if (!initSDL()) {
-        LOG("Error occurred: " << SDL_GetError());
+        LOG_INFO("Error occurred: " << SDL_GetError());
     }
     m_pGameStateMachine = new GameStateMachine();
     m_pGameStateMachine->changeState(new MenuState());
@@ -46,17 +46,17 @@ void Game::init() {
 
 bool Game::initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) == 0) {
-        LOG("SDL init success");
+        LOG_INFO("SDL init success");
 
-        if (IMG_Init(IMG_INIT_PNG) != 0) {
-            LOG("SDL image success");
+        if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0) {
+            LOG_INFO("SDL image success");
 
             m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE);
             if (m_pWindow != nullptr) {
                 m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 
                 if (m_pRenderer != nullptr) {
-                    LOG("SDL renderer success");
+                    LOG_INFO("SDL renderer success");
                     return true;
                 }
             }

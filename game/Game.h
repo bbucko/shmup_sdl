@@ -25,9 +25,9 @@ public:
 
     void handleEvents();
 
-    SDL_Renderer *getRenderer() const {
-        return m_pRenderer;
-    }
+    SDL_Renderer *getRenderer() const { return m_pRenderer; }
+
+    GameStateMachine *getStateMachine() const { return m_pGameStateMachine; }
 
     static Game &Instance() {
         static Game instance;
