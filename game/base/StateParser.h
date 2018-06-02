@@ -1,8 +1,8 @@
 #ifndef SHMUP_STATEPARSER_H
 #define SHMUP_STATEPARSER_H
 
-
 #include <string>
+#include <vector>
 #include <tinyxml2.h>
 #include "GameObject.h"
 
@@ -15,7 +15,7 @@ private:
 
     void parseObjects(tinyxml2::XMLElement *pStateRoot, std::vector<GameObject *> *pObjects);
 
-    void parseTextures(tinyxml2::XMLElement *pStateRoot, std::vector <std::string> *pTextureIDs);
+    void parseTextures(tinyxml2::XMLElement *pStateRoot, std::vector<std::string> *pTextureIDs);
 };
 
 

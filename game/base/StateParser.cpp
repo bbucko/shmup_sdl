@@ -5,9 +5,12 @@ using namespace tinyxml2;
 
 bool StateParser::parseState(const char *stateFile, std::string stateID, std::vector<GameObject *> *pObjects) {
     XMLDocument doc;
-    if (!doc.LoadFile(stateFile)) {
-        LOG_ERROR(doc.ErrorStr());
+    XMLError error = doc.LoadFile(stateFile);
+
+    if (error != XML_SUCCESS) {
+        LOG_ERROR("Error occurred: " << XMLDocument::ErrorIDToName(error));
     };
+
     XMLElement *pRoot = doc.RootElement();
 
     return false;

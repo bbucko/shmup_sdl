@@ -36,7 +36,7 @@ bool PlayState::onEnter() {
     SDL_SetRenderDrawColor(m_pRenderer, 0, 67, 170, 255);
 
     StateParser stateParser;
-    stateParser.parseState("asset/game.xml", s_playID, &objects);
+    stateParser.parseState("assets/game.xml", s_playID, &objects);
 
     TextureManager::Instance().load("assets/plane.png", "plane", m_pRenderer);
     TextureManager::Instance().load("assets/whitePlane.png", "whitePlane", m_pRenderer);
