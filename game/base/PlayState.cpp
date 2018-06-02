@@ -12,18 +12,7 @@ void PlayState::update() {
         object->update();
     }
 
-    for (auto object1 : objects) {
-        for (auto object2 : objects) {
-            if (object1 != object2) {
-                SDLGameObject *p1 = dynamic_cast<SDLGameObject *>(object1);
-                SDLGameObject *p2 = dynamic_cast<SDLGameObject *>(object2);
-                bool collided = checkCollision(p1, p2);
-                if (collided) {
-                    LOG_INFO("Collided: " << p1 << " and " << p2);
-                }
-            }
-        }
-    }
+    calculateCollisions();
 }
 
 void PlayState::render() {
@@ -57,6 +46,26 @@ bool PlayState::onExit() {
     TextureManager::Instance().clear("whitePlane");
 
     return true;
+}
+
+void PlayState::calculateCollisions() {
+    std::vector<GameObject *> objectCollisionDetection = objects;
+    auto external = objectCollisionDetection.begin();
+    while (external != objectCollisionDetection.end()) {
+        auto internal = objectCollisionDetection.begin();
+        while (internal != objectCollisionDetection.end()) {
+            if (internal != external) {
+                auto *p1 = dynamic_cast<SDLGameObject *>(*internal);
+                auto *p2 = dynamic_cast<SDLGameObject *>(*external);
+                bool collided = checkCollision(p1, p2);
+                if (collided) {
+                    LOG_INFO("Collided: " << p1 << " and " << p2);
+                }
+            }
+            internal++;
+        }
+        external = objectCollisionDetection.erase(external);
+    }
 }
 
 bool PlayState::checkCollision(SDLGameObject *p1, SDLGameObject *p2) {
