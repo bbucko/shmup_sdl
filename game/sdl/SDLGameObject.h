@@ -31,6 +31,18 @@ public:
     void update() override;
 
     void clean() override;
+
+    const vec2 &getPosition() const {
+        return m_position;
+    }
+
+    float getWidth() const {
+        return m_width;
+    }
+
+    float getHeight() const {
+        return m_height;
+    }
 };
 
 #endif //SHMUP_SDLGAMEOBJECT_H
