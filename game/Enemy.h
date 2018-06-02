@@ -1,6 +1,7 @@
 #ifndef SHMUP_ENEMY_H
 #define SHMUP_ENEMY_H
 
+#include "base/GameObjectFactory.h"
 #include "sdl/SDLGameObject.h"
 
 class Enemy : public SDLGameObject {
@@ -11,10 +12,13 @@ public:
 
     void update() override;
 
-    explicit Enemy(const LoaderParams *pParams) : SDLGameObject(pParams) {
-        m_velocity = vec2(1, 0);
-    };
+    void load(const LoaderParams *pParams) override;
 };
 
+class EnemyCreator : public BaseCreator {
+    GameObject *createGameObject() const override {
+        return new Enemy();
+    }
+};
 
 #endif //SHMUP_ENEMY_H

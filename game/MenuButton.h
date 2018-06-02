@@ -5,13 +5,13 @@
 
 class MenuButton : public SDLGameObject {
 public:
-    virtual void draw();
+    void draw() override;
 
-    virtual void update();
+    void update() override;
 
-    virtual void clean();
+    void clean() override;
 
-    explicit MenuButton(const LoaderParams *pParams) : SDLGameObject(pParams) {}
+    void load(const LoaderParams *pParams) override;
 
 };
 

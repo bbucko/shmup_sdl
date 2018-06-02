@@ -2,9 +2,9 @@
 
 #include <SDL_image.h>
 #include <array>
-#include "base/MenuState.h"
-#include "base/InputHandler.h"
-#include "base/PlayState.h"
+#include "MenuState.h"
+#include "sdl/InputHandler.h"
+#include "PlayState.h"
 #include "TextureManager.h"
 
 void Game::update() {
@@ -71,4 +71,11 @@ void Game::handleEvents() {
         m_pGameStateMachine->changeState(new PlayState());
     }
 
+}
+
+vec2 Game::getDimensions() const {
+    int width;
+    int height;
+    SDL_GetWindowSize(m_pWindow, &width, &height);
+    return vec2(width, height);
 }

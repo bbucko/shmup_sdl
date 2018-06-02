@@ -2,7 +2,7 @@
 #define SHMUP_MENUSTATE_H
 
 #include <MenuButton.h>
-#include "GameState.h"
+#include "base/GameState.h"
 
 class MenuState : public GameState {
 public:

@@ -24,7 +24,7 @@ protected:
     std::string m_textureID;
 public:
 
-    explicit SDLGameObject(const LoaderParams *pParams);
+    void load(const LoaderParams *pParams) override;
 
     void draw() override;
 

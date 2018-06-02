@@ -4,6 +4,8 @@
 #include <Player.h>
 #include <Enemy.h>
 #include <Game.h>
+#include <base/StateParser.h>
+#include <base/BulletHandler.h>
 
 const std::string PlayState::s_playID = "PLAY";
 
@@ -12,6 +14,8 @@ void PlayState::update() {
         object->update();
     }
 
+    BulletHandler::Instance().update();
+
     calculateCollisions();
 }
 
@@ -19,6 +23,9 @@ void PlayState::render() {
     for (auto object : objects) {
         object->draw();
     }
+
+    BulletHandler::Instance().render();
+
 }
 
 bool PlayState::onEnter() {
@@ -27,11 +34,22 @@ bool PlayState::onEnter() {
     SDL_Renderer *m_pRenderer = Game::Instance().getRenderer();
 
     SDL_SetRenderDrawColor(m_pRenderer, 0, 67, 170, 255);
+
+    StateParser stateParser;
+    stateParser.parseState("asset/game.xml", s_playID, &objects);
+
     TextureManager::Instance().load("assets/plane.png", "plane", m_pRenderer);
     TextureManager::Instance().load("assets/whitePlane.png", "whitePlane", m_pRenderer);
+    TextureManager::Instance().load("assets/bullet.png", "bullet", m_pRenderer);
 
-    objects.push_back(new Player(new LoaderParams(320, 400, 65, 65, "plane")));
-    objects.push_back(new Enemy(new LoaderParams(320, 0, 65, 65, "whitePlane")));
+    auto *player = new Player();
+    player->load(new LoaderParams(320, 400, 65, 65, "plane"));
+    objects.push_back(player);
+
+    auto enemy = new Enemy();
+    enemy->load(new LoaderParams(320, 0, 65, 65, "whitePlane"));
+    objects.push_back(enemy);
+
     return true;
 }
 
@@ -42,7 +60,10 @@ bool PlayState::onExit() {
         object->clean();
     }
 
+    objects.clear();
+
     TextureManager::Instance().clear("plane");
+    TextureManager::Instance().clear("bullet");
     TextureManager::Instance().clear("whitePlane");
 
     return true;
@@ -50,6 +71,7 @@ bool PlayState::onExit() {
 
 void PlayState::calculateCollisions() {
     std::vector<GameObject *> objectCollisionDetection = objects;
+
     auto external = objectCollisionDetection.begin();
     while (external != objectCollisionDetection.end()) {
         auto internal = objectCollisionDetection.begin();
@@ -57,8 +79,7 @@ void PlayState::calculateCollisions() {
             if (internal != external) {
                 auto *p1 = dynamic_cast<SDLGameObject *>(*internal);
                 auto *p2 = dynamic_cast<SDLGameObject *>(*external);
-                bool collided = checkCollision(p1, p2);
-                if (collided) {
+                if (checkCollision(p1, p2)) {
                     LOG_INFO("Collided: " << p1 << " and " << p2);
                 }
             }

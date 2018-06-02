@@ -1,8 +1,8 @@
 #ifndef SHMUP_PLAYSTATE_H
 #define SHMUP_PLAYSTATE_H
 
-#include "GameState.h"
-#include "GameObject.h"
+#include "base/GameState.h"
+#include "base/GameObject.h"
 #include <vector>
 #include <sdl/SDLGameObject.h>
 

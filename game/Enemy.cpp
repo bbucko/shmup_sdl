@@ -14,10 +14,15 @@ void Enemy::update() {
         m_velocity.x = 1;
     }
 
-    if (m_position.x + m_width >= 640) {
+    if (m_position.x + m_width >= Game::Instance().getDimensions().y) {
         m_velocity.x = -1;
     }
 
     SDLGameObject::update();
 
+}
+
+void Enemy::load(const LoaderParams *pParams) {
+    SDLGameObject::load(pParams);
+    m_velocity = vec2(1, 0);
 }

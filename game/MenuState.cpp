@@ -23,8 +23,11 @@ bool MenuState::onEnter() {
     TextureManager::Instance().load("assets/exit.jpg", "exitBtn", m_pRenderer);
     TextureManager::Instance().load("assets/play.jpg", "playBtn", m_pRenderer);
 
-    m_playBtn = new MenuButton(new LoaderParams(100, 100, 400, 100, "playBtn"));
-    m_exitBtn = new MenuButton(new LoaderParams(100, 300, 400, 100, "exitBtn"));
+    m_playBtn = new MenuButton();
+    m_playBtn->load(new LoaderParams(100, 100, 400, 100, "playBtn"));
+
+    m_exitBtn = new MenuButton();
+    m_exitBtn->load(new LoaderParams(100, 300, 400, 100, "exitBtn"));
 
     return true;
 }

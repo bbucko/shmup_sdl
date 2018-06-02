@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <SDL.h>
+#include <sdl/SDLGameObject.h>
 
 class Game {
 public:
@@ -24,6 +25,8 @@ public:
     void quit();
 
     void handleEvents();
+
+    vec2 getDimensions() const;
 
     SDL_Renderer *getRenderer() const { return m_pRenderer; }
 

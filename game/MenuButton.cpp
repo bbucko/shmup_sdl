@@ -13,3 +13,7 @@ void MenuButton::update() {
 void MenuButton::clean() {
     SDLGameObject::clean();
 }
+
+void MenuButton::load(const LoaderParams *pParams) {
+    SDLGameObject::load(pParams);
+}
