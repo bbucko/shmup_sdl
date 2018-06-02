@@ -1,9 +1,12 @@
 #ifndef SHMUP_GAME_H
 #define SHMUP_GAME_H
 
+#include "base/GameStateMachine.h"
+#include "base/GameObject.h"
+#include "base/Logger.h"
+
 #include <vector>
 #include <SDL.h>
-#include "base/GameObject.h"
 
 class Game {
 public:
@@ -20,6 +23,8 @@ public:
 
     void quit();
 
+    void handleEvents();
+
     SDL_Renderer *getRenderer() const {
         return m_pRenderer;
     }
@@ -34,23 +39,15 @@ private:
 
     SDL_Renderer *m_pRenderer;
 
-    std::vector<GameObject *> objects;
+    GameStateMachine *m_pGameStateMachine;
 
     bool m_bRunning;
-
-    int m_iFrames = 0;
 
     Game() = default;
 
     ~Game() = default;
 
-    void loadTextures();
-
-    void initPlayer();
-
     bool initSDL();
-
-    void initObjects();
 };
 
 

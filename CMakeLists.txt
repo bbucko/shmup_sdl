@@ -13,7 +13,7 @@ include_directories(game)
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIR})
 
 add_subdirectory(game)
-add_subdirectory(res)
+add_subdirectory(assets)
 
 #Game binary
 add_executable(shmup main.cpp)

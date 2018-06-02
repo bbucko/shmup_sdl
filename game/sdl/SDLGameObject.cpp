@@ -41,5 +41,5 @@ void SDLGameObject::update() {
 }
 
 void SDLGameObject::clean() {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    LOG("Cleanup");
 }

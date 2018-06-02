@@ -6,6 +6,9 @@
 class Enemy : public SDLGameObject {
 
 public:
+
+    void draw() override;
+
     explicit Enemy(const LoaderParams *pParams) : SDLGameObject(pParams) {
         m_velocity = vec2(0, 1);
     };

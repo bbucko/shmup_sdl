@@ -1,6 +1,5 @@
 #include "Game.h"
 #include <thread>
-#include <base/InputHandler.h>
 
 using namespace std::this_thread;
 using namespace std::chrono;
@@ -13,10 +12,11 @@ int main() {
     duration<double> frameDuration = milliseconds::zero();
 
     Game::Instance().init();
+
     while (Game::Instance().running()) {
         frameStart = system_clock::now();
 
-        InputHandler::Instance().update();
+        Game::Instance().handleEvents();
 
         Game::Instance().update();
 
@@ -26,7 +26,6 @@ int main() {
         if (frameDuration < DELAY_TIME) {
             auto sleep_time = DELAY_TIME - frameDuration;
             sleep_for(sleep_time);
-            std::cout << "Sleeping for: " << sleep_time.count() << std::endl;
         }
     }
 
