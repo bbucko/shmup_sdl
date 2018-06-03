@@ -5,7 +5,6 @@
 
 using namespace tinyxml2;
 
-
 bool StateParser::parseState(const char *stateFile, std::string stateID, std::vector<GameObject *> *pObjects, std::vector<std::string> *pTextureIDs) {
     XMLDocument doc;
     XMLError result = doc.LoadFile(stateFile);
