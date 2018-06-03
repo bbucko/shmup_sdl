@@ -21,7 +21,7 @@ public:
 
 private:
 
-    std::vector<GameObject *> objects;
+    std::vector<GameObject *> m_objects;
 
     static const std::string s_playID;
 

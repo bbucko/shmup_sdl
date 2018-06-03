@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <Game.h>
 #include <TextureManager.h>
+#include <base/StateParser.h>
 
 const std::string MenuState::s_menuID = "MENU";
 
@@ -20,8 +21,8 @@ bool MenuState::onEnter() {
     SDL_Renderer *m_pRenderer = Game::Instance().getRenderer();;
     SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 
-    TextureManager::Instance().load("assets/exit.jpg", "exitBtn", m_pRenderer);
-    TextureManager::Instance().load("assets/play.jpg", "playBtn", m_pRenderer);
+    std::vector<std::string> textureIds = std::vector<std::string>();
+    StateParser().parseState("assets/game.xml", s_menuID, &m_objects, &textureIds);
 
     m_playBtn = new MenuButton();
     m_playBtn->load(new LoaderParams(100, 100, 400, 100, "playBtn"));

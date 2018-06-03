@@ -10,7 +10,7 @@
 const std::string PlayState::s_playID = "PLAY";
 
 void PlayState::update() {
-    for (auto object : objects) {
+    for (auto object : m_objects) {
         object->update();
     }
 
@@ -20,7 +20,7 @@ void PlayState::update() {
 }
 
 void PlayState::render() {
-    for (auto object : objects) {
+    for (auto object : m_objects) {
         object->draw();
     }
 
@@ -35,21 +35,16 @@ bool PlayState::onEnter() {
 
     SDL_SetRenderDrawColor(m_pRenderer, 0, 67, 170, 255);
 
-    StateParser stateParser;
     std::vector<std::string> textureIds;
-    stateParser.parseState("assets/game.xml", s_playID, &objects, &textureIds);
-
-    TextureManager::Instance().load("assets/plane.png", "plane", m_pRenderer);
-    TextureManager::Instance().load("assets/whitePlane.png", "whitePlane", m_pRenderer);
-    TextureManager::Instance().load("assets/bullet.png", "bullet", m_pRenderer);
+    StateParser().parseState("assets/game.xml", s_playID, &m_objects, &textureIds);
 
     auto *player = new Player();
     player->load(new LoaderParams(320, 400, 65, 65, "plane"));
-    objects.push_back(player);
+    m_objects.push_back(player);
 
     auto enemy = new Enemy();
     enemy->load(new LoaderParams(320, 0, 65, 65, "whitePlane"));
-    objects.push_back(enemy);
+    m_objects.push_back(enemy);
 
     return true;
 }
@@ -57,11 +52,11 @@ bool PlayState::onEnter() {
 bool PlayState::onExit() {
     LOG_INFO("exiting PlayState");
 
-    for (auto object : objects) {
+    for (auto object : m_objects) {
         object->clean();
     }
 
-    objects.clear();
+    m_objects.clear();
 
     TextureManager::Instance().clear("plane");
     TextureManager::Instance().clear("bullet");
@@ -71,7 +66,7 @@ bool PlayState::onExit() {
 }
 
 void PlayState::calculateCollisions() {
-    std::vector<GameObject *> objectCollisionDetection = objects;
+    std::vector<GameObject *> objectCollisionDetection = m_objects;
 
     auto external = objectCollisionDetection.begin();
     while (external != objectCollisionDetection.end()) {

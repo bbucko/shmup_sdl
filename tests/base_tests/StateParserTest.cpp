@@ -1,7 +1,6 @@
 #include <base/StateParser.h>
 #include "gtest/gtest.h"
 
-
 static void cleanup(std::vector<GameObject *> vector, std::vector<std::string> ids) {
     for (auto object : vector) {
         delete object;
@@ -31,6 +30,9 @@ TEST(StateParserTest, MenuStateTest) {
     EXPECT_EQ(result, true);
     EXPECT_EQ(objects.size(), 2);
     EXPECT_EQ(textureIds.size(), 2);
+
+    EXPECT_EQ(textureIds[0], "playbutton");
+    EXPECT_EQ(textureIds[1], "exitbutton");
 
     cleanup(objects, textureIds);
 }

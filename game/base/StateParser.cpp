@@ -1,6 +1,7 @@
 #include <Player.h>
+#include <TextureManager.h>
+#include <Game.h>
 #include "StateParser.h"
-#include "Logger.h"
 #include "StringUtils.h"
 
 using namespace tinyxml2;
@@ -40,8 +41,25 @@ bool StateParser::parseState(const char *stateFile, std::string stateID, std::ve
 
 void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<std::string> *pTextureIDs) {
     LOG_INFO("Parsing textures: " << pElementRoot->Value());
-    for (XMLElement *pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
-        pTextureIDs->push_back("");
+    for (const XMLElement *pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
+        if (StringUtils::equalsIgnoreCase(pStateRoot->Value(), "texture")) {
+            std::string filename;
+            std::string id;
+            for (const XMLAttribute *a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
+                if (StringUtils::equalsIgnoreCase(a->Name(), "filename")) {
+                    filename = a->Value();
+                }
+
+                if (StringUtils::equalsIgnoreCase(a->Name(), "id")) {
+                    id = a->Value();
+                }
+            }
+
+            if (filename != "" && id != "") {
+                TextureManager::Instance().load(filename, id, Game::Instance().getRenderer());
+                pTextureIDs->push_back(id);
+            }
+        }
     }
     LOG_INFO("Done parsing textures. Textures found: " << pTextureIDs->size());
 }

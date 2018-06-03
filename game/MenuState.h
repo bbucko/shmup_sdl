@@ -1,6 +1,7 @@
 #ifndef SHMUP_MENUSTATE_H
 #define SHMUP_MENUSTATE_H
 
+#include <vector>
 #include <MenuButton.h>
 #include "base/GameState.h"
 
@@ -21,6 +22,8 @@ private:
 
     MenuButton *m_playBtn;
     MenuButton *m_exitBtn;
+
+    std::vector<GameObject *> m_objects;
 
     static const std::string s_menuID;
 };

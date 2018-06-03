@@ -2,8 +2,8 @@
 <STATES>
     <MENU>
         <TEXTURES>
-            <texture filename="assets/button.png" ID="playbutton"/>
-            <texture filename="assets/exit.png" ID="exitbutton"/>
+            <texture filename="assets/exit.jpg" ID="exitBtn"/>
+            <texture filename="assets/play.jpg" ID="playBtn"/>
         </TEXTURES>
 
         <OBJECTS>
@@ -12,6 +12,11 @@
         </OBJECTS>
     </MENU>
     <PLAY>
+        <TEXTURES>
+            <texture filename="assets/plane.png" ID="plane"/>
+            <texture filename="assets/whitePlane.png" ID="whitePlane"/>
+            <texture filename="assets/bullet.png" ID="bullet"/>
+        </TEXTURES>
     </PLAY>
 
     <GAMEOVER>
