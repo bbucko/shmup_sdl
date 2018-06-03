@@ -1,6 +1,6 @@
-file(GLOB test_resources "*.png" "*.jpg" "*.xml")
+file(GLOB test_assets "*.png" "*.jpg" "*.xml")
 
-foreach (resource IN LISTS test_resources)
+foreach (resource IN LISTS test_assets)
     get_filename_component(FILE_NAME ${resource} NAME)
     message(STATUS "Copying test ${resource} to /tmp/shmup_tests/${FILE_NAME}")
 

@@ -20,9 +20,7 @@ public:
 
 private:
 
-    MenuButton *m_playBtn;
-    MenuButton *m_exitBtn;
-
+    std::vector<std::string> m_textureIds;
     std::vector<GameObject *> m_objects;
 
     static const std::string s_menuID;

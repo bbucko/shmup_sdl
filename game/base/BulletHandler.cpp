@@ -3,14 +3,19 @@
 #include "Logger.h"
 
 void BulletHandler::playerShoots(int x, int y) {
-    LOG_INFO("player shhots: " << x << " :: " << y);
-    auto *bullet = new Bullet();
-    bullet->load(new LoaderParams(x + 16, y - 16, 32, 32, "bullet"));
-    bullets.push_back(bullet);
+    auto now = std::chrono::system_clock::now();
+    const std::chrono::duration<double, std::milli> &timeSinceLastShot = now - m_lastPlayerShootAt;
+    if (timeSinceLastShot.count() > 200) {
+        auto *bullet = new Bullet();
+        bullet->load(new LoaderParams(x + 16, y - 16, 32, 32, "bullet"));
+        bullets.push_back(bullet);
+
+        m_lastPlayerShootAt = std::chrono::system_clock::now();
+    }
 }
 
 void BulletHandler::enemyShoots(int x, int y) {
-    LOG_INFO("enemy shhots: " << x << " :: " << y);
+    LOG_INFO("enemy shots: " << x << " :: " << y);
 }
 
 void BulletHandler::render() {

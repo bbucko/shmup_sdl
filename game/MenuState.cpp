@@ -12,8 +12,9 @@ void MenuState::update() {
 }
 
 void MenuState::render() {
-    m_playBtn->draw();
-    m_exitBtn->draw();
+    for (auto object : m_objects) {
+        object->draw();
+    }
 }
 
 bool MenuState::onEnter() {
@@ -21,23 +22,21 @@ bool MenuState::onEnter() {
     SDL_Renderer *m_pRenderer = Game::Instance().getRenderer();;
     SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 
-    std::vector<std::string> textureIds = std::vector<std::string>();
-    StateParser().parseState("assets/game.xml", s_menuID, &m_objects, &textureIds);
-
-    m_playBtn = new MenuButton();
-    m_playBtn->load(new LoaderParams(100, 100, 400, 100, "playBtn"));
-
-    m_exitBtn = new MenuButton();
-    m_exitBtn->load(new LoaderParams(100, 300, 400, 100, "exitBtn"));
+    StateParser().parseState("assets/game.xml", s_menuID, &m_objects, &m_textureIds);
 
     return true;
 }
 
 bool MenuState::onExit() {
     LOG_INFO("exiting MenuState");
-    m_exitBtn->clean();
-    m_playBtn->clean();
-    TextureManager::Instance().clear("exitBtn");
-    TextureManager::Instance().clear("playBtn");
+
+    for (auto object : m_objects) {
+        object->clean();
+    }
+
+    for (auto object : m_textureIds) {
+        TextureManager::Instance().clear("object");
+    }
+
     return true;
 }

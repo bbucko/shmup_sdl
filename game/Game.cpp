@@ -2,10 +2,12 @@
 
 #include <SDL_image.h>
 #include <array>
+#include <base/GameObjectFactory.h>
 #include "MenuState.h"
 #include "sdl/InputHandler.h"
 #include "PlayState.h"
-#include "TextureManager.h"
+#include "Player.h"
+#include "Enemy.h"
 
 void Game::update() {
     m_pGameStateMachine->update();
@@ -37,6 +39,11 @@ void Game::init() {
     if (!initSDL()) {
         LOG_INFO("Error occurred: " << SDL_GetError());
     }
+
+    GameObjectFactory::Instance().registerType("MenuButton", new MenuButtonCreator());
+    GameObjectFactory::Instance().registerType("Player", new PlayerCreator());
+    GameObjectFactory::Instance().registerType("Enemy", new EnemyCreator());
+
     m_pGameStateMachine = new GameStateMachine();
     m_pGameStateMachine->changeState(new MenuState());
 

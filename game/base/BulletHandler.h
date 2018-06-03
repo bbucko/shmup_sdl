@@ -8,9 +8,13 @@
 
 class BulletHandler {
 private:
+
     std::vector<GameObject *> bullets;
 
+    std::chrono::system_clock::time_point m_lastPlayerShootAt;
+
 public:
+
     void playerShoots(int x, int y);
 
     void enemyShoots(int x, int y);

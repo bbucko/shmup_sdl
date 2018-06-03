@@ -1,8 +1,6 @@
 #include "PlayState.h"
 
 #include <TextureManager.h>
-#include <Player.h>
-#include <Enemy.h>
 #include <Game.h>
 #include <base/StateParser.h>
 #include <base/BulletHandler.h>
@@ -25,26 +23,13 @@ void PlayState::render() {
     }
 
     BulletHandler::Instance().render();
-
 }
 
 bool PlayState::onEnter() {
     LOG_INFO("entering PlayState");
 
-    SDL_Renderer *m_pRenderer = Game::Instance().getRenderer();
-
-    SDL_SetRenderDrawColor(m_pRenderer, 0, 67, 170, 255);
-
-    std::vector<std::string> textureIds;
-    StateParser().parseState("assets/game.xml", s_playID, &m_objects, &textureIds);
-
-    auto *player = new Player();
-    player->load(new LoaderParams(320, 400, 65, 65, "plane"));
-    m_objects.push_back(player);
-
-    auto enemy = new Enemy();
-    enemy->load(new LoaderParams(320, 0, 65, 65, "whitePlane"));
-    m_objects.push_back(enemy);
+    SDL_SetRenderDrawColor(Game::Instance().getRenderer(), 0, 67, 170, 255);
+    StateParser().parseState("assets/game.xml", s_playID, &m_objects, &m_textureIds);
 
     return true;
 }
@@ -58,9 +43,10 @@ bool PlayState::onExit() {
 
     m_objects.clear();
 
-    TextureManager::Instance().clear("plane");
-    TextureManager::Instance().clear("bullet");
-    TextureManager::Instance().clear("whitePlane");
+    for (auto textureId : m_textureIds) {
+        TextureManager::Instance().clear(textureId);
+    }
+    m_textureIds.clear();
 
     return true;
 }

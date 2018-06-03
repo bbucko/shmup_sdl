@@ -2,13 +2,13 @@
 <STATES>
     <MENU>
         <TEXTURES>
-            <texture filename="assets/button.png" ID="playbutton"/>
-            <texture filename="assets/exit.png" ID="exitbutton"/>
+            <texture filename="/tmp/shmup_tests/bullet.png" ID="texture1"/>
+            <texture filename="/tmp/shmup_tests/bullet.png" ID="texture2"/>
         </TEXTURES>
 
         <OBJECTS>
-            <object type="MenuButton" x="100" y="100" width="400" height="100" textureID="playbutton" numFrames="0" callbackID="1"/>
-            <object type="MenuButton" x="100" y="300" width="400" height="100" textureID="exitbutton" numFrames="0" callbackID="2"/>
+            <object type="FakeObject" x="100" y="100" width="400" height="100" textureID="texture1" numFrames="0" callbackID="1"/>
+            <object type="FakeObject" x="100" y="300" width="400" height="100" textureID="texture2" numFrames="0" callbackID="2"/>
         </OBJECTS>
     </MENU>
     <PLAY>

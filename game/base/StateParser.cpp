@@ -43,8 +43,8 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
     LOG_INFO("Parsing textures: " << pElementRoot->Value());
     for (const XMLElement *pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
         if (StringUtils::equalsIgnoreCase(pStateRoot->Value(), "texture")) {
-            std::string filename;
-            std::string id;
+            std::string filename, id;
+
             for (const XMLAttribute *a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
                 if (StringUtils::equalsIgnoreCase(a->Name(), "filename")) {
                     filename = a->Value();
@@ -55,9 +55,11 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
                 }
             }
 
-            if (filename != "" && id != "") {
+            if (!filename.empty() && !id.empty()) {
                 TextureManager::Instance().load(filename, id, Game::Instance().getRenderer());
                 pTextureIDs->push_back(id);
+            } else {
+                LOG_ERROR("Invalid XML with textures. Filename: " << filename << " ID: " << id);
             }
         }
     }
@@ -67,7 +69,29 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
 void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<GameObject *> *pObjects) {
     LOG_INFO("Parsing objects: " << pElementRoot->Value());
     for (XMLElement *pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
-        pObjects->push_back(new Player());
+        if (StringUtils::equalsIgnoreCase(pStateRoot->Value(), "object")) {
+            int x = 0, y = 0, width = 0, height = 0, numFrames = 0, callbackID = 0;
+            std::string textureID, type;
+            for (const XMLAttribute *a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
+                if (StringUtils::equalsIgnoreCase(a->Name(), "textureID")) { textureID = a->Value(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "type")) { type = a->Value(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "x")) { x = a->IntValue(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "y")) { y = a->IntValue(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "width")) { width = a->IntValue(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { height = a->IntValue(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "numFrames")) { numFrames = a->IntValue(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "callbackID")) { callbackID = a->IntValue(); }
+            }
+
+            if (!textureID.empty() && !type.empty()) {
+                auto pGameObject = GameObjectFactory::Instance().create(type);
+                pGameObject->load(new LoaderParams(x, y, width, height, textureID));
+                pObjects->push_back(pGameObject);
+            } else {
+                LOG_ERROR("Invalid XML with game objects. Type: " << type << " ID: " << textureID);
+
+            }
+        }
     }
     LOG_INFO("Done parsing objects. Objects found: " << pObjects->size());
 }
