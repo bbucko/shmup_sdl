@@ -48,5 +48,7 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 }
 
 void TextureManager::clear(std::string id) {
+    auto texture = m_textureMap[id];
+    SDL_DestroyTexture(texture);
     m_textureMap.erase(id);
 }
