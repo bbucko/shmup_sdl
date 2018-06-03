@@ -7,7 +7,7 @@ void BulletHandler::playerShoots(int x, int y) {
     const std::chrono::duration<double, std::milli> &timeSinceLastShot = now - m_lastPlayerShootAt;
     if (timeSinceLastShot.count() > 200) {
         auto *bullet = new Bullet();
-        bullet->load(new LoaderParams(x + 16, y - 16, 32, 32, "bullet"));
+        bullet->load(new LoaderParams(x + 16, y - 16, 32, 32, 1,  "bullet"));
         bullets.push_back(bullet);
 
         m_lastPlayerShootAt = std::chrono::system_clock::now();

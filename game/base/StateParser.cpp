@@ -85,7 +85,7 @@ void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<G
 
             if (!textureID.empty() && !type.empty()) {
                 auto pGameObject = GameObjectFactory::Instance().create(type);
-                pGameObject->load(new LoaderParams(x, y, width, height, textureID));
+                pGameObject->load(new LoaderParams(x, y, width, height, numFrames, textureID, callbackID));
                 pObjects->push_back(pGameObject);
             } else {
                 LOG_ERROR("Invalid XML with game objects. Type: " << type << " ID: " << textureID);

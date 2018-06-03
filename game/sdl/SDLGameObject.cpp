@@ -13,6 +13,8 @@ void SDLGameObject::load(const LoaderParams *pParams) {
     m_height = pParams->getHeight();
     m_textureID = pParams->getTextureID();
 
+    m_numFrames = pParams->getNumFrames();
+
     m_currentRow = 0;
     m_currentFrame = 0;
 }
@@ -21,7 +23,7 @@ void SDLGameObject::draw() {
     auto x = static_cast<int>(m_position.x);
     auto y = static_cast<int>(m_position.y);
     SDL_Renderer *renderer = Game::Instance().getRenderer();
-    m_currentFrame = int(((SDL_GetTicks() / 100) % m_maxFrames));
+    m_currentFrame = m_numFrames > 0 ? int(((SDL_GetTicks() / 100) % m_numFrames)) : 1;
 
     TextureManager::Instance().drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
 }

@@ -19,7 +19,7 @@ protected:
     int m_currentRow;
     int m_currentFrame;
 
-    int m_maxFrames = 1;
+    int m_numFrames;
 
     std::string m_textureID;
 public:

@@ -43,5 +43,5 @@ void Player::update() {
 
 void Player::load(const LoaderParams *pParams) {
     SDLGameObject::load(pParams);
-    m_maxFrames = 3;
+    m_numFrames = 3;
 }
