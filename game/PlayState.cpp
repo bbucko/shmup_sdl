@@ -2,15 +2,10 @@
 
 #include <TextureManager.h>
 #include <Game.h>
-#include <base/StateParser.h>
 #include <base/BulletHandler.h>
 
-const std::string PlayState::s_playID = "PLAY";
-
 void PlayState::update() {
-    for (auto object : m_objects) {
-        object->update();
-    }
+    GameState::update();
 
     BulletHandler::Instance().update();
 
@@ -18,36 +13,15 @@ void PlayState::update() {
 }
 
 void PlayState::render() {
-    for (auto object : m_objects) {
-        object->draw();
-    }
+    GameState::render();
 
     BulletHandler::Instance().render();
 }
 
 bool PlayState::onEnter() {
-    LOG_INFO("entering PlayState");
+    GameState::onEnter();
 
     SDL_SetRenderDrawColor(Game::Instance().getRenderer(), 0, 67, 170, 255);
-    StateParser().parseState("assets/game.xml", s_playID, &m_objects, &m_textureIds);
-
-    return true;
-}
-
-bool PlayState::onExit() {
-    LOG_INFO("exiting PlayState");
-
-    for (auto object : m_objects) {
-        object->clean();
-    }
-
-    m_objects.clear();
-
-    for (auto textureId : m_textureIds) {
-        TextureManager::Instance().clear(textureId);
-    }
-    m_textureIds.clear();
-
     return true;
 }
 

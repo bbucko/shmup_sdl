@@ -3,7 +3,6 @@
 
 #include "base/GameState.h"
 #include "base/GameObject.h"
-#include <vector>
 #include <sdl/SDLGameObject.h>
 
 class PlayState : public GameState {
@@ -15,16 +14,9 @@ public:
 
     bool onEnter() override;
 
-    bool onExit() override;
-
-    std::string getStateID() const override { return s_playID; }
+    std::string getStateID() const override { return "PLAY"; }
 
 private:
-
-    std::vector<GameObject *> m_objects;
-    std::vector<std::string> m_textureIds;
-
-    static const std::string s_playID;
 
     bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 
