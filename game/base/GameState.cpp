@@ -25,6 +25,7 @@ bool GameState::onExit() {
     LOG_INFO("exiting state: " << getStateID());
     for (auto object : m_objects) {
         object->clean();
+        delete object;
     }
     m_objects.clear();
 

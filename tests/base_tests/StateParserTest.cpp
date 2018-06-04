@@ -4,7 +4,6 @@
 #include <base/Logger.h>
 #include "gtest/gtest.h"
 
-
 namespace {
 
     class StateParserTest : public testing::Test {

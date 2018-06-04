@@ -48,7 +48,9 @@ private:
 
     Game() = default;
 
-    ~Game() = default;
+    ~Game() {
+        delete m_pGameStateMachine;
+    };
 
     bool initSDL();
 };

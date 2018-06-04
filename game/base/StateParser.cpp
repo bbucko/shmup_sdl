@@ -1,6 +1,7 @@
 #include <Player.h>
 #include <TextureManager.h>
 #include <Game.h>
+#include <memory>
 #include "StateParser.h"
 #include "StringUtils.h"
 
@@ -85,7 +86,9 @@ void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<G
 
             if (!textureID.empty() && !type.empty()) {
                 auto pGameObject = GameObjectFactory::Instance().create(type);
-                pGameObject->load(new LoaderParams(x, y, width, height, numFrames, textureID, callbackID));
+                auto loaderParams = std::make_shared<LoaderParams>(x, y, width, height, numFrames, textureID, callbackID);
+                pGameObject->load(loaderParams.get());
+
                 pObjects->push_back(pGameObject);
             } else {
                 LOG_ERROR("Invalid XML with game objects. Type: " << type << " ID: " << textureID);

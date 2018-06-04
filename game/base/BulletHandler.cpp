@@ -1,13 +1,15 @@
 #include <Bullet.h>
 #include "BulletHandler.h"
 #include "Logger.h"
+#include <memory>
 
 void BulletHandler::playerShoots(int x, int y) {
     auto now = std::chrono::system_clock::now();
     const std::chrono::duration<double, std::milli> &timeSinceLastShot = now - m_lastPlayerShootAt;
     if (timeSinceLastShot.count() > 200) {
-        auto *bullet = new Bullet();
-        bullet->load(new LoaderParams(x + 16, y - 16, 32, 32, 1,  "bullet"));
+        auto loaderParams = std::make_shared<LoaderParams>(x + 16, y - 16, 32, 32, 1, "bullet");
+        auto bullet = new Bullet();
+        bullet->load(loaderParams.get());
         bullets.push_back(bullet);
 
         m_lastPlayerShootAt = std::chrono::system_clock::now();
@@ -30,7 +32,7 @@ void BulletHandler::update() {
         auto *bullet = dynamic_cast<SDLGameObject *>(*i);
         if (bullet->getPosition().y <= 0) {
             bullet->clean();
-            delete *i;
+            delete bullet;
             i = bullets.erase(i);
         } else {
             (*i)->update();

@@ -24,6 +24,14 @@ public:
         return instance;
     }
 
+    ~GameObjectFactory() {
+        auto i = std::begin(m_creators);
+        while (i != std::end(m_creators)) {
+            delete (*i).second;
+            i = m_creators.erase(i);
+        }
+    }
+
 private:
 
     std::map<std::string, BaseCreator *> m_creators;

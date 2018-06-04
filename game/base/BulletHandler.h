@@ -24,6 +24,12 @@ public:
 
     void render();
 
+    ~BulletHandler() {
+        for(auto bullet : bullets) {
+            delete bullet;
+        }
+    }
+
     static BulletHandler &Instance() {
         static BulletHandler instance;
         return instance;

@@ -19,6 +19,12 @@ public:
     void update();
 
     void render();
+
+    ~GameStateMachine(){
+        for(auto gameState :m_gameStates) {
+            delete gameState;
+        }
+    }
 };
 
 

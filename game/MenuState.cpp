@@ -2,8 +2,6 @@
 
 #include <SDL.h>
 #include <Game.h>
-#include <TextureManager.h>
-#include <base/StateParser.h>
 
 bool MenuState::onEnter() {
     GameState::onEnter();
