@@ -28,8 +28,6 @@ public:
 
     vec2 getDimensions() const;
 
-    SDL_Renderer *getRenderer() const { return m_pRenderer; }
-
     GameStateMachine *getStateMachine() const { return m_pGameStateMachine; }
 
     static Game &Instance() {
@@ -39,9 +37,7 @@ public:
 
 private:
     SDL_Window *m_pWindow;
-
-    SDL_Renderer *m_pRenderer;
-
+    
     GameStateMachine *m_pGameStateMachine;
 
     bool m_bRunning;

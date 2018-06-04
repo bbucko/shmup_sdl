@@ -1,6 +1,5 @@
 #include "PlayState.h"
 #include "ServiceLocator.h"
-#include <TextureManager.h>
 #include <Game.h>
 #include <base/BulletHandler.h>
 
@@ -21,7 +20,7 @@ void PlayState::render() {
 bool PlayState::onEnter() {
     GameState::onEnter();
 
-    SDL_SetRenderDrawColor(Game::Instance().getRenderer(), 0, 67, 170, 255);
+    SDL_SetRenderDrawColor(ServiceLocator::renderer(), 0, 67, 170, 255);
 
     return true;
 }

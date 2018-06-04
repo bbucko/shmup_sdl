@@ -16,16 +16,16 @@ void Game::update() {
 }
 
 void Game::render() const {
-    SDL_RenderClear(m_pRenderer);
+    SDL_RenderClear(ServiceLocator::renderer());
 
     m_pGameStateMachine->render();
 
-    SDL_RenderPresent(m_pRenderer);
+    SDL_RenderPresent(ServiceLocator::renderer());
 }
 
 void Game::terminate() {
     SDL_DestroyWindow(m_pWindow);
-    SDL_DestroyRenderer(m_pRenderer);
+    SDL_DestroyRenderer(ServiceLocator::renderer());
 
     IMG_Quit();
     SDL_Quit();
@@ -67,10 +67,11 @@ bool Game::initSDL() {
 
             m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE);
             if (m_pWindow != nullptr) {
-                m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
+                auto m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 
                 if (m_pRenderer != nullptr) {
                     LOG_INFO("SDL renderer success");
+                    ServiceLocator::provide(m_pRenderer);
                     return true;
                 }
             }

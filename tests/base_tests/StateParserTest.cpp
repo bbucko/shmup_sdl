@@ -20,14 +20,12 @@ namespace {
             ServiceLocator::provide(&factory);
         }
 
-
-    protected:
         std::vector<GameObject *> objects;
         std::vector<std::string> textureIds;
 
         NiceMock<mocks::TextureManagerMock> manager;
         NiceMock<mocks::GameObjectFactoryMock> factory;
-
+    protected:
         virtual void TearDown() {
             LOG_INFO("teardown");
 

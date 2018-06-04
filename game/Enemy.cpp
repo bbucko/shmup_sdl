@@ -7,7 +7,7 @@ void Enemy::draw() {
     auto x = static_cast<int>(m_position.x);
     auto y = static_cast<int>(m_position.y);
 
-    ServiceLocator::textureManager()->draw(m_textureID, x, y, m_width, m_height, Game::Instance().getRenderer());
+    ServiceLocator::textureManager()->draw(m_textureID, x, y, m_width, m_height, ServiceLocator::renderer());
 }
 
 void Enemy::update() {

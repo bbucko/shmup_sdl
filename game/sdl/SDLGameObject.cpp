@@ -23,10 +23,9 @@ void SDLGameObject::load(const LoaderParams *pParams) {
 void SDLGameObject::draw() {
     auto x = static_cast<int>(m_position.x);
     auto y = static_cast<int>(m_position.y);
-    SDL_Renderer *renderer = Game::Instance().getRenderer();
     m_currentFrame = m_numFrames > 0 ? int(((SDL_GetTicks() / 100) % m_numFrames)) : 1;
 
-    ServiceLocator::textureManager()->drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
+    ServiceLocator::textureManager()->drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, ServiceLocator::renderer());
 }
 
 void SDLGameObject::update() {

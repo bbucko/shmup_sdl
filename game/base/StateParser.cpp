@@ -58,7 +58,7 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
             }
 
             if (!filename.empty() && !id.empty()) {
-                ServiceLocator::textureManager()->load(filename, id, Game::Instance().getRenderer());
+                ServiceLocator::textureManager()->load(filename, id, ServiceLocator::renderer());
                 pTextureIDs->push_back(id);
             } else {
                 LOG_ERROR("Invalid XML with textures. Filename: " << filename << " ID: " << id);
