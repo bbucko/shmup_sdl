@@ -2,10 +2,8 @@
 #include <base/GameObjectFactory.h>
 #include <utils/Logger.h>
 #include <ServiceLocator.h>
-#include <sdl/SDLGameObject.h>
 
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
+#include "mocks/Mocks.h"
 
 namespace {
 
@@ -13,21 +11,6 @@ namespace {
     using ::testing::NiceMock;
     using ::testing::Mock;
     using ::testing::_;
-
-    class GameObjectFactoryMock : public GameObjectFactory {
-    public:
-        MOCK_METHOD1(create, GameObject *(std::string typeID));
-    };
-
-    class TextureManagerMock : public TextureManager {
-    public:
-        MOCK_METHOD3(load, bool(std::string fileName, std::string id, SDL_Renderer * pRenderer));
-
-    };
-
-    class FakeObject : public SDLGameObject {
-
-    };
 
     class StateParserTest : public testing::Test {
 
@@ -42,13 +25,8 @@ namespace {
         std::vector<GameObject *> objects;
         std::vector<std::string> textureIds;
 
-        NiceMock<TextureManagerMock> manager;
-        NiceMock<GameObjectFactoryMock> factory;
-
-        virtual void SetUp() {
-            LOG_INFO("setup");
-
-        }
+        NiceMock<mocks::TextureManagerMock> manager;
+        NiceMock<mocks::GameObjectFactoryMock> factory;
 
         virtual void TearDown() {
             LOG_INFO("teardown");
@@ -70,7 +48,7 @@ namespace {
     }
 
     TEST_F(StateParserTest, MenuStateTest) {
-        FakeObject fakeObject;
+        mocks::FakeObject fakeObject;
 
         EXPECT_CALL(factory, create("FakeObject"))
                 .Times(2)
