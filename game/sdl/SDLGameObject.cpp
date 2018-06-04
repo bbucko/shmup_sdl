@@ -1,6 +1,7 @@
 #include "SDLGameObject.h"
 
 #include <SDL.h>
+#include <ServiceLocator.h>
 #include "TextureManager.h"
 #include "Game.h"
 
@@ -25,7 +26,7 @@ void SDLGameObject::draw() {
     SDL_Renderer *renderer = Game::Instance().getRenderer();
     m_currentFrame = m_numFrames > 0 ? int(((SDL_GetTicks() / 100) % m_numFrames)) : 1;
 
-    TextureManager::Instance().drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
+    ServiceLocator::textureManager()->drawFrame(m_textureID, x, y, m_width, m_height, m_currentRow, m_currentFrame, renderer);
 }
 
 void SDLGameObject::update() {

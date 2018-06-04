@@ -3,11 +3,13 @@
 #include <SDL_image.h>
 #include <array>
 #include <base/GameObjectFactory.h>
+#include <base/BulletHandler.h>
 #include "MenuState.h"
 #include "sdl/InputHandler.h"
 #include "PlayState.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "ServiceLocator.h"
 
 void Game::update() {
     m_pGameStateMachine->update();
@@ -15,7 +17,9 @@ void Game::update() {
 
 void Game::render() const {
     SDL_RenderClear(m_pRenderer);
+
     m_pGameStateMachine->render();
+
     SDL_RenderPresent(m_pRenderer);
 }
 
@@ -40,9 +44,13 @@ void Game::init() {
         LOG_INFO("Error occurred: " << SDL_GetError());
     }
 
-    GameObjectFactory::Instance().registerType("MenuButton", new MenuButtonCreator());
-    GameObjectFactory::Instance().registerType("Player", new PlayerCreator());
-    GameObjectFactory::Instance().registerType("Enemy", new EnemyCreator());
+    ServiceLocator::provide(new BulletHandler());
+    ServiceLocator::provide(new TextureManager());
+    ServiceLocator::provide(new GameObjectFactory());
+
+    ServiceLocator::gameObjectFactory()->registerType("MenuButton", new MenuButtonCreator());
+    ServiceLocator::gameObjectFactory()->registerType("Player", new PlayerCreator());
+    ServiceLocator::gameObjectFactory()->registerType("Enemy", new EnemyCreator());
 
     m_pGameStateMachine = new GameStateMachine();
     m_pGameStateMachine->changeState(new MenuState());

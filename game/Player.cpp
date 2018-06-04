@@ -4,6 +4,7 @@
 #include "sdl/InputHandler.h"
 #include "base/BulletHandler.h"
 #include "Game.h"
+#include "ServiceLocator.h"
 
 void Player::update() {
     m_velocity.x = 0;
@@ -27,7 +28,7 @@ void Player::update() {
     }
 
     if (handler.isKeyDown(SDL_SCANCODE_SPACE)) {
-        BulletHandler::Instance().playerShoots(static_cast<int>(m_position.x), static_cast<int>(m_position.y));
+        ServiceLocator::bulletHandler()->playerShoots(static_cast<int>(m_position.x), static_cast<int>(m_position.y));
     }
 
     vec2 updatedPosition = m_position + m_velocity;

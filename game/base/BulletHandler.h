@@ -16,6 +16,12 @@ private:
 
 public:
 
+    ~BulletHandler() {
+        for (auto bullet : bullets) {
+            delete bullet;
+        }
+    }
+
     void playerShoots(int x, int y);
 
     void enemyShoots(int x, int y);
@@ -23,17 +29,6 @@ public:
     void update();
 
     void render();
-
-    ~BulletHandler() {
-        for(auto bullet : bullets) {
-            delete bullet;
-        }
-    }
-
-    static BulletHandler &Instance() {
-        static BulletHandler instance;
-        return instance;
-    }
 };
 
 

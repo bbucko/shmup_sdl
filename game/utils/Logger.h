@@ -7,6 +7,9 @@
 #define __FILENAME__ __FILE__
 #endif
 
+#include <iostream>
+#include <string>
+
 #define LOG_INFO(msg) \
     std::cout << "" << "[" << __FILENAME__ << ":" <<  __LINE__ << "] " << msg << std::endl
 

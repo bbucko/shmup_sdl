@@ -20,8 +20,8 @@ public:
 
     void render();
 
-    ~GameStateMachine(){
-        for(auto gameState :m_gameStates) {
+    ~GameStateMachine() {
+        for (auto gameState :m_gameStates) {
             delete gameState;
         }
     }

@@ -1,6 +1,7 @@
 #include <TextureManager.h>
+#include <ServiceLocator.h>
 #include "GameState.h"
-#include "Logger.h"
+#include "utils/Logger.h"
 #include "StateParser.h"
 
 void GameState::render() {
@@ -30,7 +31,7 @@ bool GameState::onExit() {
     m_objects.clear();
 
     for (auto textureId : m_textureIds) {
-        TextureManager::Instance().clear(textureId);
+        ServiceLocator::textureManager()->clear(textureId);
     }
     m_textureIds.clear();
     return true;

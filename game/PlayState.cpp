@@ -1,5 +1,5 @@
 #include "PlayState.h"
-
+#include "ServiceLocator.h"
 #include <TextureManager.h>
 #include <Game.h>
 #include <base/BulletHandler.h>
@@ -7,7 +7,7 @@
 void PlayState::update() {
     GameState::update();
 
-    BulletHandler::Instance().update();
+    ServiceLocator::bulletHandler()->update();
 
     calculateCollisions();
 }
@@ -15,13 +15,14 @@ void PlayState::update() {
 void PlayState::render() {
     GameState::render();
 
-    BulletHandler::Instance().render();
+    ServiceLocator::bulletHandler()->render();
 }
 
 bool PlayState::onEnter() {
     GameState::onEnter();
 
     SDL_SetRenderDrawColor(Game::Instance().getRenderer(), 0, 67, 170, 255);
+
     return true;
 }
 

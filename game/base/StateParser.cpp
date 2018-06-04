@@ -2,8 +2,9 @@
 #include <TextureManager.h>
 #include <Game.h>
 #include <memory>
+#include <ServiceLocator.h>
 #include "StateParser.h"
-#include "StringUtils.h"
+#include "utils/StringUtils.h"
 
 using namespace tinyxml2;
 
@@ -57,7 +58,7 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
             }
 
             if (!filename.empty() && !id.empty()) {
-                TextureManager::Instance().load(filename, id, Game::Instance().getRenderer());
+                ServiceLocator::textureManager()->load(filename, id, Game::Instance().getRenderer());
                 pTextureIDs->push_back(id);
             } else {
                 LOG_ERROR("Invalid XML with textures. Filename: " << filename << " ID: " << id);
@@ -85,7 +86,7 @@ void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<G
             }
 
             if (!textureID.empty() && !type.empty()) {
-                auto pGameObject = GameObjectFactory::Instance().create(type);
+                auto pGameObject = ServiceLocator::gameObjectFactory()->create(type);
                 auto loaderParams = std::make_shared<LoaderParams>(x, y, width, height, numFrames, textureID, callbackID);
                 pGameObject->load(loaderParams.get());
 

@@ -1,5 +1,5 @@
 #include "GameObjectFactory.h"
-#include "Logger.h"
+#include "utils/Logger.h"
 
 bool GameObjectFactory::registerType(std::string typeID, BaseCreator *pCreator) {
     auto it = m_creators.find(typeID);

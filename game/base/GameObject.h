@@ -5,9 +5,6 @@
 
 class GameObject {
 
-protected:
-    const LoaderParams *m_pParams;
-
 public:
 
     virtual void draw() = 0;

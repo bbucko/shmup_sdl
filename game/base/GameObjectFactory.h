@@ -1,8 +1,8 @@
 #ifndef SHMUP_OBJECTFACTORY_H
 #define SHMUP_OBJECTFACTORY_H
 
-#include <map>
 #include "GameObject.h"
+#include <map>
 
 class BaseCreator {
 public:
@@ -15,16 +15,11 @@ public:
 class GameObjectFactory {
 public:
 
-    bool registerType(std::string typeID, BaseCreator *pCreator);
+    virtual bool registerType(std::string typeID, BaseCreator *pCreator);
 
-    GameObject *create(std::string typeID);
+    virtual GameObject *create(std::string typeID);
 
-    static GameObjectFactory &Instance() {
-        static GameObjectFactory instance;
-        return instance;
-    }
-
-    ~GameObjectFactory() {
+    virtual ~GameObjectFactory() {
         auto i = std::begin(m_creators);
         while (i != std::end(m_creators)) {
             delete (*i).second;
@@ -33,7 +28,6 @@ public:
     }
 
 private:
-
     std::map<std::string, BaseCreator *> m_creators;
 };
 

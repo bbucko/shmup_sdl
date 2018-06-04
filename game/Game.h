@@ -3,7 +3,7 @@
 
 #include "base/GameStateMachine.h"
 #include "base/GameObject.h"
-#include "base/Logger.h"
+#include "utils/Logger.h"
 
 #include <vector>
 #include <SDL.h>

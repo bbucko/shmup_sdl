@@ -1,7 +1,7 @@
-#include <Bullet.h>
-#include "BulletHandler.h"
-#include "Logger.h"
 #include <memory>
+#include "Bullet.h"
+#include "BulletHandler.h"
+#include "utils/Logger.h"
 
 void BulletHandler::playerShoots(int x, int y) {
     auto now = std::chrono::system_clock::now();

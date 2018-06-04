@@ -2,8 +2,8 @@
 <STATES>
     <MENU>
         <TEXTURES>
-            <texture filename="/tmp/shmup_tests/bullet.png" ID="texture1"/>
-            <texture filename="/tmp/shmup_tests/bullet.png" ID="texture2"/>
+            <texture filename="sample1.png" ID="texture1"/>
+            <texture filename="sample2.png" ID="texture2"/>
         </TEXTURES>
 
         <OBJECTS>

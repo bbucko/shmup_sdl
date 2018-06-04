@@ -4,5 +4,5 @@ add_executable(shmup_tests StateParserTest.cpp)
 
 add_dependencies(shmup_tests test_assets)
 
-target_link_libraries(shmup_tests gtest gtest_main)
+target_link_libraries(shmup_tests gtest gmock gtest_main)
 target_link_libraries(shmup_tests game)
