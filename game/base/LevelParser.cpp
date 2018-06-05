@@ -9,10 +9,11 @@ using namespace tinyxml2;
 
 Level *LevelParser::parseLevel(const char *levelFile) {
     LOG_INFO("Load level " << levelFile);
-    auto filename = new char[sizeof(levelFile)];
+    auto filename = new char[strlen(levelFile) + 1];
+
     strcpy(filename, levelFile);
+
     m_dir = dirname(filename);
-    delete[] filename;
 
     XMLDocument doc;
     auto result = doc.LoadFile(levelFile);
@@ -39,7 +40,7 @@ Level *LevelParser::parseLevel(const char *levelFile) {
             return pLevel;
         }
     }
-
+    delete[] filename;
     return nullptr;
 }
 
