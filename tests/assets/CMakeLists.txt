@@ -1,4 +1,4 @@
-file(GLOB test_assets "*.png" "*.jpg" "*.xml")
+file(GLOB test_assets "*.png" "*.jpg" "*.xml" "*.tsx" "*.tmx")
 
 foreach (resource IN LISTS test_assets)
     get_filename_component(FILE_NAME ${resource} NAME)
