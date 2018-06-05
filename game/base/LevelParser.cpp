@@ -5,13 +5,13 @@
 #include "TileLayer.h"
 #include <libgen.h>
 
-
 using namespace tinyxml2;
 
 Level *LevelParser::parseLevel(const char *levelFile) {
     LOG_INFO("Load level " << levelFile);
-
-    m_dir = dirname(const_cast<char *>(levelFile));
+    auto filename = new char[sizeof(levelFile)];
+    strcpy(filename, levelFile);
+    m_dir = dirname(filename);
 
     XMLDocument doc;
     auto result = doc.LoadFile(levelFile);
@@ -27,7 +27,8 @@ Level *LevelParser::parseLevel(const char *levelFile) {
                 if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { m_height = a->IntValue(); }
             }
 
-            for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+            for (auto *pElementRoot = pRoot->FirstChildElement();
+                 pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
                 auto elementValue = std::string(pElementRoot->Value());
                 if (StringUtils::equalsIgnoreCase(elementValue, "tileset")) {
                     parseTilesets(pElementRoot, pLevel->getTilesets());
@@ -64,15 +65,14 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *
         }
 
         if (!name.empty()) {
-            for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+            for (auto *pElementRoot = pRoot->FirstChildElement();
+                 pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
                 auto elementValue = std::string(pElementRoot->Value());
                 if (StringUtils::equalsIgnoreCase(elementValue, "image")) {
                     for (auto a = pTilesetRoot->FirstAttribute(); a; a = a->Next()) {
                         if (StringUtils::equalsIgnoreCase(a->Name(), "source")) {
                             auto filename = std::string(m_dir) + "/" + a->Value();
                             ServiceLocator::textureManager()->load(filename, name, ServiceLocator::renderer());
-
-
 
 
                         }
@@ -84,7 +84,8 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *
     }
 }
 
-void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> *pLayers, const std::vector<Tileset> *pTilesets) {
+void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> *pLayers,
+                                 const std::vector<Tileset> *pTilesets) {
     std::string name;
     int width, height;
     for (auto a = pTileElement->FirstAttribute(); a; a = a->Next()) {
