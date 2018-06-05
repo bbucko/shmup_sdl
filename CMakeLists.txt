@@ -21,7 +21,7 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(glm REQUIRED)
 find_package(TinyXML2 REQUIRED)
-find_package(zlib REQUIRED)
+find_package(ZLIB REQUIRED)
 
 include_directories(game)
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIR} ${TINYXML2_INCLUDE_DIR} ${ZLIB_INCLUDE_DIRS})
