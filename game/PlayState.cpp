@@ -1,7 +1,7 @@
 #include "PlayState.h"
 #include "ServiceLocator.h"
 #include <Game.h>
-#include <base/BulletHandler.h>
+#include <base/LevelParser.h>
 
 void PlayState::update() {
     GameState::update();
@@ -19,6 +19,7 @@ void PlayState::render() {
 
 bool PlayState::onEnter() {
     GameState::onEnter();
+    LevelParser::Instance().parseLevel("");
 
     SDL_SetRenderDrawColor(ServiceLocator::renderer(), 0, 67, 170, 255);
 

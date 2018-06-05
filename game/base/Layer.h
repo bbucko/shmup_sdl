@@ -1,6 +1,8 @@
 #ifndef SHMUP_LAYER_CPP_H
 #define SHMUP_LAYER_CPP_H
 
+#include <vector>
+
 class Layer {
 public:
 
@@ -10,7 +12,7 @@ public:
 
 protected:
 
-    virtual ~Layer() {}
+    virtual ~Layer() = default;
 
 private:
     std::vector<Layer*> m_layers;

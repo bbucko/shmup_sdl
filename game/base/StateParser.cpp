@@ -1,7 +1,7 @@
+#include <memory>
+
 #include <Player.h>
 #include <TextureManager.h>
-#include <Game.h>
-#include <memory>
 #include <ServiceLocator.h>
 #include "StateParser.h"
 #include "utils/StringUtils.h"
@@ -10,18 +10,18 @@ using namespace tinyxml2;
 
 bool StateParser::parseState(const char *stateFile, std::string stateID, std::vector<GameObject *> *pObjects, std::vector<std::string> *pTextureIDs) {
     XMLDocument doc;
-    XMLError result = doc.LoadFile(stateFile);
+    auto result = doc.LoadFile(stateFile);
 
     if (result == XML_SUCCESS) {
-        XMLElement *pRoot = doc.RootElement();
+        auto *pRoot = doc.RootElement();
 
         if (StringUtils::equalsIgnoreCase(pRoot->Value(), "states")) {
-            for (XMLElement *pStateRoot = pRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
+            for (auto *pStateRoot = pRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
                 auto stateName = std::string(pStateRoot->Value());
                 if (StringUtils::equalsIgnoreCase(stateName, stateID)) {
                     LOG_INFO("Parsing state: " << stateName);
 
-                    for (XMLElement *pElementRoot = pStateRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+                    for (auto *pElementRoot = pStateRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
                         auto elementValue = std::string(pElementRoot->Value());
                         if (StringUtils::equalsIgnoreCase(elementValue, "textures")) {
                             parseTextures(pElementRoot, pTextureIDs);
@@ -43,11 +43,11 @@ bool StateParser::parseState(const char *stateFile, std::string stateID, std::ve
 
 void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<std::string> *pTextureIDs) {
     LOG_INFO("Parsing textures: " << pElementRoot->Value());
-    for (const XMLElement *pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
+    for (auto pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
         if (StringUtils::equalsIgnoreCase(pStateRoot->Value(), "texture")) {
             std::string filename, id;
 
-            for (const XMLAttribute *a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
+            for (auto a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
                 if (StringUtils::equalsIgnoreCase(a->Name(), "filename")) {
                     filename = a->Value();
                 }
@@ -70,11 +70,11 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
 
 void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<GameObject *> *pObjects) {
     LOG_INFO("Parsing objects: " << pElementRoot->Value());
-    for (XMLElement *pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
+    for (auto pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
         if (StringUtils::equalsIgnoreCase(pStateRoot->Value(), "object")) {
             int x = 0, y = 0, width = 0, height = 0, numFrames = 0, callbackID = 0;
             std::string textureID, type;
-            for (const XMLAttribute *a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
+            for (auto a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
                 if (StringUtils::equalsIgnoreCase(a->Name(), "textureID")) { textureID = a->Value(); }
                 if (StringUtils::equalsIgnoreCase(a->Name(), "type")) { type = a->Value(); }
                 if (StringUtils::equalsIgnoreCase(a->Name(), "x")) { x = a->IntValue(); }

@@ -40,3 +40,9 @@ void BulletHandler::update() {
         }
     }
 }
+
+BulletHandler::~BulletHandler() {
+    for (auto bullet : bullets) {
+        delete bullet;
+    }
+}

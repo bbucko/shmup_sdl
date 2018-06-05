@@ -9,6 +9,8 @@
 #include <SDL.h>
 #include <sdl/SDLGameObject.h>
 
+typedef SDL_Renderer Renderer;
+
 class Game {
 public:
 

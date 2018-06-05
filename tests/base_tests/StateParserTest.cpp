@@ -1,8 +1,9 @@
+#include <ServiceLocator.h>
+#include <utils/Logger.h>
 #include <base/StateParser.h>
 #include <base/GameObjectFactory.h>
-#include <utils/Logger.h>
-#include <ServiceLocator.h>
 
+#include "gtest/gtest.h"
 #include "mocks/Mocks.h"
 
 namespace {
@@ -27,8 +28,6 @@ namespace {
         NiceMock<mocks::GameObjectFactoryMock> factory;
     protected:
         virtual void TearDown() {
-            LOG_INFO("teardown");
-
             objects.clear();
             textureIds.clear();
 

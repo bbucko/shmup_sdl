@@ -20,3 +20,12 @@ void Level::clean() {
 void Level::load(const LoaderParams *pParams) {
     LOG_INFO("abc" << pParams);
 }
+
+std::vector<Tileset> *Level::getTilesets() {
+    return &m_tilesets;
+}
+
+
+std::vector<Layer *> *Level::getLayers() {
+    return &m_layers;
+}

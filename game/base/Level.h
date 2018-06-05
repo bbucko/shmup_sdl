@@ -18,20 +18,29 @@ struct Tileset {
     std::string name;
 };
 
-class Level : public SDLGameObject {
+class Level {
 public:
-    void draw() override;
+    void draw();
 
-    void update() override;
+    void update();
 
-    void clean() override;
+    void clean();
 
-    void load(const LoaderParams *pParams) override;
+    void load(const LoaderParams *pParams);
+
+    std::vector<Tileset> *getTilesets();
+
+    std::vector<Layer *> *getLayers();
 
 private:
-    std::vector<Tileset> m_tilesets;
-    std::vector<Layer *> m_layers;
 
+    friend class LevelParser;
+
+    Level() = default;
+
+    std::vector<Tileset> m_tilesets;
+
+    std::vector<Layer *> m_layers;
 };
 
 

@@ -1,11 +1,10 @@
 #ifndef SHMUP_SERVICELOCATOR_H
 #define SHMUP_SERVICELOCATOR_H
 
+#include "Game.h"
 #include <base/GameObjectFactory.h>
 #include "base/BulletHandler.h"
 #include "TextureManager.h"
-
-typedef SDL_Renderer Renderer;
 
 class ServiceLocator {
 

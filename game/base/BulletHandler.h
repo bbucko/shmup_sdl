@@ -16,11 +16,7 @@ private:
 
 public:
 
-    ~BulletHandler() {
-        for (auto bullet : bullets) {
-            delete bullet;
-        }
-    }
+    ~BulletHandler();
 
     void playerShoots(int x, int y);
 
