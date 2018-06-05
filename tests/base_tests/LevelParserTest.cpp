@@ -28,7 +28,7 @@ namespace {
         }
     };
 
-    TEST_F(LevelParserTest, ParserTest) {
+    TEST_F(LevelParserTest, SingleLayerAndTileset) {
         EXPECT_CALL(manager, load("/tmp/shmup_tests/tiles.png", "tiles", _))
                 .WillOnce(Return(true));
 

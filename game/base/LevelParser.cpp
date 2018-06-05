@@ -1,9 +1,14 @@
+#include "LevelParser.h"
+
 #include <utils/Logger.h>
 #include <utils/StringUtils.h>
+#include <utils/Base64.h>
 #include <ServiceLocator.h>
-#include "LevelParser.h"
-#include "TileLayer.h"
 #include <libgen.h>
+#include <zconf.h>
+#include <zlib.h>
+
+#include "TileLayer.h"
 
 using namespace tinyxml2;
 
@@ -84,7 +89,6 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *
                 }
             }
 
-
             LOG_INFO("Done creating tileset: " << tileset.name);
             pTilesets->push_back(tileset);
         }
@@ -100,6 +104,51 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> 
         if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { m_height = a->IntValue(); }
     }
 
-    auto pTileLayer = new TileLayer(m_tileSize, *pTilesets);
-    pLayers->push_back(pTileLayer);
+    for (auto *pElementRoot = pTileElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+        auto elementValue = std::string(pElementRoot->Value());
+        if (StringUtils::equalsIgnoreCase(elementValue, "data")) {
+            std::string encoding, compression;
+
+            for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
+                if (StringUtils::equalsIgnoreCase(a->Name(), "encoding")) { encoding = a->Value(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "compression")) { compression = a->Value(); }
+            }
+
+            std::string encodedIDs = pElementRoot->FirstChild()->Value();
+            std::string decodedIDs = base64_decode(StringUtils::trim(encodedIDs));
+
+            auto data = prepareData();
+            auto ids = prepareIds(decodedIDs);
+
+            copyIdsToVector(data, ids);
+
+            pLayers->push_back(new TileLayer(m_tileSize, *pTilesets, data));
+        }
+    }
+}
+
+std::vector<unsigned> LevelParser::prepareIds(const std::string &decodedIDs) const {
+    uLongf numberOfIds = m_width * m_height * sizeof(int);
+    std::vector<unsigned> ids(numberOfIds);
+
+    uncompress((Bytef *) &ids[0], &numberOfIds, (const Bytef *) decodedIDs.c_str(), decodedIDs.size());
+    return ids;
+}
+
+void LevelParser::copyIdsToVector(std::vector<std::vector<int>> &data, const std::vector<unsigned int> &gids) const {
+    for (int rows = 0; rows < m_height; rows++) {
+        for (int cols = 0; cols < m_width; cols++) {
+            data[rows][cols] = gids[rows * m_width + cols];
+        }
+    }
+}
+
+std::vector<std::vector<int>> LevelParser::prepareData() const {
+    std::vector<std::vector<int>> data;
+
+    std::vector<int> layerRow(static_cast<unsigned long>(m_width));
+    for (int j = 0; j < m_height; j++) {
+        data.push_back(layerRow);
+    }
+    return data;
 }

@@ -2,8 +2,6 @@
 #define SHMUP_LEVEL_H
 
 #include <sdl/SDLGameObject.h>
-#include <vector>
-#include "GameObject.h"
 #include "Layer.h"
 
 struct Tileset {
