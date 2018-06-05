@@ -12,6 +12,7 @@ Level *LevelParser::parseLevel(const char *levelFile) {
     auto filename = new char[sizeof(levelFile)];
     strcpy(filename, levelFile);
     m_dir = dirname(filename);
+    delete[] filename;
 
     XMLDocument doc;
     auto result = doc.LoadFile(levelFile);
@@ -27,8 +28,7 @@ Level *LevelParser::parseLevel(const char *levelFile) {
                 if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { m_height = a->IntValue(); }
             }
 
-            for (auto *pElementRoot = pRoot->FirstChildElement();
-                 pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+            for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
                 auto elementValue = std::string(pElementRoot->Value());
                 if (StringUtils::equalsIgnoreCase(elementValue, "tileset")) {
                     parseTilesets(pElementRoot, pLevel->getTilesets());
@@ -65,8 +65,7 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *
         }
 
         if (!name.empty()) {
-            for (auto *pElementRoot = pRoot->FirstChildElement();
-                 pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+            for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
                 auto elementValue = std::string(pElementRoot->Value());
                 if (StringUtils::equalsIgnoreCase(elementValue, "image")) {
                     for (auto a = pTilesetRoot->FirstAttribute(); a; a = a->Next()) {
@@ -94,6 +93,6 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> 
         if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { height = a->IntValue(); }
     }
 
-    TileLayer *pTileLayer = new TileLayer(m_tileSize, *pTilesets);
+    auto pTileLayer = new TileLayer(m_tileSize, *pTilesets);
     pLayers->push_back(pTileLayer);
 }
