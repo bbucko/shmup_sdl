@@ -11,22 +11,31 @@ TileLayer::TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::ve
     m_numColumns = static_cast<int>(dimensions.x / m_tileSize);
     m_numRows = static_cast<int>(dimensions.y / m_tileSize);
 
+    m_velocity = vec2(0, 1);
+
     LOG_INFO("numColumns: " << m_numColumns << " numRows: " << m_numRows);
 }
 
 void TileLayer::render() {
-    int x, y, x2, y2 = 0;
+    int x, y, xFraction, yFraction = 0;
 
     x = static_cast<int>(m_position.x / m_tileSize);
     y = static_cast<int>(m_position.y / m_tileSize);
 
-    x2 = static_cast<int>(m_position.x) % m_tileSize;
-    y2 = static_cast<int>(m_position.y) % m_tileSize;
+
+    xFraction = static_cast<int>(m_position.x) % m_tileSize;
+    yFraction = static_cast<int>(m_position.y) % m_tileSize;
+    LOG_INFO("x: " << x << " y: " << y << " :: xFraction: " << xFraction << " yFraction: " << yFraction);
 
     for (int i = 0; i < m_numRows; i++) {
         for (int j = 0; j < m_numColumns; j++) {
-            std::vector<int> &row = m_tileIDs.at(i);
-            int id = row.at(static_cast<unsigned long>(j + x));
+            int row = i;
+            int col = j + x;
+
+//            LOG_INFO("row: " << row << " col: " << col);
+            auto ids = m_tileIDs.at(row);
+
+            int id = ids.at(static_cast<unsigned long>(col));
 
             if (id == 0) {
                 continue;
@@ -36,7 +45,7 @@ void TileLayer::render() {
 
             id--;
 
-            drawTile(tileset, (j * m_tileSize) - x2, (i * m_tileSize) - y2,
+            drawTile(tileset, (j * m_tileSize) - xFraction, (i * m_tileSize) - yFraction,
                      (id - (tileset.firstGridID - 1)) / tileset.numColumns,
                      (id - (tileset.firstGridID - 1)) % tileset.numColumns);
         }
@@ -49,6 +58,7 @@ void TileLayer::drawTile(const Tileset &tileset, int x, int y, int row, int fram
 
 void TileLayer::update() {
     m_position += m_velocity;
+    m_velocity.y = 1;
 }
 
 Tileset TileLayer::getTilesetByID(int tileID) {
@@ -64,7 +74,7 @@ Tileset TileLayer::getTilesetByID(int tileID) {
     }
 
     LOG_INFO("did not find tileset, returning empty tileset");
-    Tileset t;
+    Tileset t = {};
     return t;
 }
 

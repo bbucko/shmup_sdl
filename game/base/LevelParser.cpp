@@ -106,8 +106,8 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
 }
 
 void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
-    std::vector<Layer *> *pLayers = &pLevel->m_layers;
-    const std::vector<Tileset> *pTilesets = &pLevel->m_tilesets;
+    auto pLayers = &pLevel->m_layers;
+    auto pTilesets = &pLevel->m_tilesets;
     std::string name;
 
     for (auto a = pTileElement->FirstAttribute(); a; a = a->Next()) {
