@@ -13,14 +13,17 @@ public:
 
     void update() override;
 
-    Tileset getTilesetByID(int id);
-
 private:
 
-    int m_numColumns;
-    int m_numRows;
+    Tileset getTilesetByID(int id);
 
+    void drawTile(const Tileset &tileset, int x1, int y3, int row, int frame) const;
+
+    int m_numColumns;
+
+    int m_numRows;
     int m_tileSize;
+
     vec2 m_position;
 
     vec2 m_velocity;
@@ -28,8 +31,6 @@ private:
     const std::vector<Tileset> &m_tilesets;
 
     std::vector<std::vector<int>> m_tileIDs;
-
-    void drawTile(const Tileset &tileset, int x1, int y3, int row, int frame) const;
 };
 
 

@@ -2,8 +2,9 @@
 #include <ServiceLocator.h>
 #include "TileLayer.h"
 
+
 TileLayer::TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs)
-        : m_tileSize(tileSize), m_position(0, 0), m_velocity(0, 0), m_tilesets(tilesets), m_tileIDs(std::move(tileIDs)) {
+        : m_tileSize(tileSize), m_position(0, 0), m_velocity(0, 0), m_tilesets(tilesets), m_tileIDs(tileIDs) {
     LOG_INFO("Data: " << m_tileIDs.size());
     const vec2 &dimensions = Game::Instance().getDimensions();
 

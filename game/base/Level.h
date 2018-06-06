@@ -5,19 +5,19 @@
 #include "Layer.h"
 
 struct Tileset {
-    std::string name;
     int firstGridID;
-
     int tileWidth;
+
     int tileHeight;
-
     int spacing;
+
     int margin;
-
     int width;
-    int height;
 
+    int height;
     int numColumns;
+
+    std::string name;
 };
 
 class Level {

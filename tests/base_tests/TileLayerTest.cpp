@@ -35,7 +35,7 @@ namespace {
         tileIds[1] = {1, 0};
 
         std::vector<Tileset> tilesets = std::vector<Tileset>(1);
-        tilesets[0] = Tileset{"tile1", 1, 64, 64, 1, 1, 3, 3, 3};
+        tilesets[0] = Tileset{1, 64, 64, 1, 1, 3, 3, 3, "tile1"};
 
         auto tileLayer = new TileLayer(32, tilesets, tileIds);
         tileLayer->update();
@@ -51,7 +51,7 @@ namespace {
         tileIds[1] = {1, 0};
 
         std::vector<Tileset> tilesets = std::vector<Tileset>(1);
-        tilesets[0] = Tileset{"tile1", 1, 64, 64, 1, 1, 3, 3, 3};
+        tilesets[0] = Tileset{1, 64, 64, 1, 1, 3, 3, 3, "tile1"};
 
         auto tileLayer = new TileLayer(32, tilesets, tileIds);
         tileLayer->render();

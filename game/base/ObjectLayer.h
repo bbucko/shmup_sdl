@@ -7,7 +7,10 @@
 #include "Layer.h"
 
 class ObjectLayer : public Layer {
+public:
+    void render() override;
 
+    void update() override;
 };
 
 

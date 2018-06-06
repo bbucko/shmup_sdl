@@ -13,16 +13,20 @@ private:
 
     int m_height;
 
-    const char * m_dir;
+    const char *m_dir;
 
     LevelParser() = default;
 
     ~LevelParser() = default;
 
-    void parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *pTilesets);
+    void parseTilesets(XMLElement *pTilesetRoot, Level *pLevel);
 
-    void parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> *pLayers, const std::vector<Tileset> *pTilesets);
+    void parseTileLayer(XMLElement *pTilesetRoot, Level *pLevel);
+
+    void parseObjects(XMLElement *pTilesetRoot, Level *pLevel);
+
     void copyIdsToVector(std::vector<std::vector<int>> &data, const std::vector<unsigned int> &gids) const;
+
 public:
 
     static LevelParser &Instance() {
@@ -35,6 +39,14 @@ public:
     std::vector<std::vector<int>> prepareData() const;
 
     std::vector<unsigned> prepareIds(const std::string &decodedIDs) const;
+
+    void attributeToInt(const XMLAttribute *a, const char *attrName, int *attr) const;
+
+    void attributeToString(const XMLAttribute *a, const char *attrName, std::string *attr) const;
+
+    void processElement(XMLElement *pElementRoot, std::string elementValue, Level *pLevel, void (LevelParser::*fn)(XMLElement *, Level *));
+
+    XMLError loadRootXML(const char *levelFile, XMLDocument &doc);
 };
 
 

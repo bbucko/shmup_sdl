@@ -14,14 +14,10 @@ using namespace tinyxml2;
 
 Level *LevelParser::parseLevel(const char *levelFile) {
     LOG_INFO("Load level " << levelFile);
-    auto filename = new char[strlen(levelFile) + 1];
-
-    strcpy(filename, levelFile);
-
-    m_dir = dirname(filename);
 
     XMLDocument doc;
-    auto result = doc.LoadFile(levelFile);
+
+    XMLError result = loadRootXML(levelFile, doc);
 
     if (result == XML_SUCCESS) {
         auto pRoot = doc.RootElement();
@@ -29,34 +25,47 @@ Level *LevelParser::parseLevel(const char *levelFile) {
             auto pLevel = new Level();
 
             for (auto a = pRoot->FirstAttribute(); a; a = a->Next()) {
-                if (StringUtils::equalsIgnoreCase(a->Name(), "tilewidth")) { m_tileSize = a->IntValue(); }
-                if (StringUtils::equalsIgnoreCase(a->Name(), "width")) { m_width = a->IntValue(); }
-                if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { m_height = a->IntValue(); }
+                attributeToInt(a, "tilewidth", &m_tileSize);
+                attributeToInt(a, "width", &m_width);
+                attributeToInt(a, "height", &m_height);
             }
 
             for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
-                auto elementValue = std::string(pElementRoot->Value());
-                if (StringUtils::equalsIgnoreCase(elementValue, "tileset")) {
-                    parseTilesets(pElementRoot, pLevel->getTilesets());
-                } else if (StringUtils::equalsIgnoreCase(elementValue, "layer")) {
-                    parseTileLayer(pElementRoot, pLevel->getLayers(), pLevel->getTilesets());
-                }
+                processElement(pElementRoot, "tileset", pLevel, &LevelParser::parseTilesets);
+                processElement(pElementRoot, "layer", pLevel, &LevelParser::parseTileLayer);
+                processElement(pElementRoot, "objectgroups", pLevel, &LevelParser::parseObjects);
             }
-            delete[] filename;
             return pLevel;
         }
     }
-    delete[] filename;
     return nullptr;
 }
 
-void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *pTilesets) {
+XMLError LevelParser::loadRootXML(const char *levelFile, XMLDocument &doc) {
+    auto filename = new char[strlen(levelFile) + 1];
+//    char filename[strlen(levelFile) + 1];
+    strcpy(filename, levelFile);
+    auto result = doc.LoadFile(levelFile);
+    m_dir = dirname(filename);
+    delete[] filename;
+    return result;
+}
+
+void LevelParser::processElement(XMLElement *pElementRoot, std::string elementValue, Level *pLevel, void (LevelParser::*fn)(XMLElement *, Level *)) {
+    if (StringUtils::equalsIgnoreCase(pElementRoot->Name(), elementValue)) {
+        (this->*fn)(pElementRoot, pLevel);
+    }
+}
+
+void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
+    std::vector<Tileset> *pTilesets = pLevel->getTilesets();
     std::string source;
     Tileset tileset{};
 
     for (auto a = pTilesetRoot->FirstAttribute(); a; a = a->Next()) {
+        attributeToInt(a, "firstgid", &tileset.firstGridID);
+
         if (StringUtils::equalsIgnoreCase(a->Name(), "source")) { source = std::string(m_dir) + "/" + a->Value(); }
-        if (StringUtils::equalsIgnoreCase(a->Name(), "firstgid")) { tileset.firstGridID = a->IntValue(); }
     }
 
     XMLDocument doc;
@@ -66,12 +75,12 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *
         auto pRoot = doc.RootElement();
 
         for (auto a = pRoot->FirstAttribute(); a; a = a->Next()) {
-            if (StringUtils::equalsIgnoreCase(a->Name(), "name")) { tileset.name = a->Value(); }
-            if (StringUtils::equalsIgnoreCase(a->Name(), "tilewidth")) { tileset.tileWidth = a->IntValue(); }
-            if (StringUtils::equalsIgnoreCase(a->Name(), "tileheight")) { tileset.tileHeight = a->IntValue(); }
-            if (StringUtils::equalsIgnoreCase(a->Name(), "spacing")) { tileset.spacing = a->IntValue(); }
-            if (StringUtils::equalsIgnoreCase(a->Name(), "margin")) { tileset.margin = a->IntValue(); }
-            if (StringUtils::equalsIgnoreCase(a->Name(), "columns")) { tileset.numColumns = a->IntValue(); }
+            attributeToString(a, "name", &tileset.name);
+            attributeToInt(a, "tilewidth", &tileset.tileWidth);
+            attributeToInt(a, "tileheight", &tileset.tileHeight);
+            attributeToInt(a, "spacing", &tileset.spacing);
+            attributeToInt(a, "margin", &tileset.margin);
+            attributeToInt(a, "columns", &tileset.numColumns);
         }
 
         for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
@@ -96,13 +105,15 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, std::vector<Tileset> *
     }
 }
 
-void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> *pLayers, const std::vector<Tileset> *pTilesets) {
+void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
+    std::vector<Layer *> *pLayers = &pLevel->m_layers;
+    const std::vector<Tileset> *pTilesets = &pLevel->m_tilesets;
     std::string name;
 
     for (auto a = pTileElement->FirstAttribute(); a; a = a->Next()) {
-        if (StringUtils::equalsIgnoreCase(a->Name(), "name")) { name = a->Value(); }
-        if (StringUtils::equalsIgnoreCase(a->Name(), "width")) { m_width = a->IntValue(); }
-        if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { m_height = a->IntValue(); }
+        attributeToString(a, "name", &name);
+        attributeToInt(a, "width", &m_width);
+        attributeToInt(a, "height", &m_height);
     }
 
     for (auto *pElementRoot = pTileElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
@@ -111,8 +122,8 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> 
             std::string encoding, compression;
 
             for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
-                if (StringUtils::equalsIgnoreCase(a->Name(), "encoding")) { encoding = a->Value(); }
-                if (StringUtils::equalsIgnoreCase(a->Name(), "compression")) { compression = a->Value(); }
+                attributeToString(a, "encoding", &encoding);
+                attributeToString(a, "compression", &compression);
             }
 
             std::string encodedIDs = pElementRoot->FirstChild()->Value();
@@ -123,16 +134,21 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> 
 
             copyIdsToVector(data, ids);
 
-            for(auto ids : data) {
-                for(auto id : ids) {
-                    if(id != 0)
-                        LOG_INFO("ID: " << id);
-                }
-            }
-
             pLayers->push_back(new TileLayer(m_tileSize, *pTilesets, data));
         }
     }
+}
+
+void LevelParser::parseObjects(XMLElement *pTilesetRoot, Level *pLevel) {
+
+}
+
+void LevelParser::attributeToInt(const XMLAttribute *a, const char *attrName, int *attr) const {
+    if (StringUtils::equalsIgnoreCase(a->Name(), attrName)) { *attr = a->IntValue(); }
+}
+
+void LevelParser::attributeToString(const XMLAttribute *a, const char *attrName, std::string *attr) const {
+    if (StringUtils::equalsIgnoreCase(a->Name(), attrName)) { *attr = a->Value(); }
 }
 
 std::vector<unsigned> LevelParser::prepareIds(const std::string &decodedIDs) const {
