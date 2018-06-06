@@ -11,4 +11,5 @@ GTEST_OUTPUT="xml:$TEST_REPORTS/" CTEST_OUTPUT_ON_FAILURE=TRUE make test
 echo "Gathering coverage"
 make coverage
 cd ..
-gcovr . --exclude tests
+gcovr -r . --exclude tests
+gcovr -r . --exclude tests --html --html-details -o $TEST_REPORTS/coverage.html

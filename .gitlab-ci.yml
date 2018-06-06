@@ -19,4 +19,4 @@ test:
     - .circleci/test.sh Debug
   artifacts:
     paths:
-      - /tmp/test-reports
+      - /tmp/test-reports/*
