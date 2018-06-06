@@ -1,0 +1,21 @@
+image: blejzu/gcc-cmake-sdl:latest
+
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
+
+build:
+  stage: build
+  script: 
+    - .circleci/build.sh Debug
+  artifacts:
+    paths:
+      - /tmp/test-reports
+  
+  cache:
+     paths:
+       - "build/**/**.o"
+
+test:
+  stage: test
+  script:
+    - .circle/test.sh
