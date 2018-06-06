@@ -1,6 +1,7 @@
 #ifndef SHMUP_INPUTHANDLER_H
 #define SHMUP_INPUTHANDLER_H
 
+#include <SDL.h>
 
 class InputHandler {
 

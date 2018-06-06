@@ -1,13 +1,15 @@
-#include "Game.h"
-
 #include <base/GameObjectFactory.h>
 #include <base/BulletHandler.h>
-#include "MenuState.h"
 #include "sdl/InputHandler.h"
+#include "ServiceLocator.h"
+#include "MenuState.h"
 #include "PlayState.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "ServiceLocator.h"
+#include "Game.h"
+
+#include <SDL_image.h>
+
 
 void Game::update() {
     m_pGameStateMachine->update();
