@@ -1,5 +1,6 @@
 
 
+#include <utils/Logger.h>
 #include "MenuButton.h"
 
 void MenuButton::draw() {

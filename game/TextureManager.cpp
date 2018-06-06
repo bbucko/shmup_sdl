@@ -1,5 +1,4 @@
 #include "TextureManager.h"
-#include "Game.h"
 
 #include <SDL_image.h>
 
@@ -52,3 +51,17 @@ void TextureManager::clear(std::string id) {
     SDL_DestroyTexture(texture);
     m_textureMap.erase(id);
 }
+
+void TextureManager::drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer) {
+    SDL_Rect srcRect;
+    SDL_Rect destRect;
+    srcRect.x = margin + (spacing + width) * currentFrame;
+    srcRect.y = margin + (spacing + height) * currentRow;
+    srcRect.w = destRect.w = width;
+    srcRect.h = destRect.h = height;
+    destRect.x = x;
+    destRect.y = y;
+
+    SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, SDL_FLIP_NONE);
+}
+

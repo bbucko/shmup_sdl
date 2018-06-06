@@ -1,7 +1,5 @@
 #include "Game.h"
 
-#include <SDL_image.h>
-#include <array>
 #include <base/GameObjectFactory.h>
 #include <base/BulletHandler.h>
 #include "MenuState.h"
@@ -90,6 +88,8 @@ void Game::handleEvents() {
 }
 
 vec2 Game::getDimensions() const {
+    if (m_pWindow == nullptr) return vec2(640, 480);
+
     int width;
     int height;
     SDL_GetWindowSize(m_pWindow, &width, &height);

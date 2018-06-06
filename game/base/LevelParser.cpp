@@ -42,6 +42,7 @@ Level *LevelParser::parseLevel(const char *levelFile) {
                     parseTileLayer(pElementRoot, pLevel->getLayers(), pLevel->getTilesets());
                 }
             }
+            delete[] filename;
             return pLevel;
         }
     }
@@ -121,6 +122,13 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, std::vector<Layer *> 
             auto ids = prepareIds(decodedIDs);
 
             copyIdsToVector(data, ids);
+
+            for(auto ids : data) {
+                for(auto id : ids) {
+                    if(id != 0)
+                        LOG_INFO("ID: " << id);
+                }
+            }
 
             pLayers->push_back(new TileLayer(m_tileSize, *pTilesets, data));
         }

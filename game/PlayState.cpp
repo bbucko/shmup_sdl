@@ -4,7 +4,8 @@
 #include <base/LevelParser.h>
 
 void PlayState::update() {
-    GameState::update();
+
+    pLevel->update();
 
     ServiceLocator::bulletHandler()->update();
 
@@ -12,14 +13,14 @@ void PlayState::update() {
 }
 
 void PlayState::render() {
-    GameState::render();
+    pLevel->render();
 
     ServiceLocator::bulletHandler()->render();
 }
 
 bool PlayState::onEnter() {
     GameState::onEnter();
-    LevelParser::Instance().parseLevel("");
+    pLevel = LevelParser::Instance().parseLevel("assets/map1.tmx");
 
     SDL_SetRenderDrawColor(ServiceLocator::renderer(), 0, 67, 170, 255);
 

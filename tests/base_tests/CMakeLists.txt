@@ -1,6 +1,6 @@
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(shmup_tests StateParserTest.cpp LevelParserTest.cpp)
+add_executable(shmup_tests StateParserTest.cpp LevelParserTest.cpp TileLayerTest.cpp)
 
 add_dependencies(shmup_tests test_assets)
 

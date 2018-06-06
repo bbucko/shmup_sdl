@@ -27,6 +27,8 @@ public:
             i = m_textureMap.erase(i);
         }
     };
+
+    virtual void drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer);
 };
 
 #endif //SHMUP_TEXTUREMANAGER_H

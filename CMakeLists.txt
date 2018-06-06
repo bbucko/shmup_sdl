@@ -16,7 +16,7 @@ if (UNIX AND NOT APPLE)
     APPEND_COVERAGE_COMPILER_FLAGS()
 #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -fsanitize=address -O1 -fno-omit-frame-pointer")
 elseif(APPLE)
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -O0")
 endif()
 
 #set(CMAKE_VERBOSE_MAKEFILE true)
@@ -39,10 +39,6 @@ add_executable(shmup main.cpp)
 add_dependencies(shmup assets)
 
 target_link_libraries(shmup game)
-
-if(APPLE)
-   cotire(shmup)
-endif()
 
 #Tests
 enable_testing()

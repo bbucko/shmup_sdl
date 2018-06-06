@@ -1,8 +1,5 @@
-
-
 #ifndef SHMUP_TILELAYER_H
 #define SHMUP_TILELAYER_H
-
 
 #include "Layer.h"
 #include "Level.h"
@@ -10,23 +7,29 @@
 class TileLayer : public Layer {
 public:
 
-    TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> vector);
+    TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs);
 
     void render() override;
 
     void update() override;
 
+    Tileset getTilesetByID(int id);
+
 private:
+
     int m_numColumns;
     int m_numRows;
-    int m_tileSize;
 
+    int m_tileSize;
     vec2 m_position;
+
     vec2 m_velocity;
 
     const std::vector<Tileset> &m_tilesets;
 
     std::vector<std::vector<int>> m_tileIDs;
+
+    void drawTile(const Tileset &tileset, int x1, int y3, int row, int frame) const;
 };
 
 

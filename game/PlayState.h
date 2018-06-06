@@ -4,6 +4,7 @@
 #include "base/GameState.h"
 #include "base/GameObject.h"
 #include <sdl/SDLGameObject.h>
+#include <base/Level.h>
 
 class PlayState : public GameState {
 public:
@@ -21,6 +22,8 @@ private:
     bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 
     void calculateCollisions();
+
+    Level *pLevel;
 };
 
 #endif //SHMUP_PLAYSTATE_H

@@ -1,7 +1,7 @@
 #include <utils/Logger.h>
 #include "Level.h"
 
-void Level::draw() {
+void Level::render() {
     for (auto layer : m_layers) {
         layer->render();
     }

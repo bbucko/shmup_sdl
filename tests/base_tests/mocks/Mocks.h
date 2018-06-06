@@ -13,6 +13,7 @@ namespace mocks {
     class TextureManagerMock : public TextureManager {
     public:
         MOCK_METHOD3(load, bool(std::string fileName, std::string id, SDL_Renderer * pRenderer));
+        MOCK_METHOD10(drawTile, void(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer));
     };
 
     class FakeObject : public SDLGameObject {

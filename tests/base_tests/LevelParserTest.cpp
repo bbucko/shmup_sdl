@@ -1,6 +1,7 @@
 #include <utils/Logger.h>
 #include <base/LevelParser.h>
 #include <ServiceLocator.h>
+#include <base/TileLayer.h>
 
 #include "gtest/gtest.h"
 #include "mocks/Mocks.h"
@@ -50,6 +51,8 @@ namespace {
 
         auto layers = pLevel->getLayers();
         EXPECT_EQ(layers->size(), 1);
+
+        auto *layer = dynamic_cast<TileLayer *>(layers->at(0));
     }
 
 }
