@@ -4,11 +4,9 @@
 #include <utils/StringUtils.h>
 #include <utils/Base64.h>
 #include <ServiceLocator.h>
-#include <libgen.h>
-#include <zconf.h>
-#include <zlib.h>
 
 #include "TileLayer.h"
+#include "ObjectLayer.h"
 
 using namespace tinyxml2;
 
@@ -33,7 +31,7 @@ Level *LevelParser::parseLevel(const char *levelFile) {
             for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
                 processElement(pElementRoot, "tileset", pLevel, &LevelParser::parseTilesets);
                 processElement(pElementRoot, "layer", pLevel, &LevelParser::parseTileLayer);
-                processElement(pElementRoot, "objectgroups", pLevel, &LevelParser::parseObjects);
+                processElement(pElementRoot, "objectgroup", pLevel, &LevelParser::parseObjectLayer);
             }
             return pLevel;
         }
@@ -41,9 +39,53 @@ Level *LevelParser::parseLevel(const char *levelFile) {
     return nullptr;
 }
 
+void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
+    LOG_INFO("Parsing object layer");
+    auto pObjectLayer = new ObjectLayer();
+    for (auto *pElementRoot = pObjectElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
+        std::string name, type;
+        int id, x, y;
+
+        for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
+            attributeToInt(a, "x", &x);
+            attributeToInt(a, "y", &y);
+            attributeToInt(a, "id", &id);
+            attributeToString(a, "name", &name);
+            attributeToString(a, "type", &type);
+        }
+
+        for (auto *pPropertiesRoot = pElementRoot->FirstChildElement(); pPropertiesRoot != nullptr; pPropertiesRoot = pPropertiesRoot->NextSiblingElement()) {
+            for (auto *pPropertyElement = pPropertiesRoot->FirstChildElement(); pPropertyElement != nullptr; pPropertyElement = pPropertyElement->NextSiblingElement()) {
+
+            }
+        }
+
+        auto pGameObject = ServiceLocator::gameObjectFactory()->create(type);
+        if(pGameObject == nullptr){
+            LOG_ERROR("invalid type: " << type);
+            break;
+        }
+        pGameObject->load(new LoaderParams(x, y, 0, 0, 0, ""));
+
+        pObjectLayer->getObjects()->push_back(pGameObject);
+    }
+    pLevel->m_layers.push_back(pObjectLayer);
+}
+
+void LevelParser::parseTextures(XMLElement *pTextureRoot) {
+    std::string value;
+    std::string name;
+    for (auto a = pTextureRoot->FirstAttribute(); a; a = a->Next()) {
+        attributeToString(a, "value", &value);
+        attributeToString(a, "name", &value);
+    }
+
+    ServiceLocator::textureManager()->load(std::string(m_dir) + "/" + value, name, ServiceLocator::renderer());
+}
+
 void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
     LOG_INFO("Parsing tilesets");
-    auto pTilesets = pLevel->getTilesets();
+    auto pTilesets = &pLevel->m_tilesets;
     std::string source;
     Tileset tileset{};
 
@@ -123,11 +165,6 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
             pLayers->push_back(new TileLayer(m_tileSize, *pTilesets, data));
         }
     }
-}
-
-void LevelParser::parseObjects(XMLElement *pTilesetRoot, Level *pLevel) {
-    LOG_INFO("Parsing objects");
-
 }
 
 void LevelParser::attributeToInt(const XMLAttribute *a, const char *attrName, int *attr) const {

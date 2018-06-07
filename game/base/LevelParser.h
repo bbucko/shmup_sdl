@@ -7,6 +7,14 @@
 using namespace tinyxml2;
 
 class LevelParser {
+public:
+
+    static LevelParser &Instance() {
+        static LevelParser instance;
+        return instance;
+    }
+
+    Level *parseLevel(const char *levelFile);
 private:
     int m_tileSize;
     int m_width;
@@ -23,18 +31,11 @@ private:
 
     void parseTileLayer(XMLElement *pTilesetRoot, Level *pLevel);
 
-    void parseObjects(XMLElement *pTilesetRoot, Level *pLevel);
+    void parseObjectLayer(XMLElement* pObjectElement, Level *pLevel);
+
+    void parseTextures(XMLElement* pTextureRoot);
 
     void copyIdsToVector(std::vector<std::vector<int>> &data, const std::vector<unsigned int> &gids) const;
-
-public:
-
-    static LevelParser &Instance() {
-        static LevelParser instance;
-        return instance;
-    }
-
-    Level *parseLevel(const char *levelFile);
 
     std::vector<std::vector<int>> prepareData() const;
 
@@ -47,6 +48,8 @@ public:
     void processElement(XMLElement *pElementRoot, std::string elementValue, Level *pLevel, void (LevelParser::*fn)(XMLElement *, Level *));
 
     XMLError loadRootXML(const char *levelFile, XMLDocument &doc);
+
+
 };
 
 

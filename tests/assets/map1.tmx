@@ -6,10 +6,24 @@
    eJzt0CEOACAQA8ED/v9nfBMSFIeYcXWbVgEAANBpxF6x56uQS9nbLf/J/37rPdkhGAAO
   </data>
  </layer>
- <objectgroup name="objects">
-  <object id="8" name="plane" x="30" y="2688"/>
-  <object id="9" name="plane" x="32" y="2918"/>
-  <object id="11" name="plane" x="288" y="2918"/>
-  <object id="12" name="plane" x="287" y="2688"/>
+ <objectgroup name="objects1">
+  <object id="1" name="heli" type="enemy" x="96" y="128">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureID" value="whitePlane"/>
+   </properties>
+  </object>
+  <object id="10" name="player" type="Player" x="160" y="1824">
+   <properties>
+    <property name="numFrames" type="int" value="3"/>
+    <property name="textureID" value="plane"/>
+   </properties>
+  </object>
+  <object id="12" name="heli" type="enemy" x="512" y="128">
+   <properties>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureID" value="whitePlane"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
