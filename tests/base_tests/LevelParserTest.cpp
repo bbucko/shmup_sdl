@@ -31,8 +31,17 @@ namespace {
     };
 
     TEST_F(LevelParserTest, SingleLayerAndTileset) {
+        mocks::FakeObject fakeObject;
+
         EXPECT_CALL(manager, load("/tmp/shmup_tests/tiles.png", "tiles", _))
                 .WillOnce(Return(true));
+
+        EXPECT_CALL(factory, create("Player"))
+                .WillOnce(Return(&fakeObject));
+
+        EXPECT_CALL(factory, create("enemy"))
+                .Times(2)
+                .WillRepeatedly(Return(&fakeObject));
 
         auto pLevel = LevelParser::Instance().parseLevel("/tmp/shmup_tests/map1.tmx");
 
@@ -54,7 +63,9 @@ namespace {
         EXPECT_EQ(layers->size(), 2);
 
         auto tileLayer = dynamic_cast<TileLayer *>(layers->at(0));
+
         auto objectLayer = dynamic_cast<ObjectLayer *>(layers->at(1));
+        EXPECT_EQ(objectLayer->getObjects()->size(), 3);
     }
 
 }

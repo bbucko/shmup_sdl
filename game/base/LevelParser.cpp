@@ -43,29 +43,33 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
     LOG_INFO("Parsing object layer");
     auto pObjectLayer = new ObjectLayer();
     for (auto *pElementRoot = pObjectElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
-        std::string name, type;
-        int id, x, y;
+        std::string name, type, textureId = "";
+        int id, x, y, width, height, numFrames = 0;
 
         for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
+            attributeToInt(a, "id", &id);
             attributeToInt(a, "x", &x);
             attributeToInt(a, "y", &y);
-            attributeToInt(a, "id", &id);
             attributeToString(a, "name", &name);
             attributeToString(a, "type", &type);
         }
 
         for (auto *pPropertiesRoot = pElementRoot->FirstChildElement(); pPropertiesRoot != nullptr; pPropertiesRoot = pPropertiesRoot->NextSiblingElement()) {
             for (auto *pPropertyElement = pPropertiesRoot->FirstChildElement(); pPropertyElement != nullptr; pPropertyElement = pPropertyElement->NextSiblingElement()) {
-
+                const char *attrName = pPropertyElement->Attribute("name");
+                if (StringUtils::equalsIgnoreCase(attrName, "textureID")) { textureId = pPropertyElement->Attribute("value"); }
+                if (StringUtils::equalsIgnoreCase(attrName, "numFrames")) { numFrames = pPropertyElement->IntAttribute("value"); }
+                if (StringUtils::equalsIgnoreCase(attrName, "width")) { width = pPropertyElement->IntAttribute("value"); }
+                if (StringUtils::equalsIgnoreCase(attrName, "height")) { height = pPropertyElement->IntAttribute("value"); }
             }
         }
 
         auto pGameObject = ServiceLocator::gameObjectFactory()->create(type);
-        if(pGameObject == nullptr){
+        if (pGameObject == nullptr) {
             LOG_ERROR("invalid type: " << type);
             break;
         }
-        pGameObject->load(new LoaderParams(x, y, 0, 0, 0, ""));
+        pGameObject->load(new LoaderParams(x, y, width, height, numFrames, textureId));
 
         pObjectLayer->getObjects()->push_back(pGameObject);
     }
