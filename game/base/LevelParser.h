@@ -13,7 +13,7 @@ private:
 
     int m_height;
 
-    const char *m_dir;
+    char *m_dir;
 
     LevelParser() = default;
 
