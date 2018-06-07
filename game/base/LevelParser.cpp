@@ -3,10 +3,12 @@
 #include <utils/Logger.h>
 #include <utils/StringUtils.h>
 #include <utils/Base64.h>
-#include <ServiceLocator.h>
-
+#include "ServiceLocator.h"
 #include "TileLayer.h"
 #include "ObjectLayer.h"
+#include <zlib.h>
+#include <SDL.h>
+#include <libgen.h>
 
 using namespace tinyxml2;
 
