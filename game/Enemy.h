@@ -5,14 +5,12 @@
 #include "sdl/SDLGameObject.h"
 
 class Enemy : public SDLGameObject {
-
 public:
-
     void draw() override;
 
     void update() override;
 
-    void load(const LoaderParams *pParams) override;
+    void load(std::unique_ptr<LoaderParams> const &pParams) override;
 };
 
 class EnemyCreator : public BaseCreator {
@@ -21,4 +19,4 @@ class EnemyCreator : public BaseCreator {
     }
 };
 
-#endif //SHMUP_ENEMY_H
+#endif  // SHMUP_ENEMY_H

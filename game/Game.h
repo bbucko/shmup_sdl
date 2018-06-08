@@ -1,19 +1,18 @@
 #ifndef SHMUP_GAME_H
 #define SHMUP_GAME_H
 
-#include "base/GameStateMachine.h"
 #include "base/GameObject.h"
+#include "base/GameStateMachine.h"
 #include "utils/Logger.h"
 
-#include <vector>
 #include <SDL.h>
 #include <sdl/SDLGameObject.h>
+#include <vector>
 
 typedef SDL_Renderer Renderer;
 
 class Game {
 public:
-
     void init();
 
     void update();
@@ -30,8 +29,6 @@ public:
 
     vec2 getDimensions() const;
 
-    GameStateMachine *getStateMachine() const { return m_pGameStateMachine; }
-
     static Game &Instance() {
         static Game instance;
         return instance;
@@ -39,7 +36,7 @@ public:
 
 private:
     SDL_Window *m_pWindow;
-    
+
     GameStateMachine *m_pGameStateMachine;
 
     bool m_bRunning;
@@ -53,5 +50,4 @@ private:
     bool initSDL();
 };
 
-
-#endif //SHMUP_GAME_H
+#endif  // SHMUP_GAME_H

@@ -1,13 +1,12 @@
 #ifndef SHMUP_SERVICELOCATOR_H
 #define SHMUP_SERVICELOCATOR_H
 
-#include "Game.h"
 #include <base/GameObjectFactory.h>
-#include "base/BulletHandler.h"
+#include "Game.h"
 #include "TextureManager.h"
+#include "base/BulletHandler.h"
 
 class ServiceLocator {
-
 public:
     static BulletHandler *bulletHandler();
 
@@ -36,5 +35,4 @@ private:
     ~ServiceLocator() = default;
 };
 
-
-#endif //SHMUP_SERVICELOCATOR_H
+#endif  // SHMUP_SERVICELOCATOR_H

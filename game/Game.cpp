@@ -1,14 +1,13 @@
-#include <base/GameObjectFactory.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <base/BulletHandler.h>
-#include "sdl/InputHandler.h"
-#include "ServiceLocator.h"
+#include <base/GameObjectFactory.h>
+#include "Enemy.h"
 #include "MenuState.h"
 #include "PlayState.h"
 #include "Player.h"
-#include "Enemy.h"
-#include "Game.h"
-
-#include <SDL_image.h>
+#include "ServiceLocator.h"
+#include "sdl/InputHandler.h"
 
 
 void Game::update() {
@@ -92,8 +91,7 @@ void Game::handleEvents() {
 vec2 Game::getDimensions() const {
     if (m_pWindow == nullptr) return vec2(640, 480);
 
-    int width;
-    int height;
+    int width, height;
     SDL_GetWindowSize(m_pWindow, &width, &height);
     return vec2(width, height);
 }

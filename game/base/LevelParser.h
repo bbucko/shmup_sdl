@@ -6,15 +6,19 @@
 
 using namespace tinyxml2;
 
+class LevelParser;
+
+typedef void (LevelParser::*elementProcessor)(XMLElement *, Level *);
+
 class LevelParser {
 public:
-
     static LevelParser &Instance() {
         static LevelParser instance;
         return instance;
     }
 
     Level *parseLevel(const char *levelFile);
+
 private:
     int m_tileSize;
     int m_width;
@@ -31,9 +35,9 @@ private:
 
     void parseTileLayer(XMLElement *pTilesetRoot, Level *pLevel);
 
-    void parseObjectLayer(XMLElement* pObjectElement, Level *pLevel);
+    void parseObjectLayer(XMLElement *pObjectElement, Level *pLevel);
 
-    void parseTextures(XMLElement* pTextureRoot);
+    void parseTextures(XMLElement *pTextureRoot);
 
     void copyIdsToVector(std::vector<std::vector<int>> &data, const std::vector<unsigned int> &gids) const;
 
@@ -41,16 +45,13 @@ private:
 
     std::vector<unsigned> prepareIds(const std::string &decodedIDs) const;
 
-    void attributeToInt(const XMLAttribute *a, const char *attrName, int *attr) const;
+    inline void attributeToInt(const XMLAttribute *a, const char *attrName, int *attr) const;
 
-    void attributeToString(const XMLAttribute *a, const char *attrName, std::string *attr) const;
+    inline void attributeToString(const XMLAttribute *a, const char *attrName, std::string *attr) const;
 
-    void processElement(XMLElement *pElementRoot, std::string elementValue, Level *pLevel, void (LevelParser::*fn)(XMLElement *, Level *));
+    inline void processElement(XMLElement *pElementRoot, std::string elementValue, Level *pLevel, elementProcessor fn);
 
     XMLError loadRootXML(const char *levelFile, XMLDocument &doc);
-
-
 };
 
-
-#endif //SHMUP_LEVELPARSER_H
+#endif  // SHMUP_LEVELPARSER_H

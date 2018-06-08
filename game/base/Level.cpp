@@ -1,5 +1,5 @@
-#include <utils/Logger.h>
 #include "Level.h"
+#include "utils/Logger.h"
 
 void Level::render() {
     for (auto layer : m_layers) {
@@ -19,13 +19,4 @@ void Level::clean() {
 
 void Level::load(const LoaderParams *pParams) {
     LOG_INFO("abc" << pParams);
-}
-
-std::vector<Tileset> *Level::getTilesets() {
-    return &m_tilesets;
-}
-
-
-std::vector<Layer *> *Level::getLayers() {
-    return &m_layers;
 }

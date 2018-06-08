@@ -12,8 +12,7 @@ public:
 
     void clean() override;
 
-    void load(const LoaderParams *pParams) override;
-
+    void load(std::unique_ptr<LoaderParams> const &pParams) override;
 };
 
 class MenuButtonCreator : public BaseCreator {
@@ -22,4 +21,4 @@ class MenuButtonCreator : public BaseCreator {
     }
 };
 
-#endif //SHMUP_MENUBUTTON_H
+#endif  // SHMUP_MENUBUTTON_H

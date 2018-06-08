@@ -1,14 +1,13 @@
 #ifndef SHMUP_PLAYSTATE_H
 #define SHMUP_PLAYSTATE_H
 
-#include "base/GameState.h"
-#include "base/GameObject.h"
-#include <sdl/SDLGameObject.h>
 #include <base/Level.h>
+#include <sdl/SDLGameObject.h>
+#include "base/GameObject.h"
+#include "base/GameState.h"
 
 class PlayState : public GameState {
 public:
-
     void update() override;
 
     void render() override;
@@ -18,7 +17,6 @@ public:
     std::string getStateID() const override { return "PLAY"; }
 
 private:
-
     bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 
     void calculateCollisions();
@@ -26,4 +24,4 @@ private:
     Level *pLevel;
 };
 
-#endif //SHMUP_PLAYSTATE_H
+#endif  // SHMUP_PLAYSTATE_H

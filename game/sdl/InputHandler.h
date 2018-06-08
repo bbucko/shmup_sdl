@@ -4,16 +4,14 @@
 #include <SDL.h>
 
 class InputHandler {
-
 private:
     InputHandler() = default;
 
-    ~ InputHandler() = default;
+    ~InputHandler() = default;
 
     const Uint8 *m_keystates;
 
 public:
-
     void update();
 
     void onKeyDown();
@@ -28,5 +26,4 @@ public:
     }
 };
 
-
-#endif //SHMUP_INPUTHANDLER_H
+#endif  // SHMUP_INPUTHANDLER_H

@@ -3,19 +3,17 @@
 #ifndef SHMUP_BULLETMANAGER_H
 #define SHMUP_BULLETMANAGER_H
 
-#include <vector>
 #include <chrono>
+#include <vector>
 #include "GameObject.h"
 
 class BulletHandler {
 private:
-
     std::vector<GameObject *> bullets;
 
     std::chrono::system_clock::time_point m_lastPlayerShootAt;
 
 public:
-
     ~BulletHandler();
 
     void playerShoots(int x, int y);
@@ -27,5 +25,4 @@ public:
     void render();
 };
 
-
-#endif //SHMUP_BULLETMANAGER_H
+#endif  // SHMUP_BULLETMANAGER_H

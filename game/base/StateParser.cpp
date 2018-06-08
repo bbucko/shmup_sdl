@@ -1,7 +1,6 @@
 #include <memory>
 
 #include <Player.h>
-#include <TextureManager.h>
 #include <ServiceLocator.h>
 #include "StateParser.h"
 #include "utils/StringUtils.h"
@@ -48,13 +47,8 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
             std::string filename, id;
 
             for (auto a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
-                if (StringUtils::equalsIgnoreCase(a->Name(), "filename")) {
-                    filename = a->Value();
-                }
-
-                if (StringUtils::equalsIgnoreCase(a->Name(), "id")) {
-                    id = a->Value();
-                }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "filename")) { filename = a->Value(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "id")) { id = a->Value(); }
             }
 
             if (!filename.empty() && !id.empty()) {
@@ -87,13 +81,12 @@ void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<G
 
             if (!textureID.empty() && !type.empty()) {
                 auto pGameObject = ServiceLocator::gameObjectFactory()->create(type);
-                auto loaderParams = std::make_shared<LoaderParams>(x, y, width, height, numFrames, textureID, callbackID);
-                pGameObject->load(loaderParams.get());
+                auto loaderParams = std::make_unique<LoaderParams>(x, y, width, height, numFrames, textureID, callbackID);
+                pGameObject->load(loaderParams);
 
                 pObjects->push_back(pGameObject);
             } else {
                 LOG_ERROR("Invalid XML with game objects. Type: " << type << " ID: " << textureID);
-
             }
         }
     }

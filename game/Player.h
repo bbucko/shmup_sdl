@@ -8,7 +8,7 @@ class Player : public SDLGameObject {
 public:
     void update() override;
 
-    void load(const LoaderParams *pParams) override;
+    void load(std::unique_ptr<LoaderParams> const &pParams) override;
 };
 
 class PlayerCreator : public BaseCreator {
@@ -17,4 +17,4 @@ class PlayerCreator : public BaseCreator {
     }
 };
 
-#endif //SHMUP_PLAYER_H
+#endif  // SHMUP_PLAYER_H

@@ -1,15 +1,14 @@
-#include <memory>
-#include "Bullet.h"
 #include "BulletHandler.h"
+#include "Bullet.h"
 #include "utils/Logger.h"
 
 void BulletHandler::playerShoots(int x, int y) {
     auto now = std::chrono::system_clock::now();
     const std::chrono::duration<double, std::milli> &timeSinceLastShot = now - m_lastPlayerShootAt;
     if (timeSinceLastShot.count() > 200) {
-        auto loaderParams = std::make_shared<LoaderParams>(x + 16, y - 16, 32, 32, 1, "bullet");
+        auto loaderParams = std::make_unique<LoaderParams>(x + 16, y - 16, 32, 32, 1, "bullet");
         auto bullet = new Bullet();
-        bullet->load(loaderParams.get());
+        bullet->load(loaderParams);
         bullets.push_back(bullet);
 
         m_lastPlayerShootAt = std::chrono::system_clock::now();

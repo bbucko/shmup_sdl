@@ -16,4 +16,4 @@
 #define LOG_ERROR(msg) \
     std::cerr << "" << "[" << __FILENAME__  << ":"<<  __LINE__ << "] " << msg << std::endl
 
-#endif //SHMUP_LOGGER_H
+#endif  // SHMUP_LOGGER_H

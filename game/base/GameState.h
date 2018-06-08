@@ -1,7 +1,7 @@
 #ifndef SHMUP_GAMESTATE_H
 #define SHMUP_GAMESTATE_H
 
-#include<string>
+#include <string>
 #include <vector>
 
 #include "GameObject.h"
@@ -30,4 +30,4 @@ protected:
     std::vector<std::string> m_textureIds;
 };
 
-#endif //SHMUP_GAMESTATE_H
+#endif  // SHMUP_GAMESTATE_H

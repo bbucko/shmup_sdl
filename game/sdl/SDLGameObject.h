@@ -22,9 +22,11 @@ protected:
     int m_numFrames;
 
     std::string m_textureID;
-public:
 
-    void load(const LoaderParams *pParams) override;
+    SDLGameObject() = default;
+
+public:
+    void load(std::unique_ptr<LoaderParams> const &pParams) override;
 
     void draw() override;
 
@@ -45,4 +47,4 @@ public:
     }
 };
 
-#endif //SHMUP_SDLGAMEOBJECT_H
+#endif  // SHMUP_SDLGAMEOBJECT_H

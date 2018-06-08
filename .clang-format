@@ -1,0 +1,11 @@
+BasedOnStyle: Google
+Language: Cpp
+Standard: Cpp11
+AllowShortBlocksOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: true
+NamespaceIndentation: All
+SortIncludes: true
+AlignAfterOpenBracket: Align
+AllowAllParametersOfDeclarationOnNextLine: false
+ColumnLimit: 160

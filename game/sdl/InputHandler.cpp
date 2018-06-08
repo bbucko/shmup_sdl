@@ -1,6 +1,5 @@
-#include <SDL_events.h>
-#include <Game.h>
 #include "InputHandler.h"
+#include <Game.h>
 
 void InputHandler::onKeyDown() {
     m_keystates = SDL_GetKeyboardState(0);

@@ -6,7 +6,6 @@
 
 class TileLayer : public Layer {
 public:
-
     TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs);
 
     void render() override;
@@ -14,7 +13,6 @@ public:
     void update() override;
 
 private:
-
     Tileset getTilesetByID(int id);
 
     void drawTile(const Tileset &tileset, int x1, int y3, int row, int frame) const;
@@ -33,5 +31,4 @@ private:
     std::vector<std::vector<int>> m_tileIDs;
 };
 
-
-#endif //SHMUP_TILELAYER_H
+#endif  // SHMUP_TILELAYER_H

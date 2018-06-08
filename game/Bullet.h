@@ -6,7 +6,7 @@
 
 class Bullet : public SDLGameObject {
 public:
-    void load(const LoaderParams *pParams) override;
+    void load(std::unique_ptr<LoaderParams> const &pParams) override;
 
     void update() override;
 };
@@ -17,5 +17,4 @@ class BulletCreator : public BaseCreator {
     }
 };
 
-
-#endif //SHMUP_BULLET_H
+#endif  // SHMUP_BULLET_H

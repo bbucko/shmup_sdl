@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include "TextureManager.h"
 #include "Game.h"
 #include "ServiceLocator.h"
 
@@ -20,10 +19,9 @@ void Enemy::update() {
     }
 
     SDLGameObject::update();
-
 }
 
-void Enemy::load(const LoaderParams *pParams) {
+void Enemy::load(std::unique_ptr<LoaderParams> const &pParams) {
     SDLGameObject::load(pParams);
     m_velocity = vec2(1, 0);
 }

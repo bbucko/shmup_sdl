@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 project(shmup VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -13,7 +13,7 @@ include(cotire)
 
 if (UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic")
-    APPEND_COVERAGE_COMPILER_FLAGS()
+    append_coverage_compiler_flags()
 #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -fsanitize=address -O1 -fno-omit-frame-pointer")
 elseif(APPLE)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -O0")
@@ -39,6 +39,10 @@ add_executable(shmup main.cpp)
 add_dependencies(shmup assets)
 
 target_link_libraries(shmup game)
+
+if(APPLE)
+    cotire(shmup)
+endif()
 
 #Tests
 enable_testing()

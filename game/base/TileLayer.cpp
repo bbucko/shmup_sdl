@@ -1,7 +1,6 @@
+#include "TileLayer.h"
 #include <Game.h>
 #include <ServiceLocator.h>
-#include "TileLayer.h"
-
 
 TileLayer::TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs)
         : m_tileSize(tileSize), m_position(0, 0), m_velocity(0, 0), m_tilesets(tilesets), m_tileIDs(tileIDs) {
@@ -21,25 +20,16 @@ void TileLayer::render() {
 
     x = static_cast<int>(m_position.x / m_tileSize);
     y = static_cast<int>(m_position.y / m_tileSize);
-
-
     xFraction = static_cast<int>(m_position.x) % m_tileSize;
     yFraction = static_cast<int>(m_position.y) % m_tileSize;
-    LOG_INFO("x: " << x << " y: " << y << " :: xFraction: " << xFraction << " yFraction: " << yFraction);
+
+    LOG_INFO("x: " << x << " y: " << y << " :: xFraction: " << xFraction << " yFraction: " << yFraction << " :: " << m_numRows << " :: " << m_numColumns);
 
     for (int i = 0; i < m_numRows; i++) {
         for (int j = 0; j < m_numColumns; j++) {
-            int row = i;
-            int col = j + x;
+            int id = m_tileIDs[i][(j + x)];
 
-//            LOG_INFO("row: " << row << " col: " << col);
-            auto ids = m_tileIDs.at(row);
-
-            int id = ids.at(static_cast<unsigned long>(col));
-
-            if (id == 0) {
-                continue;
-            }
+            if (id == 0) { continue; }
 
             Tileset tileset = getTilesetByID(id);
 
@@ -77,4 +67,3 @@ Tileset TileLayer::getTilesetByID(int tileID) {
     Tileset t = {};
     return t;
 }
-

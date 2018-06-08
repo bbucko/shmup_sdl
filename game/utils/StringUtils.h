@@ -1,8 +1,8 @@
 #ifndef SHMUP_STRINGUTILS_H
 #define SHMUP_STRINGUTILS_H
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 namespace StringUtils {
     using namespace std;
@@ -20,7 +20,6 @@ namespace StringUtils {
         str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
         return str;
     }
-}
+}  // namespace StringUtils
 
-
-#endif //SHMUP_STRINGUTILS_H
+#endif  // SHMUP_STRINGUTILS_H

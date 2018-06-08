@@ -1,17 +1,16 @@
 #ifndef SHMUP_TEXTUREMANAGER_H
 #define SHMUP_TEXTUREMANAGER_H
 
-#include "Game.h"
+#include <SDL.h>
 #include <map>
 #include <string>
-#include <SDL.h>
+#include "Game.h"
 
 class TextureManager {
 private:
     std::map<std::string, SDL_Texture *> m_textureMap;
 
 public:
-
     virtual bool load(std::string fileName, std::string id, Renderer *pRenderer);
 
     virtual void draw(std::string id, int x, int y, int width, int height, Renderer *pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
@@ -31,4 +30,4 @@ public:
     virtual void drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer);
 };
 
-#endif //SHMUP_TEXTUREMANAGER_H
+#endif  // SHMUP_TEXTUREMANAGER_H

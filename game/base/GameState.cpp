@@ -1,19 +1,13 @@
-#include <TextureManager.h>
-#include <ServiceLocator.h>
 #include "GameState.h"
-#include "utils/Logger.h"
+#include <ServiceLocator.h>
 #include "StateParser.h"
 
 void GameState::render() {
-    for (auto object : m_objects) {
-        object->draw();
-    }
+    for (auto object : m_objects) { object->draw(); }
 }
 
 void GameState::update() {
-    for (auto object : m_objects) {
-        object->update();
-    }
+    for (auto object : m_objects) { object->update(); }
 }
 
 bool GameState::onEnter() {

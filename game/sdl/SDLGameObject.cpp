@@ -2,10 +2,8 @@
 
 #include <SDL.h>
 #include <ServiceLocator.h>
-#include "TextureManager.h"
-#include "Game.h"
 
-void SDLGameObject::load(const LoaderParams *pParams) {
+void SDLGameObject::load(std::unique_ptr<LoaderParams> const &pParams) {
     m_position = vec2(pParams->getX(), pParams->getY());
     m_acceleration = vec2(0, 0);
     m_velocity = vec2(0, 0);
@@ -34,5 +32,5 @@ void SDLGameObject::update() {
 }
 
 void SDLGameObject::clean() {
-//    LOG_INFO("Cleanup");
+    //    LOG_INFO("Cleanup");
 }

@@ -1,10 +1,9 @@
 #include "Player.h"
 
 #include <SDL.h>
-#include "sdl/InputHandler.h"
-#include "base/BulletHandler.h"
 #include "Game.h"
 #include "ServiceLocator.h"
+#include "sdl/InputHandler.h"
 
 void Player::update() {
     m_velocity.x = 0;
@@ -42,7 +41,7 @@ void Player::update() {
     }
 }
 
-void Player::load(const LoaderParams *pParams) {
+void Player::load(std::unique_ptr<LoaderParams> const &pParams) {
     SDLGameObject::load(pParams);
     m_numFrames = 3;
 }

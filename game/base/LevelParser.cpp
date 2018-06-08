@@ -1,14 +1,14 @@
 #include "LevelParser.h"
 
-#include <utils/Logger.h>
-#include <utils/StringUtils.h>
-#include <utils/Base64.h>
-#include "ServiceLocator.h"
-#include "TileLayer.h"
-#include "ObjectLayer.h"
-#include <zlib.h>
 #include <SDL.h>
 #include <libgen.h>
+#include <utils/Base64.h>
+#include <utils/Logger.h>
+#include <utils/StringUtils.h>
+#include <zlib.h>
+#include "ObjectLayer.h"
+#include "ServiceLocator.h"
+#include "TileLayer.h"
 
 using namespace tinyxml2;
 
@@ -71,7 +71,8 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
             LOG_ERROR("invalid type: " << type);
             break;
         }
-        pGameObject->load(new LoaderParams(x, y, width, height, numFrames, textureId));
+        auto params = std::make_unique<LoaderParams>(x, y, width, height, numFrames, textureId);
+        pGameObject->load(params);
 
         pObjectLayer->getObjects()->push_back(pGameObject);
     }

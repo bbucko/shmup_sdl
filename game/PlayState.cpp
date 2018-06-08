@@ -1,10 +1,9 @@
 #include "PlayState.h"
-#include "ServiceLocator.h"
 #include <Game.h>
 #include <base/LevelParser.h>
+#include "ServiceLocator.h"
 
 void PlayState::update() {
-
     pLevel->update();
 
     ServiceLocator::bulletHandler()->update();
@@ -58,13 +57,13 @@ bool PlayState::checkCollision(SDLGameObject *p1, SDLGameObject *p2) {
     topA = p1->getPosition().y;
     bottomA = p1->getPosition().y + p1->getHeight();
 
-    //Calculate the sides of rect B
+    // Calculate the sides of rect B
     leftB = p2->getPosition().x;
     rightB = p2->getPosition().x + p2->getWidth();
     topB = p2->getPosition().y;
     bottomB = p2->getPosition().y + p2->getHeight();
 
-    //If any of the sides from A are outside of B
+    // If any of the sides from A are outside of B
     if (bottomA <= topB) { return false; }
     if (topA >= bottomB) { return false; }
     if (rightA <= leftB) { return false; }
