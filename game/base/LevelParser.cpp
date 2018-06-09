@@ -45,8 +45,8 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
     LOG_INFO("Parsing object layer");
     auto pObjectLayer = new ObjectLayer();
     for (auto *pElementRoot = pObjectElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
-        std::string name, type, textureId = "";
-        int id, x, y, width, height, numFrames = 0;
+        std::string name = "", type = "", textureId = {""};
+        int id = 0, x = 0, y = 0, width = 0, height = 0, numFrames = 0;
 
         for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
             attributeToInt(a, "id", &id);

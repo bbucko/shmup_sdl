@@ -21,8 +21,10 @@ public:
     void render();
 
     ~GameStateMachine() {
-        LOG_INFO("dtor");
-        for (auto gameState : m_gameStates) { delete gameState; }
+        for (auto gameState : m_gameStates) {
+            delete gameState;
+        }
+        m_gameStates.clear();
     }
 };
 

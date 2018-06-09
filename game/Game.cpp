@@ -43,15 +43,15 @@ void Game::init() {
         LOG_INFO("Error occurred: " << SDL_GetError());
     }
 
-    ServiceLocator::provide(new BulletHandler());
-    ServiceLocator::provide(new TextureManager());
-    ServiceLocator::provide(new GameObjectFactory());
+    ServiceLocator::provide(std::make_unique<BulletHandler>());
+    ServiceLocator::provide(std::make_unique<TextureManager>());
+    ServiceLocator::provide(std::make_unique<GameObjectFactory>());
 
     ServiceLocator::gameObjectFactory()->registerType("MenuButton", new MenuButtonCreator());
     ServiceLocator::gameObjectFactory()->registerType("Player", new PlayerCreator());
     ServiceLocator::gameObjectFactory()->registerType("Enemy", new EnemyCreator());
 
-    m_pGameStateMachine = new GameStateMachine();
+    m_pGameStateMachine = std::make_unique<GameStateMachine>();
     m_pGameStateMachine->changeState(new MenuState());
 
     m_bRunning = true;

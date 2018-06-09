@@ -37,15 +37,13 @@ public:
 private:
     SDL_Window *m_pWindow;
 
-    GameStateMachine *m_pGameStateMachine;
+    std::unique_ptr<GameStateMachine> m_pGameStateMachine;
 
     bool m_bRunning;
 
     Game() = default;
 
-    ~Game() {
-        delete m_pGameStateMachine;
-    };
+    ~Game() = default;
 
     bool initSDL();
 };

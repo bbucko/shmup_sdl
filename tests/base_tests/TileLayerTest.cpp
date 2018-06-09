@@ -1,7 +1,6 @@
 #include <utils/Logger.h>
 #include <ServiceLocator.h>
 #include <base/TileLayer.h>
-
 #include "gtest/gtest.h"
 #include "mocks/Mocks.h"
 
@@ -12,20 +11,8 @@ namespace {
     using ::testing::Mock;
     using ::testing::_;
 
-    class TileLayerTest : public testing::Test {
-    public:
-        TileLayerTest() {
-            ServiceLocator::provide(&manager);
-            ServiceLocator::provide(&factory);
-        }
+    class TileLayerTest : public mocks::TestWithMocks {
 
-        NiceMock<mocks::TextureManagerMock> manager;
-        NiceMock<mocks::GameObjectFactoryMock> factory;
-    protected:
-        virtual void TearDown() {
-            Mock::VerifyAndClear(&manager);
-            Mock::VerifyAndClear(&factory);
-        }
     };
 
     TEST_F(TileLayerTest, UpdateTest) {
@@ -43,7 +30,7 @@ namespace {
     }
 
     TEST_F(TileLayerTest, RenderTest) {
-        EXPECT_CALL(manager, drawTile("tile1", 1, 1, 0, 0, 32, 32, 0, 0, _));
+        EXPECT_CALL((*getManager()), drawTile("tile1", 1, 1, 0, 0, 32, 32, 0, 0, _));
 
         auto numOfRows = 16;
         auto numOfColumns = 20;

@@ -2,6 +2,7 @@
 #define SHMUP_OBJECTFACTORY_H
 
 #include <map>
+#include <utils/Logger.h>
 #include "GameObject.h"
 
 class BaseCreator {
@@ -18,11 +19,10 @@ public:
     virtual GameObject *create(std::string typeID);
 
     virtual ~GameObjectFactory() {
-        auto i = std::begin(m_creators);
-        while (i != std::end(m_creators)) {
-            delete (*i).second;
-            i = m_creators.erase(i);
+        for (auto creator : m_creators) {
+            delete creator.second;
         }
+        m_creators.clear();
     }
 
 private:

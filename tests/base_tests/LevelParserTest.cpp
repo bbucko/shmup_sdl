@@ -14,32 +14,20 @@ namespace {
     using ::testing::Mock;
     using ::testing::_;
 
-    class LevelParserTest : public testing::Test {
-    public:
-        LevelParserTest() {
-            ServiceLocator::provide(&manager);
-            ServiceLocator::provide(&factory);
-        }
+    class LevelParserTest : public mocks::TestWithMocks {
 
-        NiceMock<mocks::TextureManagerMock> manager;
-        NiceMock<mocks::GameObjectFactoryMock> factory;
-    protected:
-        virtual void TearDown() {
-            Mock::VerifyAndClear(&manager);
-            Mock::VerifyAndClear(&factory);
-        }
     };
 
     TEST_F(LevelParserTest, SingleLayerAndTileset) {
         mocks::FakeObject fakeObject;
 
-        EXPECT_CALL(manager, load("/tmp/shmup_tests/tiles.png", "tiles", _))
+        EXPECT_CALL((*getManager()), load("/tmp/shmup_tests/tiles.png", "tiles", _))
                 .WillOnce(Return(true));
 
-        EXPECT_CALL(factory, create("Player"))
+        EXPECT_CALL((*getFactory()), create("Player"))
                 .WillOnce(Return(&fakeObject));
 
-        EXPECT_CALL(factory, create("enemy"))
+        EXPECT_CALL((*getFactory()), create("enemy"))
                 .Times(2)
                 .WillRepeatedly(Return(&fakeObject));
 

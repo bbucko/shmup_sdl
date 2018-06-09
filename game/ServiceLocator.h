@@ -16,18 +16,23 @@ public:
 
     static Renderer *renderer();
 
-    static void provide(BulletHandler *bulletHandler);
+    static void provide(std::unique_ptr<BulletHandler> bulletHandler);
 
-    static void provide(TextureManager *textureManager);
+    static void provide(std::unique_ptr<TextureManager> textureManager);
 
-    static void provide(GameObjectFactory *gameObjectFactory);
+    static void provide(std::unique_ptr<GameObjectFactory> gameObjectFactory);
 
     static void provide(Renderer *gameObjectFactory);
 
+    static void clear() {
+        m_gameObjectFactory = nullptr;
+        m_textureManager = nullptr;
+        m_bulletHandler = nullptr;
+    }
 private:
-    static BulletHandler *m_bulletHandler;
-    static TextureManager *m_textureManager;
-    static GameObjectFactory *m_gameObjectFactory;
+    static std::unique_ptr<BulletHandler> m_bulletHandler;
+    static std::unique_ptr<TextureManager> m_textureManager;
+    static std::unique_ptr<GameObjectFactory> m_gameObjectFactory;
     static Renderer *m_renderer;
 
     ServiceLocator() = default;

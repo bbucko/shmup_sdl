@@ -4,15 +4,13 @@
 
 TileLayer::TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs)
         : m_tileSize(tileSize), m_position(0, 0), m_velocity(0, 0), m_tilesets(tilesets), m_tileIDs(tileIDs) {
-    LOG_INFO("Data: " << m_tileIDs.size());
+
     const vec2 &dimensions = Game::Instance().getDimensions();
 
     m_numColumns = static_cast<int>(dimensions.x / m_tileSize);
     m_numRows = static_cast<int>(dimensions.y / m_tileSize);
 
     m_velocity = vec2(0, 1);
-
-    LOG_INFO("numColumns: " << m_numColumns << " numRows: " << m_numRows);
 }
 
 void TileLayer::render() {

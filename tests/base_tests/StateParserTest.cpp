@@ -13,26 +13,17 @@ namespace {
     using ::testing::Mock;
     using ::testing::_;
 
-    class StateParserTest : public testing::Test {
+    class StateParserTest : public mocks::TestWithMocks {
 
     public:
-        StateParserTest() {
-            ServiceLocator::provide(&manager);
-            ServiceLocator::provide(&factory);
-        }
-
         std::vector<GameObject *> objects;
         std::vector<std::string> textureIds;
 
-        NiceMock<mocks::TextureManagerMock> manager;
-        NiceMock<mocks::GameObjectFactoryMock> factory;
     protected:
         virtual void TearDown() {
             objects.clear();
             textureIds.clear();
-
-            Mock::VerifyAndClear(&manager);
-            Mock::VerifyAndClear(&factory);
+            TestWithMocks::TearDown();
         }
     };
 
@@ -47,13 +38,13 @@ namespace {
     TEST_F(StateParserTest, MenuStateTest) {
         mocks::FakeObject fakeObject;
 
-        EXPECT_CALL(factory, create("FakeObject"))
+        EXPECT_CALL((*getFactory()), create("FakeObject"))
                 .Times(2)
                 .WillRepeatedly(Return(&fakeObject));
 
-        EXPECT_CALL(manager, load("sample1.png", "texture1", _))
+        EXPECT_CALL((*getManager()), load("sample1.png", "texture1", _))
                 .WillOnce(Return(true));
-        EXPECT_CALL(manager, load("sample2.png", "texture2", _))
+        EXPECT_CALL((*getManager()), load("sample2.png", "texture2", _))
                 .WillOnce(Return(true));
 
         auto parser = StateParser();

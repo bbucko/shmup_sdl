@@ -2,6 +2,7 @@
 #define SHMUP_GAMEOBJECT_H
 
 #include "LoaderParams.h"
+#include <memory>
 
 class GameObject {
 public:
