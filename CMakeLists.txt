@@ -14,10 +14,10 @@ include(cotire)
 if (UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic")
     append_coverage_compiler_flags()
-#    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -fsanitize=address -O1 -fno-omit-frame-pointer")
-elseif(APPLE)
+    #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -fsanitize=address -O1 -fno-omit-frame-pointer")
+elseif (APPLE)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -O0")
-endif()
+endif ()
 
 #set(CMAKE_VERBOSE_MAKEFILE true)
 
@@ -40,13 +40,19 @@ add_dependencies(shmup assets)
 
 target_link_libraries(shmup game)
 
-if(APPLE)
+if (APPLE)
     cotire(shmup)
-endif()
+endif ()
+
+message(STATUS "Release mode: ${CMAKE_BUILD_TYPE}")
 
 #Tests
-enable_testing()
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    set(CMAKE_CXX_FLAGS_DEBUG "-DINCLUDE_MOCKS")
 
-add_subdirectory(tests)
+    enable_testing()
 
-add_test(base_tests tests/base_tests/shmup_tests)
+    add_subdirectory(tests)
+
+    add_test(base_tests tests/base_tests/shmup_tests)
+endif (CMAKE_BUILD_TYPE MATCHES Debug)

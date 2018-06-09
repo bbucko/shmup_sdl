@@ -53,7 +53,9 @@ namespace mocks {
 
         virtual void TearDown() {
             LOG_INFO("TearDown:  " << ServiceLocator::textureManager() << " and " << ServiceLocator::gameObjectFactory());
-            ServiceLocator::clear();
+            ServiceLocator::m_gameObjectFactory = nullptr;
+            ServiceLocator::m_textureManager = nullptr;
+            ServiceLocator::m_bulletHandler = nullptr;
         }
     };
 }

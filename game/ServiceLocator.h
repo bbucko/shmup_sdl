@@ -6,6 +6,12 @@
 #include "TextureManager.h"
 #include "base/BulletHandler.h"
 
+#ifdef INCLUDE_MOCKS
+namespace mocks {
+    class TestWithMocks;
+}
+#endif
+
 class ServiceLocator {
 public:
     static BulletHandler *bulletHandler();
@@ -24,11 +30,7 @@ public:
 
     static void provide(Renderer *gameObjectFactory);
 
-    static void clear() {
-        m_gameObjectFactory = nullptr;
-        m_textureManager = nullptr;
-        m_bulletHandler = nullptr;
-    }
+
 private:
     static std::unique_ptr<BulletHandler> m_bulletHandler;
     static std::unique_ptr<TextureManager> m_textureManager;
@@ -38,6 +40,11 @@ private:
     ServiceLocator() = default;
 
     ~ServiceLocator() = default;
+
+#ifdef INCLUDE_MOCKS
+    friend mocks::TestWithMocks;
+#endif
+
 };
 
 #endif  // SHMUP_SERVICELOCATOR_H
