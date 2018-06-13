@@ -156,9 +156,9 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
         if (StringUtils::equalsIgnoreCase(elementValue, "data")) {
             std::string encoding, compression;
 
-            for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
-                attributeToString(a, "encoding", &encoding);
-                attributeToString(a, "compression", &compression);
+            for (auto attribute = pElementRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
+                attributeToString(attribute, "encoding", &encoding);
+                attributeToString(attribute, "compression", &compression);
             }
 
             std::string encodedIDs = pElementRoot->FirstChild()->Value();
@@ -193,7 +193,7 @@ std::vector<unsigned> LevelParser::prepareIds(const std::string &decodedIDs) con
 void LevelParser::copyIdsToVector(std::vector<std::vector<int>> &data, const std::vector<unsigned int> &gids) const {
     for (int rows = 0; rows < m_height; rows++) {
         for (int cols = 0; cols < m_width; cols++) {
-            data[m_height - rows - 1][cols] = gids[rows * m_width + cols];
+            data[rows][cols] = gids[rows * m_width + cols];
         }
     }
 }

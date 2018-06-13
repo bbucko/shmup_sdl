@@ -10,6 +10,10 @@ public :
 
     vec2 getPosition();
 
+    Camera() {
+        m_position = vec2(0, 1440);
+    }
+
 private:
     vec2 m_position;
 };
