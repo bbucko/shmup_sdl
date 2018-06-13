@@ -53,8 +53,7 @@ void Game::init() {
     ServiceLocator::gameObjectFactory()->registerType("Enemy", new EnemyCreator());
 
     m_pGameStateMachine = std::make_unique<GameStateMachine>();
-//    m_pGameStateMachine->changeState(new MenuState());
-    m_pGameStateMachine->changeState(new PlayState());
+    m_pGameStateMachine->changeState(new MenuState());
 
     m_bRunning = true;
 }
@@ -66,7 +65,7 @@ bool Game::initSDL() {
         if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0) {
             LOG_INFO("SDL image success");
 
-            m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+            m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE);
             if (m_pWindow != nullptr) {
                 auto m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 
