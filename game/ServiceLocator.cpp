@@ -1,38 +1,47 @@
 #include "ServiceLocator.h"
 
-std::unique_ptr<BulletHandler> ServiceLocator::m_bulletHandler;
-std::unique_ptr<TextureManager> ServiceLocator::m_textureManager;
-std::unique_ptr<GameObjectFactory> ServiceLocator::m_gameObjectFactory;
-Renderer *ServiceLocator::m_renderer;
+std::unique_ptr<BulletHandler> ServiceLocator::s_bulletHandler;
+std::unique_ptr<TextureManager> ServiceLocator::s_textureManager;
+std::unique_ptr<GameObjectFactory> ServiceLocator::s_gameObjectFactory;
+std::unique_ptr<Camera> ServiceLocator::s_camera;
+Renderer *ServiceLocator::s_renderer;
 
 TextureManager *ServiceLocator::textureManager() {
-    return ServiceLocator::m_textureManager.get();
+    return ServiceLocator::s_textureManager.get();
 }
 
 BulletHandler *ServiceLocator::bulletHandler() {
-    return ServiceLocator::m_bulletHandler.get();
+    return ServiceLocator::s_bulletHandler.get();
 }
 
 GameObjectFactory *ServiceLocator::gameObjectFactory() {
-    return ServiceLocator::m_gameObjectFactory.get();
+    return ServiceLocator::s_gameObjectFactory.get();
+}
+
+Camera *ServiceLocator::camera() {
+    return ServiceLocator::s_camera.get();
 }
 
 Renderer *ServiceLocator::renderer() {
-    return ServiceLocator::m_renderer;
+    return ServiceLocator::s_renderer;
 }
 
 void ServiceLocator::provide(std::unique_ptr<TextureManager> textureManager) {
-    ServiceLocator::m_textureManager = std::move(textureManager);
+    ServiceLocator::s_textureManager = std::move(textureManager);
 }
 
 void ServiceLocator::provide(std::unique_ptr<BulletHandler> bulletHandler) {
-    ServiceLocator::m_bulletHandler = std::move(bulletHandler);
+    ServiceLocator::s_bulletHandler = std::move(bulletHandler);
 }
 
 void ServiceLocator::provide(std::unique_ptr<GameObjectFactory> gameObjectFactory) {
-    ServiceLocator::m_gameObjectFactory = std::move(gameObjectFactory);
+    ServiceLocator::s_gameObjectFactory = std::move(gameObjectFactory);
+}
+
+void ServiceLocator::provide(std::unique_ptr<Camera> camera) {
+    ServiceLocator::s_camera = std::move(camera);
 }
 
 void ServiceLocator::provide(Renderer *renderer) {
-    ServiceLocator::m_renderer = renderer;
+    ServiceLocator::s_renderer = renderer;
 }

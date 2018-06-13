@@ -46,6 +46,7 @@ void Game::init() {
     ServiceLocator::provide(std::make_unique<BulletHandler>());
     ServiceLocator::provide(std::make_unique<TextureManager>());
     ServiceLocator::provide(std::make_unique<GameObjectFactory>());
+    ServiceLocator::provide(std::make_unique<Camera>());
 
     ServiceLocator::gameObjectFactory()->registerType("MenuButton", new MenuButtonCreator());
     ServiceLocator::gameObjectFactory()->registerType("Player", new PlayerCreator());
@@ -64,7 +65,7 @@ bool Game::initSDL() {
         if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0) {
             LOG_INFO("SDL image success");
 
-            m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE);
+            m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
             if (m_pWindow != nullptr) {
                 auto m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 

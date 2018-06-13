@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-up" width="20" height="60" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#022d9b"
-     nextobjectid="13">
-    <tileset firstgid="1" source="tiles.tsx"/>
-    <layer name="tiles" width="20" height="60">
-        <data encoding="base64" compression="zlib">
-            eJztzKERACAQA8HA998zhgIQEYjdmbM3SabYi31r8QMAAAD4xyp3ANOzAGU=
-        </data>
-    </layer>
-    <objectgroup name="objects1">
-        <object id="1" name="heli" type="Enemy" x="96" y="128">
-            <properties>
-                <property name="numFrames" type="int" value="1"/>
-                <property name="width" type="int" value="64"/>
-                <property name="height" type="int" value="64"/>
-                <property name="textureID" value="whitePlane"/>
-            </properties>
-        </object>
-        <object id="10" name="player" type="Player" x="160" y="1824">
-            <properties>
-                <property name="numFrames" type="int" value="3"/>
-                <property name="width" type="int" value="64"/>
-                <property name="height" type="int" value="64"/>
-                <property name="textureID" value="plane"/>
-            </properties>
-        </object>
-        <object id="12" name="heli" type="Enemy" x="512" y="128">
-            <properties>
-                <property name="numFrames" type="int" value="1"/>
-                <property name="width" type="int" value="64"/>
-                <property name="height" type="int" value="64"/>
-                <property name="textureID" value="whitePlane"/>
-            </properties>
-        </object>
-    </objectgroup>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-up" width="20" height="60" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#022d9b" nextobjectid="15">
+ <tileset firstgid="1" source="tiles.tsx"/>
+ <layer name="tiles" width="20" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt18EKACEIRVEb//+fh4FWLppniRDcA0JESkRBupl5YSieGVWoBwAAAOA2f396tb+KOTt5JzJ9YGZerXfSH2X2VHWuO3uNOfSDPVwYjxmZnJVYr5Nyr9T39q0ZxfECji4AqA==
+  </data>
+ </layer>
+ <objectgroup name="objects1">
+  <object id="12" name="heli" type="Enemy" x="320" y="256">
+   <properties>
+    <property name="height" type="int" value="65"/>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureID" value="whitePlane"/>
+    <property name="width" type="int" value="65"/>
+   </properties>
+  </object>
+  <object id="13" name="heli" type="Enemy" x="320" y="1696">
+   <properties>
+    <property name="height" type="int" value="65"/>
+    <property name="numFrames" type="int" value="1"/>
+    <property name="textureID" value="whitePlane"/>
+    <property name="width" type="int" value="65"/>
+   </properties>
+  </object>
+  <object id="14" name="player" type="Player" x="0" y="0" width="32" height="32">
+   <properties>
+    <property name="height" type="int" value="65"/>
+    <property name="numFrames" type="int" value="3"/>
+    <property name="textureID" value="plane"/>
+    <property name="width" type="int" value="65"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

@@ -45,15 +45,15 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
     LOG_INFO("Parsing object layer");
     auto pObjectLayer = new ObjectLayer();
     for (auto *pElementRoot = pObjectElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
-        std::string name = "", type = "", textureId = {""};
-        int id = 0, x = 0, y = 0, width = 0, height = 0, numFrames = 0;
+        std::string name, type, textureId;
+        int id{0}, x{0}, y{0}, width{0}, height{0}, numFrames{0};
 
-        for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
-            attributeToInt(a, "id", &id);
-            attributeToInt(a, "x", &x);
-            attributeToInt(a, "y", &y);
-            attributeToString(a, "name", &name);
-            attributeToString(a, "type", &type);
+        for (auto *attribute = pElementRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
+            attributeToInt(attribute, "id", &id);
+            attributeToInt(attribute, "x", &x);
+            attributeToInt(attribute, "y", &y);
+            attributeToString(attribute, "name", &name);
+            attributeToString(attribute, "type", &type);
         }
 
         for (auto *pPropertiesRoot = pElementRoot->FirstChildElement(); pPropertiesRoot != nullptr; pPropertiesRoot = pPropertiesRoot->NextSiblingElement()) {
@@ -82,9 +82,9 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
 void LevelParser::parseTextures(XMLElement *pTextureRoot) {
     std::string value;
     std::string name;
-    for (auto a = pTextureRoot->FirstAttribute(); a; a = a->Next()) {
-        attributeToString(a, "value", &value);
-        attributeToString(a, "name", &value);
+    for (auto attribute = pTextureRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
+        attributeToString(attribute, "value", &value);
+        attributeToString(attribute, "name", &value);
     }
 
     ServiceLocator::textureManager()->load(std::string(m_dir) + "/" + value, name, ServiceLocator::renderer());
@@ -96,9 +96,9 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
     std::string source;
     Tileset tileset{};
 
-    for (auto a = pTilesetRoot->FirstAttribute(); a; a = a->Next()) {
-        attributeToInt(a, "firstgid", &tileset.firstGridID);
-        if (StringUtils::equalsIgnoreCase(a->Name(), "source")) { source = std::string(m_dir) + "/" + a->Value(); }
+    for (auto attribute = pTilesetRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
+        attributeToInt(attribute, "firstgid", &tileset.firstGridID);
+        if (StringUtils::equalsIgnoreCase(attribute->Name(), "source")) { source = std::string(m_dir) + "/" + attribute->Value(); }
     }
 
     XMLDocument doc;
@@ -107,27 +107,27 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
     if (result == XML_SUCCESS) {
         auto pRoot = doc.RootElement();
 
-        for (auto a = pRoot->FirstAttribute(); a; a = a->Next()) {
-            attributeToString(a, "name", &tileset.name);
-            attributeToInt(a, "tilewidth", &tileset.tileWidth);
-            attributeToInt(a, "tileheight", &tileset.tileHeight);
-            attributeToInt(a, "spacing", &tileset.spacing);
-            attributeToInt(a, "margin", &tileset.margin);
-            attributeToInt(a, "columns", &tileset.numColumns);
+        for (auto attribute = pRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
+            attributeToString(attribute, "name", &tileset.name);
+            attributeToInt(attribute, "tilewidth", &tileset.tileWidth);
+            attributeToInt(attribute, "tileheight", &tileset.tileHeight);
+            attributeToInt(attribute, "spacing", &tileset.spacing);
+            attributeToInt(attribute, "margin", &tileset.margin);
+            attributeToInt(attribute, "columns", &tileset.numColumns);
         }
 
         for (auto *pElementRoot = pRoot->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
             auto elementValue = std::string(pElementRoot->Value());
             if (StringUtils::equalsIgnoreCase(elementValue, "image")) {
-                for (auto a = pElementRoot->FirstAttribute(); a; a = a->Next()) {
-                    if (StringUtils::equalsIgnoreCase(a->Name(), "source")) {
-                        auto imageFilename = std::string(m_dir) + "/" + a->Value();
+                for (auto attribute = pElementRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
+                    if (StringUtils::equalsIgnoreCase(attribute->Name(), "source")) {
+                        auto imageFilename = std::string(m_dir) + "/" + attribute->Value();
                         LOG_INFO("Loading image: " << tileset.name << " from file: " << imageFilename);
 
                         ServiceLocator::textureManager()->load(imageFilename, tileset.name, ServiceLocator::renderer());
                     }
-                    attributeToInt(a, "width", &tileset.width);
-                    attributeToInt(a, "height", &tileset.height);
+                    attributeToInt(attribute, "width", &tileset.width);
+                    attributeToInt(attribute, "height", &tileset.height);
                 }
             }
 
@@ -141,14 +141,14 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
 
 void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
     LOG_INFO("Parsing tile layers");
-    auto pLayers = &pLevel->m_layers;
-    auto pTilesets = &pLevel->m_tilesets;
-    std::string name;
+    auto layers = &pLevel->m_layers;
+    auto tilesets = &pLevel->m_tilesets;
+    std::string name{""};
 
-    for (auto a = pTileElement->FirstAttribute(); a; a = a->Next()) {
-        attributeToString(a, "name", &name);
-        attributeToInt(a, "width", &m_width);
-        attributeToInt(a, "height", &m_height);
+    for (auto attribute = pTileElement->FirstAttribute(); attribute; attribute = attribute->Next()) {
+        attributeToString(attribute, "name", &name);
+        attributeToInt(attribute, "width", &m_width);
+        attributeToInt(attribute, "height", &m_height);
     }
 
     for (auto *pElementRoot = pTileElement->FirstChildElement(); pElementRoot != nullptr; pElementRoot = pElementRoot->NextSiblingElement()) {
@@ -169,7 +169,7 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
 
             copyIdsToVector(data, ids);
 
-            pLayers->push_back(new TileLayer(m_tileSize, *pTilesets, data));
+            layers->push_back(new TileLayer(m_tileSize, m_width, m_height, *tilesets, data));
         }
     }
 }
@@ -193,7 +193,7 @@ std::vector<unsigned> LevelParser::prepareIds(const std::string &decodedIDs) con
 void LevelParser::copyIdsToVector(std::vector<std::vector<int>> &data, const std::vector<unsigned int> &gids) const {
     for (int rows = 0; rows < m_height; rows++) {
         for (int cols = 0; cols < m_width; cols++) {
-            data[rows][cols] = gids[rows * m_width + cols];
+            data[m_height - rows - 1][cols] = gids[rows * m_width + cols];
         }
     }
 }

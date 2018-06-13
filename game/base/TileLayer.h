@@ -6,7 +6,7 @@
 
 class TileLayer : public Layer {
 public:
-    TileLayer(int tileSize, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs);
+    TileLayer(int tileSize, int mapWidth, int mapHeight, const std::vector<Tileset> &tilesets, std::vector<std::vector<int>> tileIDs);
 
     void render() override;
 
@@ -14,8 +14,6 @@ public:
 
 private:
     Tileset getTilesetByID(int id);
-
-    void drawTile(const Tileset &tileset, int x1, int y3, int row, int frame) const;
 
     int m_numColumns;
 

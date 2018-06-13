@@ -2,7 +2,7 @@
 
 #include <SDL_image.h>
 
-bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer *pRenderer) {
+bool TextureManager::load(const std::string &fileName, std::string id, SDL_Renderer *pRenderer) {
     SDL_Surface *pTempSurface = IMG_Load(fileName.c_str());
 
     if (pTempSurface == nullptr) {
@@ -23,44 +23,45 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer *pR
     return false;
 }
 
-void TextureManager::draw(std::string id, int x, int y, int width, int height, SDL_Renderer *pRenderer, SDL_RendererFlip flip) {
+void TextureManager::draw(const std::string &id, int x, int y, int width, int height, SDL_Renderer *pRenderer, SDL_RendererFlip flip) {
     drawFrame(id, x, y, width, height, 0, 0, pRenderer, flip);
 }
 
-void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *pRenderer, SDL_RendererFlip flip) {
-    if (m_textureMap[id] == nullptr) {
-        LOG_ERROR("No such texture: " << id);
-    }
+void TextureManager::drawFrame(const std::string &id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *pRenderer, SDL_RendererFlip flip) {
+    if (m_textureMap[id] == nullptr) LOG_ERROR("No such texture: " << id);
+
+    int spacing = 1;
+    int margin = 1;
 
     SDL_Rect srcRect;
-    SDL_Rect destRect;
+    SDL_Rect dstRect;
 
-    srcRect.x = currentFrame * width;
-    srcRect.y = (currentRow) * height;
-    srcRect.w = destRect.w = width;
-    srcRect.h = destRect.h = height;
+    srcRect.x = margin + (spacing + width) * currentFrame;
+    srcRect.y = margin + (spacing + height) * currentRow;
+    srcRect.w = dstRect.w = width;
+    srcRect.h = dstRect.h = height;
 
-    destRect.x = x;
-    destRect.y = y;
+    dstRect.x = x;
+    dstRect.y = y;
 
-    SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, nullptr, flip);
+    SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &dstRect, 0, nullptr, flip);
 }
 
-void TextureManager::clear(std::string id) {
+void TextureManager::clear(const std::string &id) {
     auto texture = m_textureMap[id];
     SDL_DestroyTexture(texture);
     m_textureMap.erase(id);
 }
 
-void TextureManager::drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer) {
+void TextureManager::drawTile(const std::string &id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer) {
     SDL_Rect srcRect;
-    SDL_Rect destRect;
+    SDL_Rect dstRect;
     srcRect.x = margin + (spacing + width) * currentFrame;
     srcRect.y = margin + (spacing + height) * currentRow;
-    srcRect.w = destRect.w = width;
-    srcRect.h = destRect.h = height;
-    destRect.x = x;
-    destRect.y = y;
+    srcRect.w = dstRect.w = width;
+    srcRect.h = dstRect.h = height;
+    dstRect.x = x;
+    dstRect.y = y;
 
-    SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &dstRect, 0, nullptr, SDL_FLIP_NONE);
 }
