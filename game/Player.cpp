@@ -7,7 +7,7 @@
 
 void Player::update() {
     m_velocity.x = 0;
-    m_velocity.y = 0;
+    m_velocity = ServiceLocator::camera()->getVelocity();
 
     InputHandler &handler = InputHandler::Instance();
     if (handler.isKeyDown(SDL_SCANCODE_RIGHT)) {
@@ -30,15 +30,7 @@ void Player::update() {
         ServiceLocator::bulletHandler()->playerShoots(static_cast<int>(m_position.x), static_cast<int>(m_position.y));
     }
 
-    vec2 updatedPosition = m_position + m_velocity;
-
-    if (updatedPosition.x >= 0 && updatedPosition.x + m_width <= Game::Instance().getDimensions().x) {
-        m_position.x = updatedPosition.x;
-    }
-
-    if (updatedPosition.y >= 0 && updatedPosition.y + m_height <= Game::Instance().getDimensions().y) {
-        m_position.y = updatedPosition.y;
-    }
+    m_position += m_velocity;
 }
 
 void Player::load(std::unique_ptr<LoaderParams> const &pParams) {

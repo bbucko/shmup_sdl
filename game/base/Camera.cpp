@@ -2,13 +2,10 @@
 
 #include "Camera.h"
 
-void Camera::update(vec2 velocity) {
-    m_position += velocity;
-    if(m_position.y < 0) {
-        m_position.y = 0;
+void Camera::update() {
+    m_position += m_velocity;
+    if (m_position.y < 0) {
+        m_velocity = vec2(0, 0);
     }
 }
 
-vec2 Camera::getPosition() {
-    return m_position;
-}

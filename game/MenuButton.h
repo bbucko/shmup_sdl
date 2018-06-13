@@ -6,7 +6,7 @@
 
 class MenuButton : public SDLGameObject {
 public:
-    void draw() override;
+    void draw() override ;
 
     void update() override;
 

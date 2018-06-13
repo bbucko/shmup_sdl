@@ -4,7 +4,7 @@
 #include "ServiceLocator.h"
 
 void PlayState::update() {
-    ServiceLocator::camera()->update(vec2(0, -1));
+    ServiceLocator::camera()->update();
     pLevel->update();
 
     ServiceLocator::bulletHandler()->update();

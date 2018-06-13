@@ -53,7 +53,8 @@ void Game::init() {
     ServiceLocator::gameObjectFactory()->registerType("Enemy", new EnemyCreator());
 
     m_pGameStateMachine = std::make_unique<GameStateMachine>();
-    m_pGameStateMachine->changeState(new MenuState());
+//    m_pGameStateMachine->changeState(new MenuState());
+    m_pGameStateMachine->changeState(new PlayState());
 
     m_bRunning = true;
 }
