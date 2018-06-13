@@ -143,7 +143,7 @@ void LevelParser::parseTileLayer(XMLElement *pTileElement, Level *pLevel) {
     LOG_INFO("Parsing tile layers");
     auto layers = &pLevel->m_layers;
     auto tilesets = &pLevel->m_tilesets;
-    std::string name{""};
+    std::string name;
 
     for (auto attribute = pTileElement->FirstAttribute(); attribute; attribute = attribute->Next()) {
         attributeToString(attribute, "name", &name);
