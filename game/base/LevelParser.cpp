@@ -84,7 +84,7 @@ void LevelParser::parseTextures(XMLElement *pTextureRoot) {
     std::string name;
     for (auto attribute = pTextureRoot->FirstAttribute(); attribute; attribute = attribute->Next()) {
         attributeToString(attribute, "value", &value);
-        attributeToString(attribute, "name", &value);
+        attributeToString(attribute, "name", &name);
     }
 
     ServiceLocator::textureManager()->load(std::string(m_dir) + "/" + value, name, ServiceLocator::renderer());

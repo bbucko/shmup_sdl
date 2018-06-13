@@ -18,26 +18,41 @@ namespace mocks {
 
     };
 
+    class CameraMock : public Camera {
+    public:
+        MOCK_METHOD0(getPosition, vec2());
+
+    };
+
     class TextureManagerMock : public TextureManager {
     public:
-        MOCK_METHOD3(load, bool(std::string fileName, std::string id, SDL_Renderer * pRenderer));
-
-        MOCK_METHOD10(drawTile, void(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer * pRenderer));
+        MOCK_METHOD3(load, bool(const std::string &fileName, std::string id, Renderer *pRenderer));
+        MOCK_METHOD10(drawTile, void(const std::string &id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer));
     };
 
     class FakeObject : public SDLGameObject {
-
     };
+
 // @formatter:on
     class TestWithMocks : public testing::Test {
-    public:
-        TestWithMocks() {
+    protected:
+        virtual void SetUp() {
             LOG_INFO("CreatingMocks");
             ServiceLocator::provide(std::make_unique<NiceMock<mocks::TextureManagerMock>>());
             ServiceLocator::provide(std::make_unique<NiceMock<mocks::GameObjectFactoryMock>>());
+            ServiceLocator::provide(std::make_unique<NiceMock<mocks::CameraMock>>());
         }
 
-    protected:
+        virtual void TearDown() {
+            LOG_INFO("TearDown: gameObjectFactory: " << ServiceLocator::s_gameObjectFactory.get() <<
+                                                     " textureManager: " << ServiceLocator::s_textureManager.get() <<
+                                                     " camera: " << ServiceLocator::s_camera.get());
+            ServiceLocator::s_gameObjectFactory = nullptr;
+            ServiceLocator::s_textureManager = nullptr;
+            ServiceLocator::s_bulletHandler = nullptr;
+            ServiceLocator::s_camera = nullptr;
+        }
+
 
         NiceMock<mocks::TextureManagerMock> *getManager() {
             TextureManager *pManager = ServiceLocator::textureManager();
@@ -45,17 +60,16 @@ namespace mocks {
             return dynamic_cast<NiceMock<mocks::TextureManagerMock> *>(pManager);
         }
 
-        NiceMock<mocks::GameObjectFactoryMock> *getFactory() {
-            GameObjectFactory *gameObjectFactory1 = ServiceLocator::gameObjectFactory();
-            LOG_INFO("pGameObjectFactory: " << gameObjectFactory1);
-            return dynamic_cast<NiceMock<mocks::GameObjectFactoryMock> *>(gameObjectFactory1);
+        NiceMock<mocks::CameraMock> *getCamera() {
+            Camera *pCamera = ServiceLocator::camera();
+            LOG_INFO("pCamera: " << pCamera);
+            return dynamic_cast<NiceMock<mocks::CameraMock> *>(pCamera);
         }
 
-        virtual void TearDown() {
-            LOG_INFO("TearDown:  " << ServiceLocator::textureManager() << " and " << ServiceLocator::gameObjectFactory());
-            ServiceLocator::s_gameObjectFactory = nullptr;
-            ServiceLocator::s_textureManager = nullptr;
-            ServiceLocator::s_bulletHandler = nullptr;
+        NiceMock<mocks::GameObjectFactoryMock> *getFactory() {
+            GameObjectFactory *pGameObjectFactory = ServiceLocator::gameObjectFactory();
+            LOG_INFO("pGameObjectFactory: " << pGameObjectFactory);
+            return dynamic_cast<NiceMock<mocks::GameObjectFactoryMock> *>(pGameObjectFactory);
         }
     };
 }

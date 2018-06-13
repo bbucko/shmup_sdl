@@ -6,16 +6,18 @@
 
 class Camera {
 public :
-    void update();
+    virtual void update();
 
-    vec2 getPosition() { return m_position; }
+    virtual vec2 getPosition() { return m_position; }
 
-    vec2 getVelocity() { return m_velocity; }
+    virtual vec2 getVelocity() { return m_velocity; }
 
     Camera() {
         m_position = vec2(0, 1440);
         m_velocity = vec2(0, -1);
     }
+
+    virtual ~Camera() = default;
 
 private:
     vec2 m_position{};

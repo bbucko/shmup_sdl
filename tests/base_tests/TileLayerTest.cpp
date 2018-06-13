@@ -24,12 +24,15 @@ namespace {
         std::vector<Tileset> tilesets = std::vector<Tileset>(1);
         tilesets[0] = Tileset{1, 64, 64, 1, 1, 3, 3, 3, "tile1"};
 
-        auto tileLayer = new TileLayer(32, tilesets, tileIds);
+        auto tileLayer = new TileLayer(32, 2, 2, tilesets, tileIds);
         tileLayer->update();
 
     }
 
     TEST_F(TileLayerTest, RenderTest) {
+        EXPECT_CALL((*getCamera()), getPosition())
+                .WillOnce(Return(vec2(0, 0)));
+
         EXPECT_CALL((*getManager()), drawTile("tile1", 1, 1, 0, 0, 32, 32, 0, 0, _));
 
         auto numOfRows = 16;
@@ -50,7 +53,7 @@ namespace {
         std::vector<Tileset> tilesets = std::vector<Tileset>(1);
         tilesets[0] = Tileset{1, 32, 32, 1, 1, 3, 3, 3, "tile1"};
 
-        auto tileLayer = new TileLayer(32, tilesets, tileIds);
+        auto tileLayer = new TileLayer(32, 2, 2, tilesets, tileIds);
         tileLayer->render();
 
     }

@@ -21,13 +21,13 @@ namespace {
     TEST_F(LevelParserTest, SingleLayerAndTileset) {
         mocks::FakeObject fakeObject;
 
-        EXPECT_CALL((*getManager()), load("/tmp/shmup_tests/tiles.png", "tiles", _))
-                .WillOnce(Return(true));
+//        EXPECT_CALL((*getManager()), load("/tmp/shmup_tests/tiles.png", "tiles", _))
+//                .WillOnce(Return(true));
 
         EXPECT_CALL((*getFactory()), create("Player"))
                 .WillOnce(Return(&fakeObject));
 
-        EXPECT_CALL((*getFactory()), create("enemy"))
+        EXPECT_CALL((*getFactory()), create("Enemy"))
                 .Times(2)
                 .WillRepeatedly(Return(&fakeObject));
 

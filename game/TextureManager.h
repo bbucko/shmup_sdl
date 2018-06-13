@@ -17,9 +17,9 @@ public:
 
     virtual void drawFrame(const std::string &id, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-    virtual void clear(const std::string &id);
-
     virtual void drawTile(const std::string &id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, Renderer *pRenderer);
+
+    virtual void clear(const std::string &id);
 
     virtual ~TextureManager() {
         auto i = std::begin(m_textureMap);
