@@ -1,11 +1,10 @@
 #include "TileLayer.h"
 #include <Game.h>
-#include <ServiceLocator.h>
+#include <base/ServiceLocator.h>
 
 void TileLayer::render() {
     auto position = ServiceLocator::camera()->getPosition();
-    auto dimension = Game::Instance().getDimensions();
-
+    auto dimension = Game::Instance().windowSize();
 
     for (int i = 0; i < m_numRows; i++) {
         for (int j = 0; j < m_numColumns; j++) {
@@ -16,11 +15,10 @@ void TileLayer::render() {
             int tilePositionX = static_cast<int>((j * m_tileSize) - position.x);
             int tilePositionY = static_cast<int>((i * m_tileSize) - position.y);
             if (tilePositionX >= 0 - m_tileSize && tilePositionX <= dimension.x + m_tileSize && tilePositionY >= 0 - m_tileSize && tilePositionY <= dimension.y + m_tileSize) {
-                ServiceLocator::textureManager()->drawTile(tileset.name, tileset.margin, tileset.spacing,
-                                                           tilePositionX, tilePositionY,
-                                                           m_tileSize, m_tileSize,
-                                                           (id - (tileset.firstGridID - 1)) / tileset.numColumns, (id - (tileset.firstGridID - 1)) % tileset.numColumns,
-                                                           ServiceLocator::renderer());
+                ServiceLocator::textureManager()->draw(tileset.name, tileset.margin, tileset.spacing,
+                                                       tilePositionX, tilePositionY,
+                                                       m_tileSize, m_tileSize,
+                                                       (id - (tileset.firstGridID - 1)) / tileset.numColumns, (id - (tileset.firstGridID - 1)) % tileset.numColumns);
             }
         }
     }

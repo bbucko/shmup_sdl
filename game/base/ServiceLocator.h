@@ -1,10 +1,12 @@
 #ifndef SHMUP_SERVICELOCATOR_H
 #define SHMUP_SERVICELOCATOR_H
 
-#include <base/GameObjectFactory.h>
-#include <base/Camera.h>
 #include "Game.h"
-#include "TextureManager.h"
+
+#include <base/GameObjectFactory.h>
+#include <base/TextureManager.h>
+#include <base/Camera.h>
+#include <base/CollisionManager.h>
 #include "base/BulletHandler.h"
 
 #ifdef INCLUDE_MOCKS
@@ -13,15 +15,16 @@ namespace mocks {
 }
 #endif
 
+
 class ServiceLocator {
 public:
     static BulletHandler *bulletHandler();
 
     static TextureManager *textureManager();
 
-    static GameObjectFactory *gameObjectFactory();
+    static CollisionManager *collisionManager();
 
-    static Renderer *renderer();
+    static GameObjectFactory *gameObjectFactory();
 
     static Camera *camera();
 
@@ -33,14 +36,14 @@ public:
 
     static void provide(std::unique_ptr<Camera> camera);
 
-    static void provide(Renderer *gameObjectFactory);
+    static void provide(std::unique_ptr<CollisionManager> collisionManager);
 
 private:
     static std::unique_ptr<BulletHandler> s_bulletHandler;
     static std::unique_ptr<TextureManager> s_textureManager;
     static std::unique_ptr<GameObjectFactory> s_gameObjectFactory;
     static std::unique_ptr<Camera> s_camera;
-    static Renderer *s_renderer;
+    static std::unique_ptr<CollisionManager> s_collisionManager;
 
     ServiceLocator() = default;
 
@@ -48,6 +51,14 @@ private:
 
 #ifdef INCLUDE_MOCKS
     friend mocks::TestWithMocks;
+
+    static void clear() {
+        ServiceLocator::s_bulletHandler.release();
+        ServiceLocator::s_textureManager.release();
+        ServiceLocator::s_gameObjectFactory.release();
+        ServiceLocator::s_camera.release();
+        ServiceLocator::s_collisionManager.release();
+    }
 #endif
 
 };

@@ -1,7 +1,7 @@
 #include <memory>
 
 #include <Player.h>
-#include <ServiceLocator.h>
+#include <base/ServiceLocator.h>
 #include "StateParser.h"
 #include "utils/StringUtils.h"
 
@@ -52,7 +52,7 @@ void StateParser::parseTextures(tinyxml2::XMLElement *pElementRoot, std::vector<
             }
 
             if (!filename.empty() && !id.empty()) {
-                ServiceLocator::textureManager()->load(filename, id, ServiceLocator::renderer());
+                ServiceLocator::textureManager()->load(filename, id);
                 pTextureIDs->push_back(id);
             } else {
                 LOG_ERROR("Invalid XML with textures. Filename: " << filename << " ID: " << id);
@@ -66,7 +66,7 @@ void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<G
     LOG_INFO("Parsing objects: " << pElementRoot->Value());
     for (auto pStateRoot = pElementRoot->FirstChildElement(); pStateRoot != nullptr; pStateRoot = pStateRoot->NextSiblingElement()) {
         if (StringUtils::equalsIgnoreCase(pStateRoot->Value(), "object")) {
-            int x = 0, y = 0, width = 0, height = 0, numFrames = 0, callbackID = 0;
+            int x {0}, y {0}, width {0}, height {0}, numFrames {0}, callbackID {0}, id {-1};
             std::string textureID, type;
             for (auto a = pStateRoot->FirstAttribute(); a; a = a->Next()) {
                 if (StringUtils::equalsIgnoreCase(a->Name(), "textureID")) { textureID = a->Value(); }
@@ -77,12 +77,16 @@ void StateParser::parseObjects(tinyxml2::XMLElement *pElementRoot, std::vector<G
                 if (StringUtils::equalsIgnoreCase(a->Name(), "height")) { height = a->IntValue(); }
                 if (StringUtils::equalsIgnoreCase(a->Name(), "numFrames")) { numFrames = a->IntValue(); }
                 if (StringUtils::equalsIgnoreCase(a->Name(), "callbackID")) { callbackID = a->IntValue(); }
+                if (StringUtils::equalsIgnoreCase(a->Name(), "id")) { id = a->IntValue(); }
             }
 
             if (!textureID.empty() && !type.empty()) {
-                auto pGameObject = ServiceLocator::gameObjectFactory()->create(type);
-                auto loaderParams = std::make_unique<LoaderParams>(x, y, width, height, numFrames, textureID, callbackID);
-                pGameObject->load(loaderParams);
+                auto pGameObject = ServiceLocator::gameObjectFactory()->create(id, type);
+                if(pGameObject == nullptr) {
+                    LOG_ERROR("GameObject couldn't be created: " << type);
+                    continue;
+                }
+                pGameObject->load(std::make_unique<LoaderParams>(x, y, width, height, numFrames, textureID, callbackID));
 
                 pObjects->push_back(pGameObject);
             } else {

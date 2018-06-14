@@ -6,14 +6,16 @@
 
 class Player : public SDLGameObject {
 public:
+    explicit Player(int id) : SDLGameObject(id) {}
+
     void update() override;
 
-    void load(std::unique_ptr<LoaderParams> const &pParams) override;
+    void load(std::unique_ptr<LoaderParams> pParams) override;
 };
 
 class PlayerCreator : public BaseCreator {
-    GameObject *createGameObject() const override {
-        return new Player();
+    GameObject *createGameObject(int id) const override {
+        return new Player(id);
     }
 };
 

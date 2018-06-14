@@ -1,8 +1,9 @@
 #ifndef SHMUP_GAMESTATEMACHINE_H
 #define SHMUP_GAMESTATEMACHINE_H
 
-#include <utils/Logger.h>
 #include <vector>
+#include <utils/Logger.h>
+#include <utils/Memory.h>
 #include "GameState.h"
 
 class GameStateMachine {
@@ -20,12 +21,7 @@ public:
 
     void render();
 
-    ~GameStateMachine() {
-        for (auto gameState : m_gameStates) {
-            delete gameState;
-        }
-        m_gameStates.clear();
-    }
+    ~GameStateMachine() { DELETE_VECTOR(m_gameStates); }
 };
 
 #endif  // SHMUP_GAMESTATEMACHINE_H

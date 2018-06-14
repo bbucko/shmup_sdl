@@ -1,33 +1,32 @@
 #ifndef SHMUP_GAME_H
 #define SHMUP_GAME_H
 
-#include "base/GameObject.h"
-#include "base/GameStateMachine.h"
-#include "utils/Logger.h"
-
 #include <SDL.h>
-#include <sdl/SDLGameObject.h>
 #include <vector>
-
-typedef SDL_Renderer Renderer;
+#include <utils/Logger.h>
+#include <base/GameObject.h>
+#include <base/GameStateMachine.h>
+#include <sdl/SDLGameObject.h>
 
 class Game {
 public:
     void init();
 
-    void update();
+    void terminate();
+
+    void update() const;
 
     void render() const;
 
-    bool running() const;
+    void handleEvents() const;
 
-    void terminate();
+    inline bool running() const { return m_bRunning; }
 
-    void quit();
+    inline void quit() { m_bRunning = false; };
 
-    void handleEvents();
+    inline SDL_Renderer *renderer() const { return m_pRenderer; }
 
-    vec2 getDimensions() const;
+    vec2 windowSize() const;
 
     static Game &Instance() {
         static Game instance;
@@ -35,17 +34,19 @@ public:
     };
 
 private:
-    SDL_Window *m_pWindow;
-
-    std::unique_ptr<GameStateMachine> m_pGameStateMachine;
-
-    bool m_bRunning;
-
     Game() = default;
 
     ~Game() = default;
 
     bool initSDL();
+
+    bool m_bRunning{false};
+
+    SDL_Window *m_pWindow{nullptr};
+
+    SDL_Renderer *m_pRenderer{nullptr};
+
+    std::unique_ptr<GameStateMachine> m_pGameStateMachine;
 };
 
 #endif  // SHMUP_GAME_H

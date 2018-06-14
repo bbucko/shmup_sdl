@@ -1,5 +1,5 @@
 #include <utils/Logger.h>
-#include <ServiceLocator.h>
+#include <base/ServiceLocator.h>
 #include <base/TileLayer.h>
 #include "gtest/gtest.h"
 #include "mocks/Mocks.h"
@@ -12,7 +12,6 @@ namespace {
     using ::testing::_;
 
     class TileLayerTest : public mocks::TestWithMocks {
-
     };
 
     TEST_F(TileLayerTest, UpdateTest) {
@@ -33,7 +32,7 @@ namespace {
         EXPECT_CALL((*getCamera()), getPosition())
                 .WillOnce(Return(vec2(0, 0)));
 
-        EXPECT_CALL((*getManager()), drawTile("tile1", 1, 1, 0, 0, 32, 32, 0, 0, _));
+        EXPECT_CALL((*getManager()), draw("tile1", 1, 1, 0, 0, 32, 32, 0, 0));
 
         auto numOfRows = 16;
         auto numOfColumns = 20;

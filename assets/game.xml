@@ -17,10 +17,6 @@
             <texture filename="assets/whitePlane.png" ID="whitePlane"/>
             <texture filename="assets/bullet.png" ID="bullet"/>
         </TEXTURES>
-        <OBJECTS>
-            <object type="Player" x="320" y="400" width="65" height="65" textureID="plane" numFrames="3"/>
-            <object type="Enemy" x="320" y="0" width="65" height="65" textureID="whitePlane" numFrames="1"/>
-        </OBJECTS>
     </PLAY>
 
     <GAMEOVER>

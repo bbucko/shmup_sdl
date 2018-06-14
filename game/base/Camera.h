@@ -1,7 +1,6 @@
 #ifndef SHMUP_CAMERA_H
 #define SHMUP_CAMERA_H
 
-
 #include <sdl/SDLGameObject.h>
 
 class Camera {

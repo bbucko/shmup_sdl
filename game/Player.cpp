@@ -2,8 +2,8 @@
 
 #include <SDL.h>
 #include "Game.h"
-#include "ServiceLocator.h"
-#include "sdl/InputHandler.h"
+#include "base/ServiceLocator.h"
+#include "sdl/SDLInputHandler.h"
 
 void Player::update() {
     Camera *pCamera = ServiceLocator::camera();
@@ -24,7 +24,7 @@ void Player::update() {
 
     vec2 playerPosition = m_position + m_velocity;
     vec2 relativePlayerPosition = playerPosition - cameraPosition;
-    vec2 screenDimensions = Game::Instance().getDimensions();
+    vec2 screenDimensions = Game::Instance().windowSize();
 
     if (relativePlayerPosition.x >= 0 && relativePlayerPosition.x + m_width <= screenDimensions.x) {
         m_position.x = playerPosition.x;
@@ -37,7 +37,7 @@ void Player::update() {
     }
 }
 
-void Player::load(std::unique_ptr<LoaderParams> const &pParams) {
-    SDLGameObject::load(pParams);
+void Player::load(std::unique_ptr<LoaderParams> pParams) {
+    SDLGameObject::load(std::move(pParams));
     m_numFrames = 3;
 }

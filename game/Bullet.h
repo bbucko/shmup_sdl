@@ -6,14 +6,16 @@
 
 class Bullet : public SDLGameObject {
 public:
-    void load(std::unique_ptr<LoaderParams> const &pParams) override;
+    explicit Bullet(int id) : SDLGameObject(id) {}
+
+    void load(std::unique_ptr<LoaderParams> pParams) override;
 
     void update() override;
 };
 
 class BulletCreator : public BaseCreator {
-    GameObject *createGameObject() const override {
-        return new Bullet();
+    GameObject *createGameObject(int id) const override {
+        return new Bullet(id);
     }
 };
 

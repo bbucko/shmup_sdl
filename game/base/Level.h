@@ -1,6 +1,7 @@
 #ifndef SHMUP_LEVEL_H
 #define SHMUP_LEVEL_H
 
+#include <utils/Memory.h>
 #include "Layer.h"
 #include "sdl/SDLGameObject.h"
 
@@ -37,11 +38,7 @@ public:
 
     ~Level() {
         m_tilesets.clear();
-
-        for (auto layer : m_layers) {
-            delete layer;
-        }
-        m_layers.clear();
+        DELETE_VECTOR(m_layers);
     }
 
 private:

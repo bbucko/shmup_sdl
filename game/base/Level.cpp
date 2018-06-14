@@ -1,5 +1,4 @@
 #include "Level.h"
-#include "utils/Logger.h"
 
 void Level::render() {
     for (auto layer : m_layers) {
@@ -17,6 +16,4 @@ void Level::clean() {
 
 }
 
-void Level::load(const LoaderParams *pParams) {
-    LOG_INFO("abc" << pParams);
-}
+void Level::load(const LoaderParams *pParams) {}

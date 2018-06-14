@@ -16,7 +16,7 @@ if (UNIX AND NOT APPLE)
     append_coverage_compiler_flags()
     #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -fsanitize=address -O1 -fno-omit-frame-pointer")
 elseif (APPLE)
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -O0")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic -fsanitize=address -O0 -fno-omit-frame-pointer")
 endif ()
 
 #set(CMAKE_VERBOSE_MAKEFILE true)

@@ -1,7 +1,7 @@
 #include "GameObjectFactory.h"
-#include "utils/Logger.h"
 
-bool GameObjectFactory::registerType(std::string typeID, BaseCreator *pCreator) {
+bool GameObjectFactory::registerType(const std::string &typeID, const BaseCreator *pCreator) {
+    LOG_INFO("registering new type: " << typeID);
     auto it = m_creators.find(typeID);
 
     if (it != m_creators.end()) {
@@ -14,14 +14,14 @@ bool GameObjectFactory::registerType(std::string typeID, BaseCreator *pCreator) 
     return true;
 }
 
-GameObject *GameObjectFactory::create(std::string typeID) {
+GameObject *GameObjectFactory::create(int id, const std::string &typeID) {
     auto it = m_creators.find(typeID);
 
     if (it == m_creators.end()) {
         LOG_INFO("could not find type: " << typeID);
         return nullptr;
     }
-
-    BaseCreator *pCreator = (*it).second;
-    return pCreator->createGameObject();
+    LOG_INFO("Creating object: " << typeID << " with id: " << id);
+    const BaseCreator *pCreator = (*it).second;
+    return pCreator->createGameObject(id);
 }

@@ -2,6 +2,7 @@
 #define SHMUP_LOADERPARAMS_H
 
 #include <iostream>
+#include <utils/Logger.h>
 
 class LoaderParams {
 public:

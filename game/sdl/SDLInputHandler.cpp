@@ -1,4 +1,4 @@
-#include "InputHandler.h"
+#include "SDLInputHandler.h"
 #include <Game.h>
 
 void InputHandler::onKeyDown() {

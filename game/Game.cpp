@@ -1,41 +1,30 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include <base/BulletHandler.h>
-#include <base/GameObjectFactory.h>
-#include "Enemy.h"
 #include "MenuState.h"
 #include "PlayState.h"
 #include "Player.h"
-#include "ServiceLocator.h"
-#include "sdl/InputHandler.h"
+#include "Enemy.h"
+#include <base/BulletHandler.h>
+#include <base/ServiceLocator.h>
+#include <sdl/SDLInputHandler.h>
+#include <sdl/SDLTextureManager.h>
 
-
-void Game::update() {
+void Game::update() const {
     m_pGameStateMachine->update();
 }
 
 void Game::render() const {
-    SDL_RenderClear(ServiceLocator::renderer());
-
+    SDL_RenderClear(m_pRenderer);
     m_pGameStateMachine->render();
-
-    SDL_RenderPresent(ServiceLocator::renderer());
+    SDL_RenderPresent(m_pRenderer);
 }
 
 void Game::terminate() {
     SDL_DestroyWindow(m_pWindow);
-    SDL_DestroyRenderer(ServiceLocator::renderer());
+    SDL_DestroyRenderer(m_pRenderer);
 
     IMG_Quit();
     SDL_Quit();
-}
-
-bool Game::running() const {
-    return m_bRunning;
-}
-
-void Game::quit() {
-    m_bRunning = false;
 }
 
 void Game::init() {
@@ -44,16 +33,18 @@ void Game::init() {
     }
 
     ServiceLocator::provide(std::make_unique<BulletHandler>());
-    ServiceLocator::provide(std::make_unique<TextureManager>());
+    ServiceLocator::provide(std::make_unique<SDLTextureManager>(m_pRenderer));
     ServiceLocator::provide(std::make_unique<GameObjectFactory>());
     ServiceLocator::provide(std::make_unique<Camera>());
+    ServiceLocator::provide(std::make_unique<CollisionManager>());
 
     ServiceLocator::gameObjectFactory()->registerType("MenuButton", new MenuButtonCreator());
     ServiceLocator::gameObjectFactory()->registerType("Player", new PlayerCreator());
     ServiceLocator::gameObjectFactory()->registerType("Enemy", new EnemyCreator());
 
     m_pGameStateMachine = std::make_unique<GameStateMachine>();
-    m_pGameStateMachine->changeState(new MenuState());
+//    m_pGameStateMachine->changeState(new MenuState());
+    m_pGameStateMachine->changeState(new PlayState());
 
     m_bRunning = true;
 }
@@ -63,15 +54,14 @@ bool Game::initSDL() {
         LOG_INFO("SDL init success");
 
         if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0) {
-            LOG_INFO("SDL image success");
+            LOG_INFO("SDL_Image init success");
 
             m_pWindow = SDL_CreateWindow("SHMUP", 100, 100, 640, 480, SDL_WINDOW_RESIZABLE);
             if (m_pWindow != nullptr) {
-                auto m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
+                m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 
                 if (m_pRenderer != nullptr) {
-                    LOG_INFO("SDL renderer success");
-                    ServiceLocator::provide(m_pRenderer);
+                    LOG_INFO("SDL Renderer init success");
                     return true;
                 }
             }
@@ -80,7 +70,7 @@ bool Game::initSDL() {
     return false;
 }
 
-void Game::handleEvents() {
+void Game::handleEvents() const {
     InputHandler::Instance().update();
 
     if (InputHandler::Instance().isKeyDown(SDL_SCANCODE_RETURN)) {
@@ -89,7 +79,7 @@ void Game::handleEvents() {
 
 }
 
-vec2 Game::getDimensions() const {
+vec2 Game::windowSize() const {
     if (m_pWindow == nullptr) return vec2(640, 480);
 
     int width, height;

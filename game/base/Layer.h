@@ -2,6 +2,7 @@
 #define SHMUP_LAYER_CPP_H
 
 #include <vector>
+#include <utils/Memory.h>
 
 class Layer {
 public:
@@ -9,11 +10,7 @@ public:
 
     virtual void update() = 0;
 
-    virtual ~Layer()  {
-        for(auto layer : m_layers) {
-            delete layer;
-        }
-    };
+    virtual ~Layer() { DELETE_VECTOR(m_layers); };
 protected:
 
 private:

@@ -6,18 +6,20 @@
 
 class MenuButton : public SDLGameObject {
 public:
+    explicit MenuButton(int id) : SDLGameObject(id) {}
+
     void draw() override ;
 
     void update() override;
 
     void clean() override;
 
-    void load(std::unique_ptr<LoaderParams> const &pParams) override;
+    void load(std::unique_ptr<LoaderParams> pParams) override;
 };
 
 class MenuButtonCreator : public BaseCreator {
-    GameObject *createGameObject() const override {
-        return new MenuButton();
+    GameObject *createGameObject(int id) const override {
+        return new MenuButton(id);
     }
 };
 

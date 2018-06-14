@@ -1,6 +1,7 @@
+#include <utils/Logger.h>
 #include "GameState.h"
-#include <ServiceLocator.h>
 #include "StateParser.h"
+#include "ServiceLocator.h"
 
 void GameState::render() {
     for (auto object : m_objects) { object->draw(); }
@@ -20,13 +21,16 @@ bool GameState::onExit() {
     LOG_INFO("exiting state: " << getStateID());
     for (auto object : m_objects) {
         object->clean();
-        delete object;
-    }
-    m_objects.clear();
 
-    for (auto textureId : m_textureIds) {
+    }
+    return true;
+}
+
+GameState::~GameState() {
+  DELETE_VECTOR(m_objects);
+
+    for (const auto &textureId : m_textureIds) {
         ServiceLocator::textureManager()->clear(textureId);
     }
     m_textureIds.clear();
-    return true;
-}
+};

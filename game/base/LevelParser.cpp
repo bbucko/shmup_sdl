@@ -66,7 +66,7 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
             }
         }
 
-        auto pGameObject = ServiceLocator::gameObjectFactory()->create(type);
+        auto pGameObject = ServiceLocator::gameObjectFactory()->create(id, type);
         if (pGameObject == nullptr) {
             LOG_ERROR("invalid type: " << type);
             break;
@@ -86,7 +86,7 @@ void LevelParser::parseTextures(XMLElement *pTextureRoot) {
         attributeToString(attribute, "name", &name);
     }
 
-    ServiceLocator::textureManager()->load(std::string(m_dir) + "/" + value, name, ServiceLocator::renderer());
+    ServiceLocator::textureManager()->load(std::string(m_dir) + "/" + value, name);
 }
 
 void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
@@ -123,7 +123,7 @@ void LevelParser::parseTilesets(XMLElement *pTilesetRoot, Level *pLevel) {
                         auto imageFilename = std::string(m_dir) + "/" + attribute->Value();
                         LOG_INFO("Loading image: " << tileset.name << " from file: " << imageFilename);
 
-                        ServiceLocator::textureManager()->load(imageFilename, tileset.name, ServiceLocator::renderer());
+                        ServiceLocator::textureManager()->load(imageFilename, tileset.name);
                     }
                     attributeToInt(attribute, "width", &tileset.width);
                     attributeToInt(attribute, "height", &tileset.height);

@@ -3,30 +3,26 @@
 
 #include <map>
 #include <utils/Logger.h>
+#include <utils/Memory.h>
 #include "GameObject.h"
 
 class BaseCreator {
 public:
-    virtual GameObject *createGameObject() const = 0;
+    virtual GameObject *createGameObject(int id) const = 0;
 
     virtual ~BaseCreator() = default;
 };
 
 class GameObjectFactory {
 public:
-    virtual bool registerType(std::string typeID, BaseCreator *pCreator);
+    virtual bool registerType(const std::string &typeID, const BaseCreator *pCreator);
 
-    virtual GameObject *create(std::string typeID);
+    virtual GameObject *create(int id, const std::string &typeID);
 
-    virtual ~GameObjectFactory() {
-        for (auto creator : m_creators) {
-            delete creator.second;
-        }
-        m_creators.clear();
-    }
+    virtual ~GameObjectFactory() { DELETE_MAP(m_creators); }
 
 private:
-    std::map<std::string, BaseCreator *> m_creators;
+    std::map<std::string, const BaseCreator *> m_creators;
 };
 
 #endif  // SHMUP_OBJECTFACTORY_H

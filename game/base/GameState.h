@@ -18,11 +18,7 @@ public:
 
     virtual std::string getStateID() const = 0;
 
-    virtual ~GameState() {
-          for(auto object : m_objects) {
-              delete object;
-          }
-    };
+    virtual ~GameState();
 
 protected:
     std::vector<GameObject *> m_objects;

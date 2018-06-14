@@ -1,4 +1,4 @@
-#include <ServiceLocator.h>
+#include <base/ServiceLocator.h>
 #include <utils/Logger.h>
 #include <base/StateParser.h>
 #include <base/GameObjectFactory.h>
@@ -38,17 +38,17 @@ namespace {
     TEST_F(StateParserTest, MenuStateTest) {
         mocks::FakeObject fakeObject;
 
-        EXPECT_CALL((*getFactory()), create("FakeObject"))
+        EXPECT_CALL((*getFactory()), create(_, "FakeObject"))
                 .Times(2)
                 .WillRepeatedly(Return(&fakeObject));
 
-        EXPECT_CALL((*getManager()), load("sample1.png", "texture1", _))
-                .WillOnce(Return(true));
-        EXPECT_CALL((*getManager()), load("sample2.png", "texture2", _))
+        EXPECT_CALL((*getManager()), load("sample1.png", "texture1"))
                 .WillOnce(Return(true));
 
-        auto parser = StateParser();
-        auto result = parser.parseState("/tmp/shmup_tests/test.xml", "menu", &objects, &textureIds);
+        EXPECT_CALL((*getManager()), load("sample2.png", "texture2"))
+                .WillOnce(Return(true));
+
+        auto result = StateParser().parseState("/tmp/shmup_tests/test.xml", "menu", &objects, &textureIds);
 
         EXPECT_EQ(result, true);
         EXPECT_EQ(objects.size(), 2);

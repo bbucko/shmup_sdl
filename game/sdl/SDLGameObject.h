@@ -9,24 +9,24 @@ typedef glm::vec2 vec2;
 
 class SDLGameObject : public GameObject {
 protected:
-    vec2 m_position;
-    vec2 m_velocity;
-    vec2 m_acceleration;
+    vec2 m_position{};
+    vec2 m_velocity{};
+    vec2 m_acceleration{};
 
-    int m_width;
-    int m_height;
+    int m_width{};
+    int m_height{};
 
-    int m_currentRow;
-    int m_currentFrame;
+    int m_currentRow{};
+    int m_currentFrame{};
 
-    int m_numFrames;
+    int m_numFrames{};
 
     std::string m_textureID;
 
-    SDLGameObject() = default;
-
 public:
-    void load(std::unique_ptr<LoaderParams> const &pParams) override;
+    explicit SDLGameObject(int id) : GameObject(id) {};
+
+    void load(std::unique_ptr<LoaderParams> pParams) override;
 
     void draw() override;
 
@@ -34,17 +34,11 @@ public:
 
     void clean() override;
 
-    const vec2 &getPosition() const {
-        return m_position;
-    }
+    const vec2 &getPosition() const { return m_position; }
 
-    float getWidth() const {
-        return m_width;
-    }
+    float getWidth() const { return m_width; }
 
-    float getHeight() const {
-        return m_height;
-    }
+    float getHeight() const { return m_height; }
 };
 
 #endif  // SHMUP_SDLGAMEOBJECT_H
