@@ -71,8 +71,7 @@ void LevelParser::parseObjectLayer(XMLElement *pObjectElement, Level *pLevel) {
             LOG_ERROR("invalid type: " << type);
             break;
         }
-        auto params = std::make_unique<LoaderParams>(x, y, width, height, numFrames, textureId);
-        pGameObject->load(params);
+        pGameObject->load(std::make_unique<LoaderParams>(x, y, width, height, numFrames, textureId));
 
         pObjectLayer->getObjects()->push_back(pGameObject);
     }

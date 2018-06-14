@@ -35,6 +35,15 @@ public:
 
     std::vector<Layer *> *getLayers() { return &m_layers; }
 
+    ~Level() {
+        m_tilesets.clear();
+
+        for (auto layer : m_layers) {
+            delete layer;
+        }
+        m_layers.clear();
+    }
+
 private:
     friend class LevelParser;
 

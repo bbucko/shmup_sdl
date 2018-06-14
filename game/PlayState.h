@@ -16,6 +16,10 @@ public:
 
     std::string getStateID() const override { return "PLAY"; }
 
+    ~PlayState() {
+        delete pLevel;
+    }
+
 private:
     bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 

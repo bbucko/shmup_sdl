@@ -12,6 +12,14 @@ public:
 
     std::vector<GameObject *> *getObjects();
 
+    ~ObjectLayer(){
+        for(auto object : m_objects){
+            delete object;
+        }
+
+        m_objects.clear();
+    }
+
 private:
     std::vector<GameObject *> m_objects;
 };

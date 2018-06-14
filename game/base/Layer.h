@@ -9,8 +9,12 @@ public:
 
     virtual void update() = 0;
 
+    virtual ~Layer()  {
+        for(auto layer : m_layers) {
+            delete layer;
+        }
+    };
 protected:
-    virtual ~Layer() = default;
 
 private:
     std::vector<Layer *> m_layers;
