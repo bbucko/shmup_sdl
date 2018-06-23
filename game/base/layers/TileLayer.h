@@ -1,8 +1,8 @@
 #ifndef SHMUP_TILELAYER_H
 #define SHMUP_TILELAYER_H
 
-#include "Layer.h"
-#include "Level.h"
+#include "base/Layer.h"
+#include "base/Level.h"
 
 class TileLayer : public Layer {
 public:

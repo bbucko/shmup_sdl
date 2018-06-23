@@ -1,6 +1,6 @@
 #include <utils/Logger.h>
 #include <base/ServiceLocator.h>
-#include <base/TileLayer.h>
+#include <base/layers/TileLayer.h>
 #include "gtest/gtest.h"
 #include "mocks/Mocks.h"
 

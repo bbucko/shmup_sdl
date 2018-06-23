@@ -8,3 +8,7 @@ void Bullet::load(std::unique_ptr<LoaderParams> pParams) {
 void Bullet::update() {
     SDLGameObject::update();
 }
+
+void Bullet::collided(const Collidable &collider) {
+
+}

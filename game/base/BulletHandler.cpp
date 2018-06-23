@@ -4,7 +4,7 @@
 #include "Bullet.h"
 
 void BulletHandler::playerShoots(int x, int y) {
-    LOG_INFO("player shots: " << x << " :: " << y);
+    LOG_INFO("player shots: " << x << ", " << y);
 
     auto now = std::chrono::system_clock::now();
     const std::chrono::duration<double, std::milli> &timeSinceLastShot = now - m_lastPlayerShootAt;

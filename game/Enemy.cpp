@@ -2,7 +2,9 @@
 #include "Game.h"
 
 void Enemy::draw() {
-    SDLGameObject::draw();
+    if (!hasCollided) {
+        SDLGameObject::draw();
+    }
 }
 
 void Enemy::update() {
@@ -20,4 +22,8 @@ void Enemy::update() {
 void Enemy::load(std::unique_ptr<LoaderParams> pParams) {
     SDLGameObject::load(std::move(pParams));
     m_velocity = vec2(1, 0);
+}
+
+void Enemy::collided(const Collidable &collider) {
+    hasCollided = true;
 }

@@ -14,11 +14,13 @@ void TileLayer::render() {
             Tileset tileset = getTilesetByID(id);
             int tilePositionX = static_cast<int>((j * m_tileSize) - position.x);
             int tilePositionY = static_cast<int>((i * m_tileSize) - position.y);
-            if (tilePositionX >= 0 - m_tileSize && tilePositionX <= dimension.x + m_tileSize && tilePositionY >= 0 - m_tileSize && tilePositionY <= dimension.y + m_tileSize) {
-                ServiceLocator::textureManager()->draw(tileset.name, tileset.margin, tileset.spacing,
-                                                       tilePositionX, tilePositionY,
-                                                       m_tileSize, m_tileSize,
-                                                       (id - (tileset.firstGridID - 1)) / tileset.numColumns, (id - (tileset.firstGridID - 1)) % tileset.numColumns);
+            if (tilePositionX >= 0 - m_tileSize && tilePositionX <= dimension.x + m_tileSize &&
+                tilePositionY >= 0 - m_tileSize &&
+                tilePositionY <= dimension.y + m_tileSize) {
+                ServiceLocator::textureManager()->draw(tileset.name, tileset.margin, tileset.spacing, tilePositionX,
+                                                       tilePositionY, m_tileSize, m_tileSize,
+                                                       (id - (tileset.firstGridID - 1)) / tileset.numColumns,
+                                                       (id - (tileset.firstGridID - 1)) % tileset.numColumns);
             }
         }
     }
@@ -28,9 +30,7 @@ Tileset TileLayer::getTilesetByID(int tileID) {
     int size = static_cast<int>(m_tilesets.size());
     for (int i = 0; i < size; i++) {
         if (i + 1 <= size - 1) {
-            if (tileID >= m_tilesets[i].firstGridID && tileID < m_tilesets[i + 1].firstGridID) {
-                return m_tilesets[i];
-            }
+            if (tileID >= m_tilesets[i].firstGridID && tileID < m_tilesets[i + 1].firstGridID) { return m_tilesets[i]; }
         } else {
             return m_tilesets[i];
         }

@@ -3,15 +3,8 @@
 
 #include "base/GameObject.h"
 
-#include <glm/vec2.hpp>
-
-typedef glm::vec2 vec2;
-
-class SDLGameObject : public GameObject {
+class SDLGameObject : public GameObject, public Positionable, public Movable {
 protected:
-    vec2 m_position{};
-    vec2 m_velocity{};
-    vec2 m_acceleration{};
 
     int m_width{};
     int m_height{};
@@ -22,6 +15,8 @@ protected:
     int m_numFrames{};
 
     std::string m_textureID;
+
+    bool hasCollided{false};
 
 public:
     explicit SDLGameObject(int id) : GameObject(id) {};
@@ -34,11 +29,9 @@ public:
 
     void clean() override;
 
-    const vec2 &getPosition() const { return m_position; }
+    inline float getWidth() const { return m_width; }
 
-    float getWidth() const { return m_width; }
-
-    float getHeight() const { return m_height; }
+    inline float getHeight() const { return m_height; }
 };
 
 #endif  // SHMUP_SDLGAMEOBJECT_H

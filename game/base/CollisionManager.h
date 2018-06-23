@@ -6,7 +6,10 @@
 
 class CollisionManager {
 public:
-    virtual void checkCollisions(std::vector<GameObject *> objects);
+    virtual void checkCollisions(std::vector<GameObject *> const &objects);
+
+private:
+    bool checkCollision(Collidable *p1, Collidable *p2);
 };
 
 

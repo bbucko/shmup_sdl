@@ -1,8 +1,9 @@
 #include <utils/Logger.h>
 #include <base/LevelParser.h>
 #include <base/ServiceLocator.h>
-#include <base/TileLayer.h>
-#include <base/ObjectLayer.h>
+#include <base/layers/TileLayer.h>
+#include <base/layers/ObjectLayer.h>
+#include <base/layers/BulletLayer.h>
 
 #include "gtest/gtest.h"
 #include "mocks/Mocks.h"
@@ -48,12 +49,14 @@ namespace {
         EXPECT_EQ(tileset.numColumns, 3);
 
         auto layers = pLevel->getLayers();
-        EXPECT_EQ(layers->size(), 2);
+        EXPECT_EQ(layers->size(), 3);
 
         auto tileLayer = dynamic_cast<TileLayer *>(layers->at(0));
 
         auto objectLayer = dynamic_cast<ObjectLayer *>(layers->at(1));
         EXPECT_EQ(objectLayer->getObjects()->size(), 3);
+
+        auto bulletLayer = dynamic_cast<BulletLayer *>(layers->at(2));
     }
 
 }

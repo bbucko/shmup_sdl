@@ -1,9 +1,10 @@
 #ifndef SHMUP_LEVEL_H
 #define SHMUP_LEVEL_H
 
+#include <string>
 #include <utils/Memory.h>
 #include "Layer.h"
-#include "sdl/SDLGameObject.h"
+#include "LoaderParams.h"
 
 struct Tileset {
     int firstGridID;

@@ -6,12 +6,10 @@
 void PlayState::update() {
     ServiceLocator::camera()->update();
     pLevel->update();
-    ServiceLocator::bulletHandler()->update();
 }
 
 void PlayState::render() {
     pLevel->render();
-    ServiceLocator::bulletHandler()->render();
 }
 
 bool PlayState::onEnter() {

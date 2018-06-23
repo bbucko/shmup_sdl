@@ -2,9 +2,8 @@
 #define SHMUP_OBJECTLAYER_H
 
 #include <base/GameObject.h>
-#include <sdl/SDLGameObject.h>
 #include <utils/Memory.h>
-#include "Layer.h"
+#include "base/Layer.h"
 
 class ObjectLayer : public Layer {
 public:
@@ -12,16 +11,12 @@ public:
 
     void update() override;
 
-    std::vector<GameObject *> *getObjects();
+    inline std::vector<GameObject *> *getObjects() { return &m_objects; };
 
     ~ObjectLayer() override { DELETE_VECTOR(m_objects); }
 
 private:
     std::vector<GameObject *> m_objects;
-
-    void calculateCollisions();
-
-    bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 };
 
 #endif  // SHMUP_OBJECTLAYER_H

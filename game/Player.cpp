@@ -41,3 +41,7 @@ void Player::load(std::unique_ptr<LoaderParams> pParams) {
     SDLGameObject::load(std::move(pParams));
     m_numFrames = 3;
 }
+
+void Player::collided(const Collidable &collider) {
+
+}
